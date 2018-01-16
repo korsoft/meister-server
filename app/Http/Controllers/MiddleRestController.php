@@ -109,4 +109,86 @@ class MiddleRestController extends Controller
 
     }
 
+    public function detail(Request $request,$claimno)
+    {
+
+    	// try{
+			$client = new Client(); //GuzzleHttp\Client
+			$url = "http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.claim.details'&Parms='[{\"COMPRESSION\":\"\"}]'&Json='{\"CLAIMNO\":\"".$claimno."\",\"STYLE\":\"D\"}'";
+			$response = $client->request('GET',$url,['auth' => ['arosenthal', 'Pa55word.']]);
+
+			if($response->getStatusCode()!="200")
+			{
+				return "null";		
+			}
+
+			$body = (string) $response->getBody();
+
+
+			$start = strpos((string)$body, "<d:Json>");
+			$end= strpos((string)$body, "</d:Json>");
+
+			if($start)
+			{
+				$jsonTmp = json_decode(substr($body, $start+8,$end-$start-8));
+				$jsonTmp=$jsonTmp[0];
+
+				$jsonRes = (object) array();
+				$jsonRes->CLAIM=$jsonTmp->CLAIM;
+				$jsonRes->COSTS=(object)(array());
+				$jsonRes->COSTS->ACCEPTED=$jsonTmp->COSTS->ACCEPTED;
+				$jsonRes->COSTS->REQUIRED=$jsonTmp->COSTS->REQUIRED;
+				$jsonRes->COSTS->ESTIMATED=$jsonTmp->COSTS->ESTIMATED;
+
+				$COST_MATRIX = $jsonTmp->COSTS->COST_MATRIX[0];
+
+				$jsonRes->COSTS->COST_MATRIX=(object)(array());
+				$jsonRes->COSTS->COST_MATRIX->ITEM_NO=$COST_MATRIX->ITEM_NO;
+				$jsonRes->COSTS->COST_MATRIX->COST_OBJECT=$COST_MATRIX->COST_OBJECT;
+				$jsonRes->COSTS->COST_MATRIX->CATEGORY=$COST_MATRIX->CATEGORY;
+				$jsonRes->COSTS->COST_MATRIX->PLANT=$COST_MATRIX->PLANT;
+				$jsonRes->COSTS->COST_MATRIX->TOTAL_PRICE=$COST_MATRIX->TOTAL_PRICE;
+
+				$APPRAISAL = $jsonTmp->APPRAISAL;
+				$jsonRes->APPRAISAL=(object)(array());
+				$jsonRes->APPRAISAL->PROJECT=$APPRAISAL->PROJECT;
+				$jsonRes->APPRAISAL->WBS=$APPRAISAL->WBS;
+				$jsonRes->APPRAISAL->CODE_TEXT=$APPRAISAL->CODE_TEXT;
+				$jsonRes->APPRAISAL->CAUSE=$APPRAISAL->CAUSE;
+				$jsonRes->APPRAISAL->START_DATE=\DateTime::createFromFormat("YmdHis",$APPRAISAL->REQUIRED_DATE_START->DATE.$APPRAISAL->REQUIRED_DATE_START->TIME)->format("M d, Y H:i:s");
+				$jsonRes->APPRAISAL->END_DATE=\DateTime::createFromFormat("YmdHis",$APPRAISAL->REQUIRED_DATE_END->DATE.$APPRAISAL->REQUIRED_DATE_END->TIME)->format("M d, Y H:i:s");
+
+
+				$jsonRes->BUDGETS=array();
+
+				foreach ($jsonTmp->BUDGETS->BUDGETS as $b ) {
+					$budtmp=(object)(array());
+					$budtmp->WBS_ELEMENT=$b->WBS_ELEMENT;
+					$budtmp->COST=array();
+					foreach ($b->COSTS as $c) {
+						$cost=(object)(array());
+						$cost->YEAR=$c->YEAR;
+						$cost->COST_PLAN_TCUR=$c->COST_PLAN_TCUR;
+						$cost->DISTRIBUTED_TCUR= $c->DISTRIBUTED_TCUR;
+						$cost->DISTRIBUTABLE_TCUR = $c->DISTRIBUTABLE_TCUR;
+
+						$budtmp->COST[]=$cost;
+					}
+					
+					$jsonRes->BUDGETS[]=$budtmp;
+				}
+
+
+
+				return json_encode($jsonRes);
+			}
+
+			return null;
+		// }catch(\Exception $ex)
+		// {
+		// 	return $ex->getMessage();
+		// }
+
+    }
+
 }
