@@ -1,6 +1,6 @@
 var meister = angular.module('meister', ['ngMaterial', 'ngAnimate', 'ngMessages', 'ngAria', 'ui.router','ngCookies','md.data.table']);
 
-meister.constant('SERVER_BASE_URL', "http://localhost:8000/api");
+meister.constant('SERVER_BASE_URL', "http://localhost/api");
 
 (function(app) {
     app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
