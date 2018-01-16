@@ -7,14 +7,7 @@
 		$scope.claim = {};
 		$scope.tabSelected = 1;
 		$scope.is_simulated = false;
-
-		$scope.costs = [{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"}];
-
-		$scope.budgets = [
-			{wbs:"123",items:[{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"}]},
-			{wbs:"143",items:[{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"}]},
-			{wbs:"566",items:[{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"}]}	
-			];
+		$scope.simulations = [];
 
 		$scope.init = function(){
 			console.log($stateParams);
@@ -36,8 +29,24 @@
 			b.$show = false;
 		});	
 
+		/*$scope.was_changed_it = function(index, budget){
+			var $scope.claim.BUDGETS[index].COSTS
+		};*/
+
 		$scope.simulate = function(){
-			$scope.is_simulated = true;
+			$scope.promise2 = ClaimsService.simulate($stateParams.claimno);
+	    	
+	    	$scope.promise2.then(
+		          function(result) { 
+		          		$scope.is_simulated = true;
+		              console.log("ClaimsService.simulate",result);
+		              if(result.data && result.data.length>0)
+			    		$scope.simulations = result.data[0];
+		          },
+		          function(errorPayload) {
+		              console.log('failure loading claim simulate', errorPayload);
+		          }
+		     );
 		};
 
 		$scope.aproveConfirm = function(ev){

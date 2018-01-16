@@ -16,6 +16,10 @@
             return $http.get(SERVER_BASE_URL + '/claims/detail/'+claimno);
         }
 
+        service.simulate = function(claimno){
+            return $http.get(SERVER_BASE_URL + '/claims/simulate?Json={"CLAIMNO":"' + claimno + '"}');
+        }
+
         return service;
     }]);
 })(meister);
