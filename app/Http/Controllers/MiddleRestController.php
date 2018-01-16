@@ -191,4 +191,66 @@ class MiddleRestController extends Controller
 
     }
 
+    public function simulate(Request $request)
+    {
+    	//print_r($request->input("Json"));
+    	$client = new Client(); 
+    	$json = json_decode($request->input("Json"));
+    	if(!$json)
+    	{
+    		return null;
+    	}
+
+    	$url = "http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.approve.claim'&Parms='[{\"COMPRESSION\":\"\"},{\"TEST_RUN\":\"X\"}]'&Json='".json_encode($json)."'";
+
+    	$response = $client->request('GET',$url,['auth' => ['arosenthal', 'Pa55word.']]);
+
+		if($response->getStatusCode()!="200")
+		{
+			return "null";		
+		}
+
+		$body = (string) $response->getBody();
+
+
+		$start = strpos((string)$body, "<d:Json>");
+		$end= strpos((string)$body, "</d:Json>");
+
+		if($start)
+		{
+			$json = json_decode(substr($body, $start+8,$end-$start-8));
+
+			$output = array();
+
+			foreach ($json as $jsonTmp ) 
+			{
+				
+
+				$tmp = array();
+
+				foreach ($jsonTmp->BUDGETS	 as $o) {
+					$tmp2 = (object)array();
+					$tmp2->WBS_ELEMENT=$o->WBS_ELEMENT;
+					$tmp2->COST=array();
+
+					foreach ($o->COSTS as $c ) {
+						$cost=(object)(array());
+						$cost->YEAR=$c->YEAR;
+						$cost->COST_PLAN_TCUR=$c->COST_PLAN_TCUR;
+						$cost->DISTRIBUTED_TCUR= $c->DISTRIBUTED_TCUR;
+						$cost->DISTRIBUTABLE_TCUR = $c->DISTRIBUTABLE_TCUR;
+
+						$tmp2->COST[]=$cost;
+					}
+					$tmp[]=$tmp2;
+				}		
+
+				$output[] = $tmp;
+			}
+
+			return $output;
+		}
+
+    }    
+
 }

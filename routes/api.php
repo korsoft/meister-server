@@ -30,3 +30,6 @@ Route::get('/claims/detail/{claimno}', [
     'uses' => 'MiddleRestController@detail'
 ]);
 
+Route::get('/claims/simulate', [
+    'uses' => 'MiddleRestController@simulate'
+]);
