@@ -1,0 +1,90 @@
+<div ng-controller="HomeController" ng-cloak>
+
+<md-sidenav class="md-sidenav-left" md-component-id="left">
+
+      <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">Meister Demo</h1>
+      </md-toolbar>
+
+      <md-content style="">
+        <p>
+         
+        </p>
+        
+      </md-content>
+
+    </md-sidenav>
+
+
+<md-toolbar class="md-hue-2">
+
+	  <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
+         <md-icon ng-bind="'menu'"></md-icon>
+        </md-button>
+
+        <h2 flex md-truncate>Meister Demo</h2>
+
+      
+        <md-menu>
+       <md-button class="md-icon-button" aria-label="More" ng-click="openMenu($mdOpenMenu,$event)">
+          <md-icon md-menu-origin ng-bind="'more_vert'"></md-icon>
+        </md-button>
+      <md-menu-content width="4" ng-mouseleave="close()">
+        <md-menu-item>
+          <md-button>
+            <md-icon ng-bind="'info'"></md-icon> About
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button>
+            <md-icon ng-bind="'perm_identity'"></md-icon> User preferences
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button>
+           <md-icon ng-bind="'power_settings_new'"></md-icon> Logout
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+
+      </div>
+
+    </md-toolbar>
+
+    <md-content class="md-padding" layout-xs="column" layout="row">
+    <div flex-xs flex-gt-xs="50" layout="column">
+
+    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Meister Reports</span>
+            <span class="md-subhead">Meister Reports</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-xs card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
+        </md-card-actions>
+      </md-card>
+
+       <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Meister Claims</span>
+            <span class="md-subhead">Meister Claims</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-xs card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-click="gotoClaims()" class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
+        </md-card-actions>
+      </md-card>
+     </div>
+ </md-content>
+</div>
