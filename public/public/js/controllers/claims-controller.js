@@ -16,7 +16,7 @@
 
 	    $scope.gotoClaimDetails = function(claim){
 	    	if(claim.ACCEPTED != 0)
-	    		$state.go('claim-details');
+	    		$state.go('claim-details',{claimno:claim.CLAIM});
 	    };
 
 	    $scope.init = function(){

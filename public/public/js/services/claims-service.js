@@ -12,6 +12,10 @@
             return $http.get(SERVER_BASE_URL + '/claims/details');
         };
 
+        service.getDetails = function(claimno){
+            return $http.get(SERVER_BASE_URL + '/claims/detail/'+claimno);
+        }
+
         return service;
     }]);
 })(meister);

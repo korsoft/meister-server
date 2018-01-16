@@ -1,4 +1,4 @@
-<div ng-controller="ClaimDetailsController" ng-cloak id="popupContainer">
+<div ng-controller="ClaimDetailsController" ng-cloak id="popupContainer" ng-init="init()">
 
 <md-toolbar class="md-hue-2">
 
@@ -44,7 +44,7 @@
          <md-icon ng-bind="'keyboard_backspace'"></md-icon>
         </md-button>
 
-        <h2 flex md-truncate>Claim 3499568569 Details</h2>
+        <h2 flex md-truncate>Claim {{claim.CLAIM}} Details</h2>
 
     
            <md-button class="md-raised md-primary md-button md-ink-ripple" style="color:white" ng-click="aproveConfirm($event)">
@@ -66,15 +66,15 @@
            <table>
               <tr>
                 <td style="text-align: right;color:gray">Estimated:</td>
-                <td>$ 225,000</td>
+                <td>{{claim.COSTS.ESTIMATED | currency}}</td>
               </tr>
               <tr>
                 <td style="text-align: right;color:gray">Required:</td>
-                <td>$ 357,750</td>
+                <td>{{claim.COSTS.REQUIRED | currency}}</td>
               </tr>
               <tr>
                 <td style="text-align: right;color:gray">Accepted:</td>
-                <td>$ 225,000</td>
+                <td>{{claim.COSTS.ACCEPTED | currency}}</td>
               </tr>
            </table>
         </div>
@@ -83,27 +83,27 @@
           <table>
               <tr>
                 <td style="text-align: right;color:gray">Project:</td>
-                <td>$ 225,000</td>
+                <td>{{claim.APPRAISAL.PROJECT}}</td>
               </tr>
               <tr>
                 <td style="text-align: right;color:gray">WBS:</td>
-                <td>$ 357,750</td>
+                <td>{{claim.APPRAISAL.WBS}}</td>
               </tr>
               <tr>
                 <td style="text-align: right;color:gray">Code Tex:</td>
-                <td>$ 225,000</td>
+                <td>{{claim.APPRAISAL.CODE_TEXT}}</td>
               </tr>
                <tr>
                 <td style="text-align: right;color:gray">Cause:</td>
-                <td>$ 225,000</td>
+                <td>{{claim.APPRAISAL.CAUSE}}</td>
               </tr>
                <tr>
                 <td style="text-align: right;color:gray">Start Date:</td>
-                <td>$ 225,000</td>
+                <td>{{claim.APPRAISAL.START_DATE}}</td>
               </tr>
                <tr>
                 <td style="text-align: right;color:gray">End Date:</td>
-                <td>$ 225,000</td>
+                <td>{{claim.APPRAISAL.END_DATE}}</td>
               </tr>
            </table>
         </div>
@@ -112,10 +112,10 @@
 
           <md-tabs md-border-bottom flex="100" md-dynamic-height md-border-bottom>
       <md-tab label="Cost Matrix" ng-click="tabSelected = 1">
-        <md-content class="md-padding" flex="50"> 
+        <md-content class="md-padding" flex="60"> 
           <h4 >Cost Matrix</h4>
           <md-table-container >
-            <table md-table md-row-select multiple ng-model="selected" >
+            <table md-table >
               <thead md-head>
                 <tr md-row>
                   <th md-column>Item No.</th>
@@ -123,16 +123,15 @@
                   <th md-column>Cost Object</th>
                   <th md-column>Plant</th>
                   <th md-column>Total Price</th>
-                  <th md-column></th>
                 </tr>
               </thead>
-              <tbody md-body>
-                <tr md-row md-select="c" md-auto-select ng-repeat="c in costs">
-                  <td md-cell>{{c.item_no}}</td>
-                  <td md-cell>{{c.category}}</td>
-                  <td md-cell>{{c.cost}}</td>
-                  <td md-cell>{{c.plant}}</td>
-                  <td md-cell>{{c.price}}</td>
+              <tbody md-body style="font-weight: bold">
+                <tr md-row>
+                  <td md-cell>{{claim.COSTS.COST_MATRIX.ITEM_NO}}</td>
+                  <td md-cell>{{claim.COSTS.COST_MATRIX.CATEGORY}}</td>
+                  <td md-cell>{{claim.COSTS.COST_MATRIX.COST_OBJECT}}</td>
+                  <td md-cell>{{claim.COSTS.COST_MATRIX.PLANT}}</td>
+                  <td md-cell>{{claim.COSTS.COST_MATRIX.TOTAL_PRICE | currency}}</td>
                 </tr>
               </tbody>
             </table>
@@ -144,35 +143,32 @@
         <div flex="45">
           <h4 ng-if="!is_simulated">Budget Matrix</h4>
           <h4 ng-if="is_simulated">Before</h4>
-            <md-toolbar class="md-table-toolbar md-default"  ng-repeat-start="b in budgets">
+            <md-toolbar class="md-table-toolbar md-default"  ng-repeat-start="b in claim.BUDGETS">
               <div class="md-toolbar-tools">
                <md-button class="md-icon-button" aria-label="Settings" 
                   ng-click="b.$show = !b.$show">
                 <md-icon ng-bind="b.$show == true ? 'keyboard_arrow_down' : 'keyboard_arrow_right'" ></md-icon>
               </md-button>
 
-                 <h2 flex md-truncate>{{b.wbs}}</h2>
+                 <h2 flex md-truncate>{{b.WBS_ELEMENT}}</h2>
               </div>
             </md-toolbar>
               <md-table-container ng-repeat-end ng-if="b.$show">
-            <table md-table md-row-select multiple ng-model="selected" >
+            <table md-table>
               <thead md-head>
                 <tr md-row>
-                  <th md-column>Item No.</th>
-                  <th md-column>Category</th>
-                  <th md-column>Cost Object</th>
-                  <th md-column>Plant</th>
-                  <th md-column>Total Price</th>
-                  <th md-column></th>
+                  <th md-column>Year</th>
+                  <th md-column>Cost Plan</th>
+                  <th md-column>Distributed</th>
+                  <th md-column>Distributable</th>
                 </tr>
               </thead>
-              <tbody md-body>
-                <tr md-row md-select="c" md-auto-select ng-repeat="c in costs">
-                  <td md-cell>{{c.item_no}}</td>
-                  <td md-cell>{{c.category}}</td>
-                  <td md-cell>{{c.cost}}</td>
-                  <td md-cell>{{c.plant}}</td>
-                  <td md-cell>{{c.price}}</td>
+              <tbody md-body style="font-weight: bold">
+                <tr md-row ng-repeat="c in b.COST">
+                  <td md-cell>{{$last ? 'Overall' : ( (b.COST.length-2) == $index) ? 'Total' : c.YEAR}}</td>
+                  <td md-cell>{{c.COST_PLAN_TCUR | currency}}</td>
+                  <td md-cell>{{c.DISTRIBUTED_TCUR | currency}}</td>
+                  <td md-cell>{{c.DISTRIBUTABLE_TCUR | currency}}</td>
                 </tr>
               </tbody>
             </table>
