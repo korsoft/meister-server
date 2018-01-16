@@ -1,7 +1,8 @@
 (function(app) {
-	app.controller('ClaimDetailsController', ['$scope','$timeout','$mdSidenav','$state','$mdMenu','$mdDialog','ClaimsService', 
-		function($scope,$timeout, $mdSidenav,$state, $mdMenu,$mdDialog, ClaimsService) {
+	app.controller('ClaimDetailsController', ['$scope','$timeout','$mdSidenav','$state','$mdMenu','$mdDialog','$stateParams','ClaimsService', 
+		function($scope,$timeout, $mdSidenav,$state, $mdMenu,$mdDialog, $stateParams, ClaimsService) {
 		
+
 
 		$scope.claim = {};
 		$scope.tabSelected = 1;
@@ -14,6 +15,21 @@
 			{wbs:"143",items:[{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"}]},
 			{wbs:"566",items:[{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"},{item_no:1,category:"M",cost:"000027",plant:"3000",price:"1034"}]}	
 			];
+
+		$scope.init = function(){
+			console.log($stateParams);
+			$scope.promise = ClaimsService.getDetails($stateParams.claimno);
+	    	
+	    	$scope.promise.then(
+		          function(result) { 
+		              console.log("ClaimsService.getDetails",result);
+			    		$scope.claim = result.data;
+		          },
+		          function(errorPayload) {
+		              console.log('failure loading claim details', errorPayload);
+		          }
+		     );
+		}
 
 
 		_.forEach($scope.budgets,function(b){
