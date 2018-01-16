@@ -22,3 +22,7 @@ Route::get('/claims', [
     'uses' => 'MiddleRestController@claims'
 ]);
 
+Route::get('/claims/details', [
+    'uses' => 'MiddleRestController@details'
+]);
+
