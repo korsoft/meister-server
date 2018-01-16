@@ -86,3 +86,6 @@
   transform: scaleY(0);
   height: 0px;
   opacity: 0; }
+
+.color-red {
+  color: red; }

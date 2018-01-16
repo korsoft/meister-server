@@ -1,13 +1,16 @@
 (function(app) {
 	app.factory('ClaimsService',
-    ['apiUtils',
-    function (apiUtils) {
+    ['$http','SERVER_BASE_URL',
+    function ($http,SERVER_BASE_URL) {
         var service = {};
 
-        service.getList = function (cb) {
-            apiUtils.get('/claims', {}, cb);
+        service.getList = function () {
+            return $http.get(SERVER_BASE_URL + '/claims');
         };
- 
+
+        service.getListDetails = function(){
+            return $http.get(SERVER_BASE_URL + '/claims/details');
+        };
 
         return service;
     }]);

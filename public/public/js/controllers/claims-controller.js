@@ -4,28 +4,48 @@
 		$scope.toggleLeft = buildToggler('left');
     	$scope.toggleRight = buildToggler('right');
     	$scope.claims = [];	
+    	$scope.claims_details = [];
     	$scope.total = null;
     	$scope.selected = [];
 
-
-	    function buildToggler(componentId) {
+    	function buildToggler(componentId) {
 	      return function() {
 	        $mdSidenav(componentId).toggle();
 	      };
 	    }
 
 	    $scope.gotoClaimDetails = function(claim){
-	    	if(claim.WBS != '1-1200/1')
+	    	if(claim.ACCEPTED != 0)
 	    		$state.go('claim-details');
 	    };
 
-	    ClaimsService.getList(function(err, result){
-	    	if(!err){
-	    		console.log("result",result);
-	    		$scope.total = result.total;
-	    		$scope.claims = result.data;
-	    	}
-	    });
+	    $scope.init = function(){
+	    	$scope.promise1 = ClaimsService.getList();
+	    	$scope.promise2 = ClaimsService.getListDetails();
+
+	    	$scope.promise1.then(
+		          function(result) { 
+		              console.log("ClaimsService.getList",result);
+			    		$scope.total = result.data.total;
+			    		$scope.claims = result.data.data;
+		          },
+		          function(errorPayload) {
+		              console.log('failure loading claims', errorPayload);
+		          }
+		     );
+	    	
+	    	$scope.promise2.then(
+		          function(result) { 
+		              console.log("ClaimsService.getListDetails",result);
+		    			$scope.claims_details = result.data.data;
+		          },
+		          function(errorPayload) {
+		              console.log('failure loading claims details', errorPayload);
+		          }
+			);
+	    };
+
+	    
 
 	    $scope.aproveConfirm = function(ev){
 			var confirm = $mdDialog.confirm()
