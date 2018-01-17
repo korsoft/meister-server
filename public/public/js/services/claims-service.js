@@ -20,6 +20,15 @@
             return $http.get(SERVER_BASE_URL + '/claims/simulate?Json={"CLAIMNO":"' + claimno + '"}');
         }
 
+        service.approve = function(claims_no){
+            var json = "";
+            _.forEach(claims_no, function(c){
+                json += '{"CLAIMNO":"' + c + '"},';
+            });
+            json = json.substring(0,json.length-1);
+            return $http.get(SERVER_BASE_URL + '/claims/approve?Json=[' + json + ']');
+        }
+
         return service;
     }]);
 })(meister);

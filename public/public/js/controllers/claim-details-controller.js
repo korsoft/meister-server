@@ -52,7 +52,7 @@
 		$scope.aproveConfirm = function(ev){
 			var confirm = $mdDialog.confirm()
 	          .title('You are about to Approve the following')
-	          .textContent('You are about to Approve Claim No 000400000105')
+	          .textContent('You are about to Approve Claim No ' + $stateParams.claimno)
 	          .targetEvent(ev)
 	          .ok('Aprove')
 	          .cancel('cancel');
@@ -65,18 +65,32 @@
 		};
 
 		$scope.aprove = function(ev){
-			$mdDialog.show(
-		      $mdDialog.alert()
-		        .parent(angular.element(document.querySelector('#popupContainer')))
-		        .clickOutsideToClose(true)
-		        .title('Successful')
-		        .textContent('Claim 000400000105 is Approved')
-		        .ok('Ok')
-		        .targetEvent(ev)
-		    ).then(function(){
-		    	$state.go('claims');
-		    });
-		    
+			var claims_no = [];
+			claims_no.push($stateParams.claimno);
+			$scope.promise3 = ClaimsService.approve(claims_no);
+	    	
+	    	$scope.promise3.then(
+		          function(result) { 
+		          	  console.log("ClaimsService.approve",result);
+		     			$mdDialog.show(
+					      $mdDialog.alert()
+					        .parent(angular.element(document.querySelector('#popupContainer')))
+					        .clickOutsideToClose(true)
+					        .title('Successful')
+					        .textContent('Claim ' + $stateParams.claimno + ' is Approved')
+					        .ok('Ok')
+					        .targetEvent(ev)
+					    ).then(function(){
+					    	$state.go('claims');
+					    });
+
+		     	  },
+		          function(errorPayload) {
+		              console.log('failure loading claim simulate', errorPayload);
+		          }
+		     );
+
+					    
 		};
 	}]);
 })(meister);

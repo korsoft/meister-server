@@ -1,4 +1,4 @@
-<div ng-controller="ClaimsController" ng-cloak ng-init="init()">
+<div ng-controller="ClaimsController" ng-cloak ng-init="init(false)">
 
 <md-toolbar class="md-hue-2">
 
@@ -42,7 +42,7 @@
         
         <h2 flex md-truncate>My Claims</h2>
            <md-button class="md-raised md-primary md-button md-ink-ripple" style="color:white" ng-click="aproveConfirm($event)" ng-disabled="selected.length == 0">
-            Aprove
+            Approve
             </md-button>
       </div>
 

@@ -19,15 +19,42 @@
 	    		$state.go('claim-details',{claimno:claim.CLAIM});
 	    };
 
-	    $scope.init = function(){
+	    $scope.init = function(filterBySelected){
+
+	    	console.log("init",filterBySelected);
+
+	    	$scope.total = null;
+	    	$scope.claims = [];
+	    	$scope.claims_details = [];
+
 	    	$scope.promise1 = ClaimsService.getList();
 	    	$scope.promise2 = ClaimsService.getListDetails();
+
+	    	var filters = [];
+	    	if(filterBySelected && $scope.selected.length>0){
+	    		filters = angular.copy($scope.selected);
+	    		$scope.selected = [];
+	    	}
+
 
 	    	$scope.promise1.then(
 		          function(result) { 
 		              console.log("ClaimsService.getList",result);
+			    		
+			    		_.forEach(result.data.data, function(item){
+			    			if(filters.length>0){
+			    				var item_found = _.find(filters, function(s){
+			    					return s.WBS == item.WBS;
+			    				});
+			    				if(item_found)
+			    					result.data.total -= item.total;
+			    				else
+			    					$scope.claims.push(item);
+			    			} else {
+			    				$scope.claims.push(item);
+			    			}
+			    		});
 			    		$scope.total = result.data.total;
-			    		$scope.claims = result.data.data;
 		          },
 		          function(errorPayload) {
 		              console.log('failure loading claims', errorPayload);
@@ -37,7 +64,17 @@
 	    	$scope.promise2.then(
 		          function(result) { 
 		              console.log("ClaimsService.getListDetails",result);
-		    			$scope.claims_details = result.data.data;
+		              	_.forEach(result.data.data, function(item){
+		              		if(filters.length>0){
+		              			var item_found = _.find(filters, function(s){
+			    					return s.WBS == item.WBS;
+			    				});
+			    				if(!item_found)
+			    					$scope.claims_details.push(item);
+		              		} else {
+		              			$scope.claims_details.push(item);
+		              		}
+		              	});
 		          },
 		          function(errorPayload) {
 		              console.log('failure loading claims details', errorPayload);
@@ -48,32 +85,51 @@
 	    
 
 	    $scope.aproveConfirm = function(ev){
+	    	console.log("Approve items selected",$scope.selected);
+	    	var textContent = '';
+	    	var claims_no = [];
+	    	_.forEach($scope.selected,function(item){
+	    		claims_no.push(item.CLAIM);
+	    		textContent += "Claim " + item.CLAIM + " on WBS " + item.WBS + " for amount $" + item.ACCEPTED.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + "<br/>";
+	    	});
 			var confirm = $mdDialog.confirm()
 	          .title('You are about to Approve the following')
-	          .textContent('You are about to Approve Claim No 000400000105')
+	          .htmlContent(textContent)
 	          .targetEvent(ev)
 	          .ok('Aprove')
 	          .cancel('cancel');
 
 		    $mdDialog.show(confirm).then(function() {
-		       $scope.aprove(ev);
+		       $scope.aprove(ev, claims_no);
 		    }, function() {
 		      $scope.status = 'You decided to keep your debt.';
 		    });
 		};
 
-		$scope.aprove = function(ev){
-			$mdDialog.show(
-		      $mdDialog.alert()
-		        .parent(angular.element(document.querySelector('#popupContainer')))
-		        .clickOutsideToClose(true)
-		        .title('Successful')
-		        .textContent('Claim 000400000105 is Approved')
-		        .ok('Ok')
-		        .targetEvent(ev)
-		    ).then(function(){
-		    	$state.go('claims');
-		    });
+		$scope.aprove = function(ev, claims_no){
+			$scope.promise3 = ClaimsService.approve(claims_no);
+	    	
+	    	$scope.promise3.then(
+		          function(result) { 
+		          	  console.log("ClaimsService.approve",result);
+		     			$mdDialog.show(
+					      $mdDialog.alert()
+					        .parent(angular.element(document.querySelector('#popupContainer')))
+					        .clickOutsideToClose(true)
+					        .title('Successful')
+					        .textContent('Selected Claims are Approved')
+					        .ok('Ok')
+					        .targetEvent(ev)
+					    ).then(function(){
+					    	$scope.init(true);
+					    });
+
+		     	  },
+		          function(errorPayload) {
+		              console.log('failure loading claim simulate', errorPayload);
+		          }
+		     );
+
 		    
 		};
 
