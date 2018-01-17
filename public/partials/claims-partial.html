@@ -79,8 +79,8 @@
               <thead md-head>
                 <tr md-row>
                   <th md-column>Claim No.</th>
-                  <th md-column hide-xs >Description</th>
-                  <th md-column hide-xs >Defect Location</th>
+                  <th md-column hide-xs hide-sm>Description</th>
+                  <th md-column hide-xs hide-sm >Defect Location</th>
                   <th md-column hide-xs >WBS</th>
                   <th md-column>Amount</th>
                   <th md-column></th>
@@ -89,8 +89,8 @@
               <tbody md-body style="font-weight: bold">
                 <tr md-row md-select="c" md-auto-select ng-disabled="c.ACCEPTED == 0" ng-repeat="c in claims_details">
                   <td md-cell>{{c.CLAIM}}</td>
-                  <td md-cell hide-xs >{{c.DESCRIPTION}}</td>
-                  <td md-cell hide-xs >{{c.DEFECT_LOCATION}}</td>
+                  <td md-cell hide-xs hide-sm>{{c.DESCRIPTION}}</td>
+                  <td md-cell hide-xs hide-sm >{{c.DEFECT_LOCATION}}</td>
                   <td md-cell hide-xs >{{c.WBS}}</td>
                   <td md-cell><span ng-class="{'color-red':c.ACCEPTED==0}">{{c.ACCEPTED | currency}}</span></td>
                   <td md-cell ng-click="gotoClaimDetails(c)">

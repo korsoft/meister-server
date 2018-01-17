@@ -44,8 +44,8 @@
          <md-icon ng-bind="'keyboard_backspace'"></md-icon>
         </md-button>
 
-        <h2 flex md-truncate hide-xs>Claim {{claim.CLAIM}} Details</h2>
-        <h2 flex md-truncate show-gt-xs style="font-size: 12px">{{claim.CLAIM}}</h2>
+        <h2 flex md-truncate> {{claim.CLAIM}}</h2>
+
 
     
            <md-button class="md-raised md-primary md-button md-ink-ripple" style="color:white" ng-click="aproveConfirm($event)">
@@ -113,7 +113,7 @@
 
           <md-tabs md-border-bottom flex="100" md-dynamic-height md-border-bottom>
       <md-tab label="Cost Matrix" ng-click="tabSelected = 1">
-        <md-content class="md-padding" flex="60" flex-xs="100"> 
+        <md-content class="md-padding" flex="70" flex-xs="100"> 
           <h4 >Cost Matrix</h4>
           <md-table-container >
             <table md-table >
