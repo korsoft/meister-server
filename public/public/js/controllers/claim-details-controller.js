@@ -81,7 +81,7 @@
 					        .ok('Ok')
 					        .targetEvent(ev)
 					    ).then(function(){
-					    	$state.go('claims');
+					    	$state.go('claims',{filters:[$scope.claim]});
 					    });
 
 		     	  },

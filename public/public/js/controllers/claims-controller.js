@@ -1,6 +1,6 @@
 (function(app) {
-	app.controller('ClaimsController', ['$scope','$timeout','$mdSidenav','$mdMenu','$state','$mdDialog','ClaimsService', 
-		function($scope,$timeout, $mdSidenav, $mdMenu,$state, $mdDialog, ClaimsService) {
+	app.controller('ClaimsController', ['$scope','$timeout','$mdSidenav','$mdMenu','$state','$stateParams','$mdDialog','ClaimsService', 
+		function($scope,$timeout, $mdSidenav, $mdMenu,$state, $stateParams, $mdDialog, ClaimsService) {
 		$scope.toggleLeft = buildToggler('left');
     	$scope.toggleRight = buildToggler('right');
     	$scope.claims = [];	
@@ -22,6 +22,7 @@
 	    $scope.init = function(filterBySelected){
 
 	    	console.log("init",filterBySelected);
+	    	console.log("params",$stateParams);
 
 	    	$scope.total = null;
 	    	$scope.claims = [];
@@ -31,10 +32,11 @@
 	    	$scope.promise2 = ClaimsService.getListDetails();
 
 	    	var filters = [];
+
 	    	if(filterBySelected && $scope.selected.length>0){
 	    		filters = angular.copy($scope.selected);
 	    		$scope.selected = [];
-	    	}
+	    	} 
 
 
 	    	$scope.promise1.then(
@@ -45,6 +47,14 @@
 			    			if(filters.length>0){
 			    				var item_found = _.find(filters, function(s){
 			    					return s.WBS == item.WBS;
+			    				});
+			    				if(item_found)
+			    					result.data.total -= item.total;
+			    				else
+			    					$scope.claims.push(item);
+			    			} else if($stateParams.filters.length>0){
+			    				var item_found = _.find($stateParams.filters, function(s){
+			    					return s.APPRAISAL.WBS == item.WBS;
 			    				});
 			    				if(item_found)
 			    					result.data.total -= item.total;
@@ -68,6 +78,12 @@
 		              		if(filters.length>0){
 		              			var item_found = _.find(filters, function(s){
 			    					return s.WBS == item.WBS;
+			    				});
+			    				if(!item_found)
+			    					$scope.claims_details.push(item);
+		              		} else if($stateParams.filters.length>0){
+		              			var item_found = _.find($stateParams.filters, function(s){
+			    					return s.APPRAISAL.WBS == item.WBS;
 			    				});
 			    				if(!item_found)
 			    					$scope.claims_details.push(item);
