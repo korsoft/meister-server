@@ -44,7 +44,8 @@
          <md-icon ng-bind="'keyboard_backspace'"></md-icon>
         </md-button>
 
-        <h2 flex md-truncate>Claim {{claim.CLAIM}} Details</h2>
+        <h2 flex md-truncate hide-xs>Claim {{claim.CLAIM}} Details</h2>
+        <h2 flex md-truncate show-gt-xs style="font-size: 12px">{{claim.CLAIM}}</h2>
 
     
            <md-button class="md-raised md-primary md-button md-ink-ripple" style="color:white" ng-click="aproveConfirm($event)">
@@ -59,9 +60,9 @@
     </md-toolbar>
 
         
-      <div layout="row" flex="100">
+      <div layout="row" layout-xs="column">
         
-        <div flex="50" >
+        <div flex >
            <h4>Cost Information</h4>
            <table>
               <tr>
@@ -78,7 +79,7 @@
               </tr>
            </table>
         </div>
-        <div flex="50">
+        <div flex>
           <h4>Appraisal Data</h4>
           <table>
               <tr>
@@ -112,7 +113,7 @@
 
           <md-tabs md-border-bottom flex="100" md-dynamic-height md-border-bottom>
       <md-tab label="Cost Matrix" ng-click="tabSelected = 1">
-        <md-content class="md-padding" flex="60"> 
+        <md-content class="md-padding" flex="60" flex-xs="100"> 
           <h4 >Cost Matrix</h4>
           <md-table-container >
             <table md-table >
@@ -120,8 +121,8 @@
                 <tr md-row>
                   <th md-column>Item No.</th>
                   <th md-column>Category</th>
-                  <th md-column>Cost Object</th>
-                  <th md-column>Plant</th>
+                  <th md-column hide-xs>Cost Object</th>
+                  <th md-column hide-xs>Plant</th>
                   <th md-column>Total Price</th>
                 </tr>
               </thead>
@@ -129,8 +130,8 @@
                 <tr md-row>
                   <td md-cell>{{claim.COSTS.COST_MATRIX.ITEM_NO}}</td>
                   <td md-cell>{{claim.COSTS.COST_MATRIX.CATEGORY}}</td>
-                  <td md-cell>{{claim.COSTS.COST_MATRIX.COST_OBJECT}}</td>
-                  <td md-cell>{{claim.COSTS.COST_MATRIX.PLANT}}</td>
+                  <td md-cell hide-xs>{{claim.COSTS.COST_MATRIX.COST_OBJECT}}</td>
+                  <td md-cell hide-xs>{{claim.COSTS.COST_MATRIX.PLANT}}</td>
                   <td md-cell>{{claim.COSTS.COST_MATRIX.TOTAL_PRICE | currency}}</td>
                 </tr>
               </tbody>
@@ -139,8 +140,8 @@
         </md-content>
       </md-tab>
       <md-tab label="Budget Matrix" ng-click="tabSelected = 2">
-        <md-content  class="md-padding"  flex="100" layout="row">
-        <div flex="45">
+        <md-content  class="md-padding"  flex="100" layout="row" layout-xs="column">
+        <div flex="45" flex-xs="100">
           <h4 ng-if="!is_simulated">Budget Matrix</h4>
           <h4 ng-if="is_simulated">Before</h4>
             <md-toolbar class="md-table-toolbar md-default"  ng-repeat-start="b in claim.BUDGETS">
@@ -176,9 +177,9 @@
    
         </div>
 
-        <div flex="10"></div>
+        <div flex="10" flex-xs="100" style="height: 10px"></div>
 
-         <div flex="45" ng-if="is_simulated">
+         <div flex="45" flex-xs="100" ng-if="is_simulated">
           <h4>After</h4>
             <md-toolbar class="md-table-toolbar md-default"  ng-repeat-start="b in simulations">
               <div class="md-toolbar-tools">
