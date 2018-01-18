@@ -89,3 +89,6 @@
 
 .color-red {
   color: red; }
+
+.with-hover:hover {
+  background: #f0f0f0; }

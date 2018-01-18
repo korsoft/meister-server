@@ -62,7 +62,7 @@
                 </tr>
               </thead>
               <tbody md-body style="font-weight: bold">
-                <tr md-row md-select="c" md-auto-select ng-repeat="c in claims">
+                <tr md-row md-select="c" md-auto-select ng-repeat="c in claims" class="with-hover">
                   <td md-cell>{{c.WBS}}</td>
                   <td md-cell>{{c.total}}</td>
                 </tr>
@@ -77,7 +77,7 @@
             <md-table-container >
             <table md-table md-row-select multiple ng-model="selected" md-progress="promise2">
               <thead md-head>
-                <tr md-row>
+                <tr md-row >
                   <th md-column>Claim No.</th>
                   <th md-column hide-xs hide-sm>Description</th>
                   <th md-column hide-xs hide-sm >Defect Location</th>
@@ -87,7 +87,7 @@
                 </tr>
               </thead>
               <tbody md-body style="font-weight: bold">
-                <tr md-row md-select="c" md-auto-select ng-disabled="c.ACCEPTED == 0" ng-repeat="c in claims_details">
+                <tr md-row md-select="c" class="with-hover" md-auto-select ng-disabled="c.ACCEPTED == 0" ng-repeat="c in claims_details">
                   <td md-cell>{{c.CLAIM}}</td>
                   <td md-cell hide-xs hide-sm>{{c.DESCRIPTION}}</td>
                   <td md-cell hide-xs hide-sm >{{c.DEFECT_LOCATION}}</td>

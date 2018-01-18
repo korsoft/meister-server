@@ -46,7 +46,6 @@
 
         <h2 flex md-truncate> {{claim.CLAIM}}</h2>
 
-
     
            <md-button class="md-raised md-primary md-button md-ink-ripple" style="color:white" ng-click="aproveConfirm($event)">
             Approve
@@ -127,7 +126,7 @@
                 </tr>
               </thead>
               <tbody md-body style="font-weight: bold">
-                <tr md-row>
+                <tr md-row class="with-hover">
                   <td md-cell>{{claim.COSTS.COST_MATRIX.ITEM_NO}}</td>
                   <td md-cell>{{claim.COSTS.COST_MATRIX.CATEGORY}}</td>
                   <td md-cell hide-xs>{{claim.COSTS.COST_MATRIX.COST_OBJECT}}</td>
@@ -165,7 +164,7 @@
                 </tr>
               </thead>
               <tbody md-body style="font-weight: bold">
-                <tr md-row ng-repeat="c in b.COST">
+                <tr md-row class="with-hover" ng-repeat="c in b.COST">
                   <td md-cell>{{$last ? 'Overall' : ( (b.COST.length-2) == $index) ? 'Total' : c.YEAR}}</td>
                   <td md-cell>{{c.COST_PLAN_TCUR | currency}}</td>
                   <td md-cell>{{c.DISTRIBUTED_TCUR | currency}}</td>
@@ -202,7 +201,7 @@
                 </tr>
               </thead>
               <tbody md-body style="font-weight: bold">
-                <tr md-row ng-repeat="c in b.COST">
+                <tr md-row ng-repeat="c in b.COST" class="with-hover">
                   <td md-cell>{{$last ? 'Overall' : ( (b.COST.length-2) == $index) ? 'Total' : c.YEAR}}</td>
                   <td md-cell><span ng-class="{'color-red':claim.BUDGETS[$parent.$index].COST[$index].COST_PLAN_TCUR != c.COST_PLAN_TCUR}">{{c.COST_PLAN_TCUR | currency}}</span></td>
                   <td md-cell><span ng-class="{'color-red':claim.BUDGETS[$parent.$index].COST[$index].DISTRIBUTED_TCUR != c.DISTRIBUTED_TCUR}">{{c.DISTRIBUTED_TCUR | currency}}</span></td>
