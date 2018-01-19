@@ -89,7 +89,7 @@
                 </tr>
               </thead>
               <tbody md-body style="font-weight: bold">
-                <tr md-row md-select="c" class="with-hover" md-auto-select ng-disabled="c.ACCEPTED == 0" ng-repeat-start="c in claims_details" ng-mouseover="showDetails(c)">
+                <tr md-row md-select="c" class="with-hover" md-auto-select ng-disabled="c.ACCEPTED == 0" ng-repeat-start="c in claims_details" ng-mouseover="showDetails(c)" ng-mouseleave="hideDetails(c)">
                   <td md-cell>{{c.CLAIM}}</td>
                   <td md-cell hide-xs hide-sm>{{c.DESCRIPTION}}</td>
                   <td md-cell hide-xs hide-sm >{{c.DEFECT_LOCATION}}</td>
@@ -98,18 +98,38 @@
                   <td md-cell ng-click="gotoClaimDetails(c)">
                     <md-icon ng-bind="'keyboard_arrow_right'"></md-icon>
                   </td>
-                  <md-tooltip md-visible="c.$showTooltip">Photos</md-tooltip>
+                  
                 </tr>
-                <tr ng-if="c.$showTooltip" ng-repeat-end class="scale">
+                <tr ng-if="c.$showTooltip" ng-repeat-end style="background:#f0f0f0;">
                     <td md-cell>
                     </td>
                     <td md-cell colspan="3">
-                      CLAIM: {{c.CLAIM}} <br/>
-                      WBS: {{c.WBS}}
-                      DESCRIPTION: {{c.DESCRIPTION}} <br/>
-                      DEFECT LOCATION: {{c.DEFECT_LOCATION}} <br/>
-                      Amount: {{c.ACCEPTED | currency}}
+                        <table>
+                          <tr>
+                            <td style="text-align: right;color:gray">CLAIM:</td>
+                            <td>{{c.CLAIM}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: right;color:gray">WBS:</td>
+                            <td>{{c.WBS}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: right;color:gray">DESCRIPTION:</td>
+                            <td>{{c.DESCRIPTION}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: right;color:gray">DEFECT LOCATION:</td>
+                            <td>{{c.DEFECT_LOCATION}}</td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: right;color:gray">AMOUNT:</td>
+                            <td>{{c.ACCEPTED | currency}}</td>
+                          </tr>
+                       </table>
                     </td>
+                    <td md-cell hide-xs hide-sm></td>
+                    <td md-cell hide-xs hide-sm></td>
+                    <td md-cell hide-xs></td>
                 </tr>
               </tbody>
             </table>

@@ -101,10 +101,15 @@
 	    
 	    $scope.showDetails = function(claim){
 	    	console.log("showDetails",claim);
-	    	_.forEach($scope.claims_details,function(item){
+	    	/*_.forEach($scope.claims_details,function(item){
 	    		item.$showTooltip = false;
-	    	});
+	    	});*/
 	    	claim.$showTooltip = true;
+	    };
+
+	    $scope.hideDetails = function(claim){
+	    	console.log("hideDetails",claim);
+	    	claim.$showTooltip = false;
 	    };
 
 	    $scope.aproveConfirm = function(ev){
