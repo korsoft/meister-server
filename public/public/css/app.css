@@ -92,3 +92,10 @@
 
 .with-hover:hover {
   background: #f0f0f0; }
+
+.total-claims {
+  background: #4445B7;
+  color: white !important;
+  font-weight: bold !important;
+  text-align: left !important;
+  font-size: 16px !important; }

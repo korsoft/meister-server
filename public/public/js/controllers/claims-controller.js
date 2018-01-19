@@ -1,12 +1,14 @@
 (function(app) {
-	app.controller('ClaimsController', ['$scope','$timeout','$mdSidenav','$mdMenu','$state','$stateParams','$mdDialog','ClaimsService', 
-		function($scope,$timeout, $mdSidenav, $mdMenu,$state, $stateParams, $mdDialog, ClaimsService) {
+	app.controller('ClaimsController', ['$scope','$timeout','$mdSidenav','$mdMedia','$mdMenu','$state','$stateParams','$mdDialog','ClaimsService', 
+		function($scope,$timeout, $mdSidenav, $mdMedia, $mdMenu,$state, $stateParams, $mdDialog, ClaimsService) {
 		$scope.toggleLeft = buildToggler('left');
     	$scope.toggleRight = buildToggler('right');
     	$scope.claims = [];	
     	$scope.claims_details = [];
     	$scope.total = null;
     	$scope.selected = [];
+
+    	$scope.isMobileDevice = $mdMedia('xs');
 
     	function buildToggler(componentId) {
 	      return function() {

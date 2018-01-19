@@ -1,6 +1,6 @@
 (function(app) {
-	app.controller('ClaimDetailsController', ['$scope','$timeout','$mdSidenav','$state','$mdMenu','$mdDialog','$stateParams','ClaimsService', 
-		function($scope,$timeout, $mdSidenav,$state, $mdMenu,$mdDialog, $stateParams, ClaimsService) {
+	app.controller('ClaimDetailsController', ['$scope','$timeout','$mdSidenav','$state','$mdMedia','$mdMenu','$mdDialog','$stateParams','ClaimsService', 
+		function($scope,$timeout, $mdSidenav,$state, $mdMedia, $mdMenu,$mdDialog, $stateParams, ClaimsService) {
 		
 
 
@@ -8,6 +8,8 @@
 		$scope.tabSelected = 1;
 		$scope.is_simulated = false;
 		$scope.simulations = [];
+
+		$scope.isMobileDevice = $mdMedia('xs');
 
 		$scope.init = function(){
 			console.log($stateParams);
@@ -17,6 +19,14 @@
 		          function(result) { 
 		              console.log("ClaimsService.getDetails",result);
 			    		$scope.claim = result.data;
+			    		if($scope.isMobileDevice){
+			    			var budgets = [];
+			    			_.forEach($scope.claim.BUDGETS, function(b){
+			    				if(b.WBS_ELEMENT == $scope.claim.APPRAISAL.WBS)
+			    					budgets.push(b);
+			    			});
+			    			$scope.claim.BUDGETS = budgets;
+			    		}
 		          },
 		          function(errorPayload) {
 		              console.log('failure loading claim details', errorPayload);
@@ -40,8 +50,17 @@
 		          function(result) { 
 		          		$scope.is_simulated = true;
 		              console.log("ClaimsService.simulate",result);
-		              if(result.data && result.data.length>0)
+		              if(result.data && result.data.length>0){
 			    		$scope.simulations = result.data[0];
+				    	if($scope.isMobileDevice){
+				    			var budgets = [];
+				    			_.forEach($scope.simulations, function(b){
+				    				if(b.WBS_ELEMENT == $scope.claim.APPRAISAL.WBS)
+				    					budgets.push(b);
+				    			});
+				    			$scope.simulations = budgets;
+				    		}
+				    	}
 		          },
 		          function(errorPayload) {
 		              console.log('failure loading claim simulate', errorPayload);

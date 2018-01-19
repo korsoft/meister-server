@@ -56,14 +56,14 @@
         
         <div flex="20" flex-xs="100" >
            <md-table-container >
-            <table md-table md-progress="promise1">
+            <table md-table md-progress="promise1" flex-xs="40">
               <thead md-head>
                 <tr md-row>
-                  <th md-column>My Claims</th>
-                  <th md-column>{{total}}</th>
+                  <th md-column ng-class="{'total-claims':isMobileDevice}">{{isMobileDevice ? 'Total' : 'My Claims'}}</th>
+                  <th md-column ng-class="{'total-claims':isMobileDevice}">{{total}}</th>
                 </tr>
               </thead>
-              <tbody md-body style="font-weight: bold">
+              <tbody md-body style="font-weight: bold" hide-xs>
                 <tr md-row md-select="c" md-auto-select ng-repeat="c in claims" class="with-hover">
                   <td md-cell>{{c.WBS}}</td>
                   <td md-cell>{{c.total}}</td>
@@ -72,7 +72,7 @@
             </table>
           </md-table-container>
         </div>
-        <div flex="10" flex-xs="100" style="height: 50px">
+        <div flex="10" flex-xs="100" style="height: 10px">
         </div>
         <div flex="70" flex-xs="100">
             
