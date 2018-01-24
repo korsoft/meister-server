@@ -106,12 +106,27 @@
 	    	/*_.forEach($scope.claims_details,function(item){
 	    		item.$showTooltip = false;
 	    	});*/
+
 	    	claim.$showTooltip = true;
 	    };
 
 	    $scope.hideDetails = function(claim){
 	    	console.log("hideDetails",claim);
 	    	claim.$showTooltip = false;
+	    };
+
+	    $scope.showDetails2 = function(claim){
+	    	console.log("showDetails",claim);
+	    	/*_.forEach($scope.claims_details,function(item){
+	    		item.$showTooltip = false;
+	    	});*/
+	    	
+	    	claim.$showTooltip2 = true;
+	    };
+
+	    $scope.hideDetails2 = function(claim){
+	    	console.log("hideDetails",claim);
+	    	claim.$showTooltip2 = false;
 	    };
 
 	    $scope.aproveConfirm = function(ev){

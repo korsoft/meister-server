@@ -100,7 +100,7 @@
                   </td>
                   
                 </tr>
-                <tr ng-if="c.$showTooltip" ng-repeat-end style="background:#f0f0f0;">
+                <tr ng-show="c.$showTooltip || c.$showTooltip2" ng-repeat-end style="background:#f0f0f0;" ng-mouseover="showDetails2(c)" ng-mouseleave="hideDetails2(c)">
                     <td md-cell>
                     </td>
                     <td md-cell colspan="3">
