@@ -1,4 +1,5 @@
-var meister = angular.module('meister', ['ngMaterial', 'ngAnimate','ngSanitize', 'ngMessages', 'ngAria', 'ui.router','ngCookies','md.data.table']);
+var meister = angular.module('meister', ['ngMaterial', 'ngAnimate','ngSanitize', 'ngMessages',
+ 'ngAria', 'ui.router','ngCookies','md.data.table','chart.js']);
 
 meister.constant('SERVER_BASE_URL', "http://localhost:8000/api");
 
@@ -46,6 +47,14 @@ meister.constant('SERVER_BASE_URL', "http://localhost:8000/api");
             controller: 'ClaimDetailsController',
             params: {
                 claimno: ''
+            }
+        })
+        .state('reports-summary', {
+            url: '/reports-summary',
+            templateUrl: 'partials/reports-summary-partial.html',
+            controller: 'ReportSummaryController',
+            params: {
+                PKY: ''
             }
         });
 

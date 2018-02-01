@@ -1,0 +1,99 @@
+<div ng-controller="ReportSummaryController" ng-cloak id="popupContainer" ng-init="init()">
+
+<md-toolbar class="md-hue-2">
+
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="gotoHome()">
+         <md-icon ng-bind="'home'"></md-icon>
+        </md-button>
+
+        <h2 flex md-truncate>Meister Demo</h2>
+
+    
+         <md-menu>
+       <md-button class="md-icon-button" aria-label="More" ng-click="openMenu($mdOpenMenu,$event)">
+          <md-icon md-menu-origin ng-bind="'more_vert'"></md-icon>
+        </md-button>
+      <md-menu-content width="4" ng-mouseleave="close()">
+        <md-menu-item>
+          <md-button>
+            <md-icon ng-bind="'info'"></md-icon> About
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button>
+            <md-icon ng-bind="'perm_identity'"></md-icon> User preferences
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button>
+           <md-icon ng-bind="'power_settings_new'"></md-icon> Logout
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+
+      </div>
+
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default">
+
+    <div class="md-toolbar-tools" style="text-align: center;">
+        <md-button style="float: left;" class="md-icon-button" aria-label="Settings" ng-click="gotoReports()">
+         <md-icon ng-bind="'keyboard_backspace'"></md-icon>
+        </md-button>
+
+        <h2 flex md-truncate > Reports</h2>
+         
+      </div>
+
+    </md-toolbar>
+
+        
+      <div layout="row" layout-xs="column">
+        
+      
+      <div layout="row" flex="100">
+
+     
+        <md-content class="md-padding" flex="100" flex-xs="100" style="text-align: center;"> 
+          <h4 >Report Output</h4>
+          <div layout="row" flex="100" layout-xs="column" style="margin-bottom: 20px;">
+            <md-button class="md-raised md-primary" ng-show="chartType=='doughnut'" ng-click="chartType='bar'">Bar</md-button>
+            <md-button class="md-raised md-primary" ng-show="chartType=='bar'" ng-click="chartType='doughnut'">Doughnut</md-button>
+          </div>
+          <div layout="row" layout-xs="column">
+             <div  flex="50" flex-xs="95" flex-sm="90"  >
+              <canvas class="chart-base" chart-type="chartType"
+                  chart-data="chartData" chart-labels="labels" >
+                </canvas>
+             </div>
+
+            
+
+            <md-table-container flex="50" flex-xs="95" flex-sm="90" >
+              <table md-table >
+                <thead md-head>
+                  <tr md-row>
+                    <th md-column>SLoc MvT</th>
+                    <th md-column>S Mat. Doc.</th>
+                    <th md-column >Item Pstng Date</th>
+                    <th md-column>Quantity in UnE EUn</th>                 
+                  </tr>
+                </thead>
+                <tbody md-body style="font-weight: bold">
+                  <tr md-row  ng-repeat="d in data" class="with-hover">
+                    <td md-cell>{{d.SLoc}} {{d.MvT}}</td>
+                    <td md-cell>{{d.SMatDoc}} {{d.item}}</td>
+                    <td md-cell>{{d.item}} {{d.PstngDate}}</td>
+                    <td md-cell>{{d.Quantity}} {{d.UnE}}</td>                 
+                  </tr>
+                </tbody>
+              </table>
+            </md-table-container>
+          </div>
+        </md-content>
+      </div>
+     
+</div>

@@ -1,11 +1,14 @@
 (function(app) {
-	app.controller('ReportsController', ['$scope','$timeout','$mdSidenav','$state','$mdMedia','$mdMenu','$mdDialog','$stateParams', 'ReportService', 
-		function($scope,$timeout, $mdSidenav,$state, $mdMedia, $mdMenu,$mdDialog, $stateParams, ReportService) {
+	app.controller('ReportsController', ['$scope','$timeout','$mdSidenav','$state','$mdMedia','$mdMenu','$mdDialog','$stateParams', 
+		'$mdToast','ReportService', 
+		function($scope,$timeout, $mdSidenav,$state, $mdMedia, $mdMenu,$mdDialog, $stateParams,
+			$mdToast, ReportService) {
 		
 
 		$scope.isMobileDevice = $mdMedia('xs');
 		$scope.reports = [];
 		$scope.report="";
+		$scope.selected = [];
 
 		$scope.init = function(){
 			$scope.promise = ReportService.getListReport();
@@ -22,14 +25,25 @@
 		          			firts=false;
 		          		}
 					 
-					});		  
-					console.log($scope.reports);        	  
+					});		        	  
 		     	  },
 		          function(errorPayload) {
 		              console.log('failureReportService.getListReport', errorPayload);
 		          }
 		     );	
 		}
+
+		$scope.gotoReportSummary = function(r){
+			if(r.STATUS =="S")
+	    		$state.go('reports-summary',{PKY:r.PKY});
+	    	else
+	    		$mdToast.show(
+			      $mdToast.simple()
+			        .textContent('Report output is being prepared. Check back in a few minutes.')
+			        .position('bottom' )
+			        .hideDelay(3000)
+			    );
+	    };
 
 	}]);
 })(meister);
