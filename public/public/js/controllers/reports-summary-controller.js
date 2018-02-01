@@ -11,10 +11,12 @@
 
 		$scope.chartData = [];
 		$scope.labels = [];
+		$scope.report_name = "";
 
 
 		$scope.init = function(){
 			console.log($stateParams.PKY);
+			$scope.report_name = $stateParams.reportName;
 			$scope.promise = ReportService.getDetails($stateParams.PKY);
 	    	
 	    	$scope.promise.then(

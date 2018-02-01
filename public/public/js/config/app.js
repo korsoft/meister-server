@@ -54,7 +54,8 @@ meister.constant('SERVER_BASE_URL', "http://localhost:8000/api");
             templateUrl: 'partials/reports-summary-partial.html',
             controller: 'ReportSummaryController',
             params: {
-                PKY: ''
+                PKY: '',
+                reportName: ''
             }
         });
 

@@ -35,7 +35,7 @@
 
 		$scope.gotoReportSummary = function(r){
 			if(r.STATUS =="S")
-	    		$state.go('reports-summary',{PKY:r.PKY});
+	    		$state.go('reports-summary',{PKY:r.PKY, reportName:r.REPORT_NAME});
 	    	else
 	    		$mdToast.show(
 			      $mdToast.simple()
