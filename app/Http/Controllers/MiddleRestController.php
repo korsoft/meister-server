@@ -316,6 +316,16 @@ class MiddleRestController extends Controller
 	
     }
 
+    public function reports_details(Request $request, $pki)
+    {
+     	$client = new Client(); //GuzzleHttp\Client
+		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.scheduler'&Parms='[{\"METADATA\":\"\",\"REPORT_TYPE\":\"T\"}]'&Json='{\"USERNAME\":\"AROSENTHAL\",\"REPORT\":{\"MODE\":\"R\",\"NAME\":\"RM07DOCS\",\"PARAMETERS\":[{\"SELNAME\":\"MATNR\",\"KIND\":\"S\",\"SIGN\":\"I\",\"OPTION\":\"EQ\",\"LOW\":\"CK-700\"}]},\"EMAIL\":\"AXROSENTHAL@GMAIL.COM\",\"VIA_EMAIL\":\"X\"}'&\$format=json",['auth' => ['arosenthal', 'Pa55word.']]);
+
+		 return $response->getBody();
+
+	
+    }
+
 }
 
 

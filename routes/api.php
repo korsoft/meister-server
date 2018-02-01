@@ -41,3 +41,7 @@ Route::get('/claims/approve', [
 Route::get('/reports', [
     'uses' => 'MiddleRestController@reports'
 ]);
+
+Route::get('/reports/detail/{pki}', [
+    'uses' => 'MiddleRestController@reports_details'
+]);
