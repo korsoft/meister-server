@@ -40,25 +40,54 @@
     </md-toolbar>
    <md-toolbar class="md-table-toolbar md-default">
 
-    <div class="md-toolbar-tools">
+    <div class="md-toolbar-tools" style="text-align: center;">
         <h2 flex md-truncate>Reports</h2>
       </div>
 
     </md-toolbar>
 
-    <md-content class="md-padding" layout="row">
+  <md-content class="md-padding" layout="row">
     
-     <div layout="row" flex="100" layout-xs="column">
+    <div layout="row" flex="100" layout-xs="column">
         
-        <div flex="20" flex-xs="100" >
-           Search input
+        <div flex="20" flex-xs="100" style="background-color: #fff;padding-left: 20px;">
+           <div layout="row" flex="100" layout-xs="column">
+              <div  flex="70" flex-xs="100" >
+                <md-select ng-model="report" style="margin-bottom: 10px">
+                  <md-option ng-repeat="rep in reports" ng-value="rep.REPORT_NAME" >
+                    {{rep.REPORT_NAME}}
+                  </md-option>
+                </md-select>
+              </div>
+            </div>
+            <div layout="row" flex="100" layout-xs="column">
+              <div  flex="70" flex-xs="100" >
+               <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+                <label>Material No</label>
+                <input ng-model="material">
+               </md-input-container>
+              </div>
+            </div>
+            <div layout="row" flex="100" layout-xs="column" >
+              <div  flex="70" flex-xs="100" >
+                <md-input-container class="md-block" flex-gt-sm style="margin: 0px">
+                  <label>Plant No</label>
+                  <input ng-model="plant">
+                </md-input-container>
+              </div>
+            </div>
+            <div layout="row" flex="100" layout-xs="column" style="padding-bottom: 15px;"> 
+              <div  flex="70" flex-xs="100" >
+               <md-button class="md-raised md-primary">Schedule report</md-button>
+              </div>            
+            </div>
         </div>
         <div flex="10" flex-xs="100" style="height: 10px">
         </div>
         <div flex="70" flex-xs="100">
             
             <md-table-container >
-            <table md-table md-row-select ng-model="selected" md-progress="promise2">
+            <table md-table md-row-select ng-model="selected" md-progress="promise">
               <thead md-head>
                 <tr md-row >
                   <th md-column>Report Name</th>
@@ -68,11 +97,12 @@
                 </tr>
               </thead>
               <tbody md-body style="font-weight: bold">
-                <tr md-row  class="with-hover" md-auto-select >
-                  <td md-cell>Report 1</td>
-                  <td md-cell>Running</td>
-                  <td md-cell>AROSENTHAL</td>
-                  <td md-cell ng-click="gotoReport(c)">
+                <tr md-row  class="with-hover" ng-repeat="r in reports" md-auto-select >
+                  <td md-cell>{{r.REPORT_NAME}}</td>
+                  <td md-cell><span ng-show="r.STATUS=='S'">Finished</span>
+                  <span ng-show="r.STATUS!='S'">Running</span></td>
+                  <td md-cell>{{r.USERNAME}}</td>
+                  <td md-cell ng-click="gotoReport(r)">
                     <md-icon ng-bind="'keyboard_arrow_right'"></md-icon>
                   </td>
                   
@@ -81,8 +111,6 @@
             </table>
           </md-table-container>
         </div>
- </div>
-    
-     
- </md-content>
+    </div>
+  </md-content>
 </div>
