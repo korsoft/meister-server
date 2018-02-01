@@ -311,6 +311,10 @@ class MiddleRestController extends Controller
      	$client = new Client(); //GuzzleHttp\Client
 		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.scheduler'&Parms='[{\"METADATA\":\"\",\"REPORT_TYPE\":\"T\"}]'&Json='{\"USERNAME\":\"AROSENTHAL\",\"REPORT\":{\"MODE\":\"R\",\"NAME\":\"RM07DOCS\",\"PARAMETERS\":[{\"SELNAME\":\"MATNR\",\"KIND\":\"S\",\"SIGN\":\"I\",\"OPTION\":\"EQ\",\"LOW\":\"CK-700\"}]},\"EMAIL\":\"AXROSENTHAL@GMAIL.COM\",\"VIA_EMAIL\":\"X\"}'&\$format=json",['auth' => ['arosenthal', 'Pa55word.']]);
 
+		if($response->getStatusCode()!="200"){
+			return [];
+		}	
+	
 		 return $response->getBody();
 
 	
@@ -319,11 +323,51 @@ class MiddleRestController extends Controller
     public function reports_details(Request $request, $pki)
     {
      	$client = new Client(); //GuzzleHttp\Client
-		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.scheduler'&Parms='[{\"METADATA\":\"\",\"REPORT_TYPE\":\"T\"}]'&Json='{\"USERNAME\":\"AROSENTHAL\",\"REPORT\":{\"MODE\":\"R\",\"NAME\":\"RM07DOCS\",\"PARAMETERS\":[{\"SELNAME\":\"MATNR\",\"KIND\":\"S\",\"SIGN\":\"I\",\"OPTION\":\"EQ\",\"LOW\":\"CK-700\"}]},\"EMAIL\":\"AXROSENTHAL@GMAIL.COM\",\"VIA_EMAIL\":\"X\"}'&\$format=json",['auth' => ['arosenthal', 'Pa55word.']]);
+		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.retriever'&Parms='{}'&Json='{\"PKY\":\"" .$pki ."\"}'&\$format=json",['auth' => ['arosenthal', 'Pa55word.']]);
 
-		 return $response->getBody();
+		if($response->getStatusCode()!="200"){
+			return [];
+		}
 
-	
+		$body = (string) $response->getBody();
+
+		$result = json_decode($body, true);
+
+		if(is_array($result) && count($result)>0){
+			if(isset($result["d"]) && isset($result["d"]["results"]) && isset($result["d"]["results"][0]) ){
+				$report = $result["d"]["results"][0];
+				if(isset($report["Json"])){
+					$json_substring = substr($report["Json"],stripos($report["Json"],"\"JSON\":\""));
+					$json = "{" . substr($json_substring, 0,strlen($json_substring)-2) . "]}";
+					$json =  json_decode($json,true);
+					$json = json_decode($json["JSON"], true);
+					$arrResult = [];
+					$row = 0;
+					foreach ($json as $item) {
+						$row++;
+						if($row<3)
+							continue;
+						
+						if(isset($item["MATERIALMATERIALDESCRIPTIONPLN"])){
+						$columns = explode(" ",$item["MATERIALMATERIALDESCRIPTIONPLN"]);
+							array_push($arrResult, [
+								"SLoc"=>$columns[0],
+								"MvT"=>$columns[1],
+								"SMatDoc"=>$columns[2],
+								"item"=>$columns[3],
+								"PstngDate"=>$columns[4],
+								"Quantity"=>$columns[5],
+								"UnE"=>$columns[6]
+							]);
+						}
+					}
+					return $arrResult;
+				}
+
+			}
+		}
+		return [];
+
     }
 
 }
