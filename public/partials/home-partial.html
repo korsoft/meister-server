@@ -56,7 +56,7 @@
     <md-content class="md-padding" layout-xs="column" layout="row">
     <div flex-xs flex-gt-xs="50" layout="column">
 
-    <!-- md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">Meister Reports</span>
@@ -67,9 +67,9 @@
           </md-card-title-media>
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
+          <md-button ng-click="gotoMainReports()" class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
         </md-card-actions>
-      </md-card -->
+      </md-card>
 
        <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
         <md-card-title>

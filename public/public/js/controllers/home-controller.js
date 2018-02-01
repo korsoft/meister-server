@@ -19,6 +19,10 @@
 	    	$state.go('claims');
 	    };
 
+	    $rootScope.gotoMainReports = function(){
+	    	$state.go('reports');
+	    };
+
 	     $rootScope.openMenu = function($mdOpenMenu,ev) {
 		      $mdOpenMenu(ev);
 		 };

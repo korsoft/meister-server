@@ -1,0 +1,88 @@
+<div ng-controller="ReportsController" ng-cloak ng-init="init()">
+
+
+
+<md-toolbar class="md-hue-2">
+
+	  <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="gotoHome()">
+         <md-icon ng-bind="'home'"></md-icon>
+        </md-button>
+
+        <h2 flex md-truncate>Meister Demo</h2>
+
+    
+         <md-menu>
+       <md-button class="md-icon-button" aria-label="More" ng-click="openMenu($mdOpenMenu,$event)">
+          <md-icon md-menu-origin ng-bind="'more_vert'"></md-icon>
+        </md-button>
+      <md-menu-content width="4" ng-mouseleave="close()">
+        <md-menu-item>
+          <md-button>
+            <md-icon ng-bind="'info'"></md-icon> About
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button>
+            <md-icon ng-bind="'perm_identity'"></md-icon> User preferences
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button>
+           <md-icon ng-bind="'power_settings_new'"></md-icon> Logout
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+
+      </div>
+
+    </md-toolbar>
+   <md-toolbar class="md-table-toolbar md-default">
+
+    <div class="md-toolbar-tools">
+        <h2 flex md-truncate>Reports</h2>
+      </div>
+
+    </md-toolbar>
+
+    <md-content class="md-padding" layout="row">
+    
+     <div layout="row" flex="100" layout-xs="column">
+        
+        <div flex="20" flex-xs="100" >
+           Search input
+        </div>
+        <div flex="10" flex-xs="100" style="height: 10px">
+        </div>
+        <div flex="70" flex-xs="100">
+            
+            <md-table-container >
+            <table md-table md-row-select ng-model="selected" md-progress="promise2">
+              <thead md-head>
+                <tr md-row >
+                  <th md-column>Report Name</th>
+                  <th md-column>Status</th>
+                  <th md-column>User</th>
+                  <th md-column></th>
+                </tr>
+              </thead>
+              <tbody md-body style="font-weight: bold">
+                <tr md-row  class="with-hover" md-auto-select >
+                  <td md-cell>Report 1</td>
+                  <td md-cell>Running</td>
+                  <td md-cell>AROSENTHAL</td>
+                  <td md-cell ng-click="gotoReport(c)">
+                    <md-icon ng-bind="'keyboard_arrow_right'"></md-icon>
+                  </td>
+                  
+                </tr>
+              </tbody>
+            </table>
+          </md-table-container>
+        </div>
+ </div>
+    
+     
+ </md-content>
+</div>

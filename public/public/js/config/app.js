@@ -32,6 +32,14 @@ meister.constant('SERVER_BASE_URL', "http://localhost:8000/api");
                 filters: []
             }
         })
+        .state('reports', {
+            url: '/reports',
+            templateUrl: 'partials/reports-partial.html',
+            controller: 'ReportsController',
+            params: {
+                filters: []
+            }
+        })
         .state('claim-details', {
             url: '/claims-details',
             templateUrl: 'partials/claim-details-partial.html',

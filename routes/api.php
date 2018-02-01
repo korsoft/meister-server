@@ -37,3 +37,7 @@ Route::get('/claims/simulate', [
 Route::get('/claims/approve', [
     'uses' => 'MiddleRestController@approve'
 ]);
+
+Route::get('/reports', [
+    'uses' => 'MiddleRestController@reports'
+]);
