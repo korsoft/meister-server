@@ -56,5 +56,9 @@
 			$scope.labels = report.labels;
 		}
 
+		$scope.removeFilters= function (){
+			$scope.filterDate="";
+		}
+
 	}]);
 })(meister);
