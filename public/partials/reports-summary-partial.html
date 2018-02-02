@@ -65,8 +65,7 @@
           </div>
           <div layout="row" layout-xs="column">
              <div  flex="50" flex-xs="95" flex-sm="90"  >
-              <canvas class="chart-base" chart-type="chartType"
-                  chart-data="chartData" chart-labels="labels" >
+              <canvas class="chart-base" chart-type="chartType" chart-options="chartOptions"  chart-data="chartData" chart-labels="labels" >
                 </canvas>
              </div>
 
@@ -83,7 +82,7 @@
                   </tr>
                 </thead>
                 <tbody md-body style="font-weight: bold">
-                  <tr md-row  ng-repeat="d in data" class="with-hover">
+                  <tr md-row  ng-repeat="d in data | filter:{PstngDate:filterDate}" class="with-hover">
                     <td md-cell>{{d.SLoc}} {{d.MvT}}</td>
                     <td md-cell>{{d.SMatDoc}}</td>
                     <td md-cell>{{d.item}} {{d.PstngDate}}</td>

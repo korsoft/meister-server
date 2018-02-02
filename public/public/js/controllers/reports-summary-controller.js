@@ -1,10 +1,10 @@
 (function(app) {
-	app.controller('ReportSummaryController', ['$scope','$state','$mdMedia','$mdDialog','$stateParams','ReportService', 
-		function($scope,$state, $mdMedia,$mdDialog, $stateParams, ReportService) {
+	app.controller('ReportSummaryController', ['$scope','$state','$mdMedia','$mdDialog','$stateParams','$timeout','ReportService', 
+		function($scope,$state, $mdMedia,$mdDialog, $stateParams,$timeout, ReportService) {
 		
 
 
-		$scope.data = {};
+		$scope.data = [];
 		$scope.chartType ="bar";
 		
 		$scope.isMobileDevice = $mdMedia('xs');
@@ -12,6 +12,21 @@
 		$scope.chartData = [];
 		$scope.labels = [];
 		$scope.report_name = "";
+		$scope.filterDate="";
+		$scope.chartOptions ={
+			onClick: function(e) {
+			 
+		      var element = this.getElementAtEvent(e);
+		      if (element.length) {
+		         var index = element[0]._index;
+		         
+		         $timeout(function(){
+		         	$scope.filterDate=$scope.labels[index];
+		         })
+		         console.log( $scope.filterDate);
+		      }
+		    }
+		};
 
 
 		$scope.init = function(){
@@ -40,5 +55,6 @@
 			$scope.chartData = report.data;
 			$scope.labels = report.labels;
 		}
+
 	}]);
 })(meister);
