@@ -140,14 +140,21 @@ class MiddleRestController extends Controller
 				$jsonRes->COSTS->REQUIRED=$jsonTmp->COSTS->REQUIRED;
 				$jsonRes->COSTS->ESTIMATED=$jsonTmp->COSTS->ESTIMATED;
 
-				$COST_MATRIX = $jsonTmp->COSTS->COST_MATRIX[0];
+				//$COST_MATRIX = $jsonTmp->COSTS->COST_MATRIX[0];
 
-				$jsonRes->COSTS->COST_MATRIX=(object)(array());
-				$jsonRes->COSTS->COST_MATRIX->ITEM_NO=$COST_MATRIX->ITEM_NO;
-				$jsonRes->COSTS->COST_MATRIX->COST_OBJECT=$COST_MATRIX->COST_OBJECT;
-				$jsonRes->COSTS->COST_MATRIX->CATEGORY=$COST_MATRIX->CATEGORY;
-				$jsonRes->COSTS->COST_MATRIX->PLANT=$COST_MATRIX->PLANT;
-				$jsonRes->COSTS->COST_MATRIX->TOTAL_PRICE=$COST_MATRIX->TOTAL_PRICE;
+				$jsonRes->COSTS->COST_MATRIX=[];
+				foreach ($jsonTmp->COSTS->COST_MATRIX as $COST_MATRIX) {
+					array_push($jsonRes->COSTS->COST_MATRIX, 
+						[
+							"ITEM_NO" => $COST_MATRIX->ITEM_NO,
+							"COST_OBJECT" => $COST_MATRIX->COST_OBJECT,
+							"CATEGORY" => $COST_MATRIX->CATEGORY,
+							"PLANT" => $COST_MATRIX->PLANT,
+							"TOTAL_PRICE" => $COST_MATRIX->TOTAL_PRICE
+						]
+					);
+				}
+				
 
 				$APPRAISAL = $jsonTmp->APPRAISAL;
 				$jsonRes->APPRAISAL=(object)(array());

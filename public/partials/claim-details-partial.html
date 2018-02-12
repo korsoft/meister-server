@@ -126,12 +126,12 @@
                 </tr>
               </thead>
               <tbody md-body style="font-weight: bold">
-                <tr md-row class="with-hover">
-                  <td md-cell>{{claim.COSTS.COST_MATRIX.ITEM_NO}}</td>
-                  <td md-cell>{{claim.COSTS.COST_MATRIX.CATEGORY}}</td>
-                  <td md-cell hide-xs>{{claim.COSTS.COST_MATRIX.COST_OBJECT}}</td>
-                  <td md-cell hide-xs>{{claim.COSTS.COST_MATRIX.PLANT}}</td>
-                  <td md-cell>{{claim.COSTS.COST_MATRIX.TOTAL_PRICE | currency}}</td>
+                <tr md-row class="with-hover" ng-repeat="cost in claim.COSTS.COST_MATRIX">
+                  <td md-cell>{{cost.ITEM_NO}}</td>
+                  <td md-cell>{{cost.CATEGORY}}</td>
+                  <td md-cell hide-xs>{{cost.COST_OBJECT}}</td>
+                  <td md-cell hide-xs>{{cost.PLANT}}</td>
+                  <td md-cell>{{cost.TOTAL_PRICE | currency}}</td>
                 </tr>
               </tbody>
             </table>
