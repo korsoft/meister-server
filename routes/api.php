@@ -30,6 +30,7 @@ Route::get('/claims/detail/{claimno}', [
     'uses' => 'MiddleRestController@detail'
 ]);
 
+
 Route::get('/claims/simulate', [
     'uses' => 'MiddleRestController@simulate'
 ]);
@@ -41,6 +42,16 @@ Route::get('/claims/approve', [
 Route::get('/reports', [
     'uses' => 'MiddleRestController@reports'
 ]);
+
+Route::get('/list_reports', [
+    'uses' => 'MiddleRestController@list_reports'
+]);
+
+
+Route::get('/reports/schedule/{reportName}', [
+    'uses' => 'MiddleRestController@schelule_report'
+]);
+
 
 Route::get('/reports/detail/{pki}', [
     'uses' => 'MiddleRestController@reports_details'

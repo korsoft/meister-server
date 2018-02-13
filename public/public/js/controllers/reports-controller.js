@@ -7,11 +7,13 @@
 
 		$scope.isMobileDevice = $mdMedia('xs');
 		$scope.reports = [];
+		$scope.list_reports = [];
 		$scope.report="";
 		$scope.selected = [];
 
 		$scope.init = function(){
-			$scope.promise = ReportService.getListReport();
+			$scope.promise = ReportService.getReports();
+			$scope.promise2 = ReportService.getListReports();
 	    	
 	    	$scope.promise.then(
 		          function(result) { 
@@ -28,13 +30,53 @@
 					});		        	  
 		     	  },
 		          function(errorPayload) {
-		              console.log('failureReportService.getListReport', errorPayload);
+		              console.log('failureReportService.getReports', errorPayload);
+		          }
+		     );	
+
+	    	$scope.promise2.then(
+		          function(result) { 
+		          	console.log("ReportService.getListReports",result);
+		          	$scope.list_reports = result.data;
+		          	/*angular.forEach(result.data.d.results, function(r, key) {
+		          		var obj= eval("(" + r.Json + ")");
+		          		$scope.list_reports.push(obj);
+		          	});*/		        	  
+		          
+		     	  },
+		          function(errorPayload) {
+		              console.log('failureReportService.getListReports', errorPayload);
 		          }
 		     );	
 		}
 
+		$scope.schedule = function(ev, r){
+			console.log("schedule",r);
+			$mdDialog.show(
+				$mdDialog.alert()
+					.parent(angular.element(document.querySelector('#popupContainer')))
+					.clickOutsideToClose(true)
+					.title('Schedule Report successfull')
+					.textContent('Schedule Report success')
+					.ok('Ok')
+					.targetEvent(ev)
+					).then(function(){
+					    $scope.promise = ReportService.schedule(r);
+	    	
+				    	$scope.promise.then(
+					          function(result) { 
+					          console.log("ReportService.schedule", result); 
+					          $scope.init();    	  
+					    },
+					    function(errorPayload) {
+					        console.log('ReportService.schedule', errorPayload);
+					    }
+		     );	
+		});
+		};
+
 		$scope.gotoReportSummary = function(r){
-			if(r.STATUS =="S")
+			if(r.STATUS =="F")
 	    		$state.go('reports-summary',{PKY:r.PKY, reportName:r.REPORT_NAME});
 	    	else
 	    		$mdToast.show(

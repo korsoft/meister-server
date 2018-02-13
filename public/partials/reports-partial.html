@@ -78,7 +78,7 @@
             </div>
             <div layout="row" flex="100" layout-xs="column" style="padding-bottom: 15px;"> 
               <div  flex="70" flex-xs="100" >
-               <md-button class="md-raised md-primary">Schedule report</md-button>
+               <md-button class="md-raised md-primary" ng-click="schedule($event,report)">Schedule report</md-button>
               </div>            
             </div>
         </div>
@@ -97,10 +97,10 @@
                 </tr>
               </thead>
               <tbody md-body style="font-weight: bold">
-                <tr md-row  class="with-hover" ng-repeat="r in reports" md-auto-select >
+                <tr md-row  class="with-hover" ng-repeat="r in list_reports" md-auto-select >
                   <td md-cell>{{r.REPORT_NAME}}</td>
-                  <td md-cell><span ng-show="r.STATUS=='S'">Finished</span>
-                  <span ng-show="r.STATUS!='S'">Running</span></td>
+                  <td md-cell><span ng-show="r.STATUS=='F'">Finished</span>
+                  <span ng-show="r.STATUS=='R'">Running</span></td>
                   <td md-cell>{{r.USERNAME}}</td>
                   <td md-cell ng-click="gotoReportSummary(r)">
                     <md-icon ng-bind="'keyboard_arrow_right'"></md-icon>

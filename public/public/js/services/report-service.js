@@ -4,12 +4,21 @@
     function ($http,SERVER_BASE_URL) {
         var service = {};
 
-        service.getListReport = function(){
+        service.getReports = function(){
             return $http.get(SERVER_BASE_URL + '/reports');
         };
 
+        service.getListReports = function(){
+            return $http.get(SERVER_BASE_URL + '/list_reports');
+        };
+
+
         service.getDetails = function(pki){
         	return $http.get(SERVER_BASE_URL + '/reports/detail/' + pki);
+        };
+
+        service.schedule = function(reportName){
+            return $http.get(SERVER_BASE_URL + '/reports/schedule/' + reportName);
         };
 
         service.buildDataForGraphicReports = function(data){

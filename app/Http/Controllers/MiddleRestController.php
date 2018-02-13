@@ -327,6 +327,38 @@ class MiddleRestController extends Controller
 	
     }
 
+    public function schelule_report(Request $request, $reportName){
+    	$client = new Client();
+    	$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.scheduler'&Parms='[{\"METADATA\":\"\",\"REPORT_TYPE\":\"T\"}]'&Json='{\"USERNAME\":\"AROSENTHAL\",\"REPORT\":{\"MODE\":\"R\",\"NAME\":\"" . $reportName ."\",\"PARAMETERS\":[{\"SELNAME\":\"MATNR\",\"KIND\":\"S\",\"SIGN\":\"I\",\"OPTION\":\"EQ\",\"LOW\":\"CK-700\"}]},\"EMAIL\":\"AXROSENTHAL@GMAIL.COM\",\"VIA_EMAIL\":\"X\"}'&\$format=json",['auth' => ['arosenthal','Pa55word.']]);
+
+    	if($response->getStatusCode()!="200"){
+			return [];
+		}	
+	
+		return $response->getBody();
+    }
+
+    public function list_reports(Request $request)
+    {
+     	$client = new Client(); //GuzzleHttp\Client
+		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.list'&Parms='{}'&Json='{\"USERNAME\":\"AROSENTHAL\"}'&\$format=xml",['auth' => ['arosenthal', 'Pa55word.']]);
+
+		if($response->getStatusCode()!="200"){
+			return [];
+		}	
+	
+		$body = (string) $response->getBody();
+
+		$start = strpos((string)$body, "<d:Json>");
+		$end= strpos((string)$body, "</d:Json>");
+
+		$json_string = substr($body, $start+8,$end-$start-8);
+
+		//return str_replace("]}", "}]", $json_string);
+		return json_decode(str_replace("]}", "}]", $json_string), true);
+	
+    }
+
     public function reports_details(Request $request, $pki)
     {
      	$client = new Client(); //GuzzleHttp\Client
@@ -343,6 +375,7 @@ class MiddleRestController extends Controller
 		if(is_array($result) && count($result)>0){
 			if(isset($result["d"]) && isset($result["d"]["results"]) && isset($result["d"]["results"][0]) ){
 				$report = $result["d"]["results"][0];
+				Log::info("report",["array"=>$report]);
 				if(isset($report["Json"])){
 					$json_substring = substr($report["Json"],stripos($report["Json"],"\"JSON\":\""));
 					$json = "{" . substr($json_substring, 0,strlen($json_substring)-2) . "]}";
