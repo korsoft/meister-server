@@ -3,15 +3,20 @@
 <md-sidenav class="md-sidenav-left" md-component-id="left">
 
       <md-toolbar class="md-theme-indigo">
-        <h1 class="md-toolbar-tools">Meister Demo</h1>
+        <h1 class="md-toolbar-tools">Meister Claims Resolution</h1>
       </md-toolbar>
 
       <md-content style="">
-        <p>
-         
-        </p>
-        
-      </md-content>
+        <md-menu-content width="4">
+          <md-menu-item>
+          <md-button ng-click="gotoMainReports()">Meister Reports
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button ng-click="gotoClaims()">Meister Claims
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
 
     </md-sidenav>
 
@@ -23,7 +28,7 @@
          <md-icon ng-bind="'menu'"></md-icon>
         </md-button>
 
-        <h2 flex md-truncate>Meister Demo</h2>
+        <h2 flex md-truncate>Meister Claims Resolution</h2>
 
       
         <md-menu>
