@@ -12,10 +12,10 @@
 		$scope.selected = [];
 
 		$scope.init = function(){
-			$scope.promise = ReportService.getReports();
+			//$scope.promise = ReportService.getReports();
 			$scope.promise2 = ReportService.getListReports();
 	    	
-	    	$scope.promise.then(
+	    	/*$scope.promise.then(
 		          function(result) { 
 		          	var firts=true;
 		          	angular.forEach(result.data.d.results, function(r, key) {
@@ -32,22 +32,22 @@
 		          function(errorPayload) {
 		              console.log('failureReportService.getReports', errorPayload);
 		          }
-		     );	
+		     );	*/
 
 	    	$scope.promise2.then(
 		          function(result) { 
 		          	console.log("ReportService.getListReports",result);
 		          	$scope.list_reports = result.data;
-		          	/*angular.forEach(result.data.d.results, function(r, key) {
-		          		var obj= eval("(" + r.Json + ")");
-		          		$scope.list_reports.push(obj);
-		          	});*/		        	  
-		          
+		          	if($scope.list_reports.length > 0){
+			    		$scope.reports.push($scope.list_reports[0]);
+				         $scope.report = $scope.list_reports[0].REPORT_NAME;
+			    	}
 		     	  },
 		          function(errorPayload) {
 		              console.log('failureReportService.getListReports', errorPayload);
 		          }
 		     );	
+	    	
 		}
 
 		$scope.schedule = function(ev, r){
