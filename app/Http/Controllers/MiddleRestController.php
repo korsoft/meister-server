@@ -2,11 +2,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
-use XmlParser;
 
 class MiddleRestController extends Controller
 {
@@ -14,7 +13,7 @@ class MiddleRestController extends Controller
 	public function claims(Request $request)
     {
      	$client = new Client(); //GuzzleHttp\Client
-		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.get.claims'&Parms='[{\"COMPRESSION\":\"\"}]'&Json='{\"TYPE\":\"A\"}'",['auth' => ['arosenthal', 'Pa55word.']]);
+		$response = $client->request('GET',getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.get.claims'&Parms='[{\"COMPRESSION\":\"\"}]'&Json='{\"TYPE\":\"A\"}'",['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
 		$body = (string) $response->getBody();
 
@@ -59,7 +58,7 @@ class MiddleRestController extends Controller
     public function details(Request $request)
     {
      	$client = new Client(); //GuzzleHttp\Client
-		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.get.claims'&Parms='[{\"COMPRESSION\":\"\"}]'&Json='{\"TYPE\":\"A\"}'",['auth' => ['arosenthal', 'Pa55word.']]);
+     	$response = $client->request('GET',getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.get.claims'&Parms='[{\"COMPRESSION\":\"\"}]'&Json='{\"TYPE\":\"A\"}'",['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
 		$body = (string) $response->getBody();
 
@@ -77,8 +76,8 @@ class MiddleRestController extends Controller
 
 		foreach ($json as $d) {
 				$client = new Client(); //GuzzleHttp\Client
-				$url = "http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.claim.details'&Parms='[{\"COMPRESSION\":\"\"}]'&Json='{\"CLAIMNO\":\"".$d->CLAIMNO."\",\"STYLE\":\"I\"}'";
-				$response = $client->request('GET',$url,['auth' => ['arosenthal', 'Pa55word.']]);
+				$url = getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.claim.details'&Parms='[{\"COMPRESSION\":\"\"}]'&Json='{\"CLAIMNO\":\"".$d->CLAIMNO."\",\"STYLE\":\"I\"}'";
+				$response = $client->request('GET',$url,['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
 				$body = (string) $response->getBody();
 
@@ -114,8 +113,8 @@ class MiddleRestController extends Controller
 
     	// try{
 			$client = new Client(); //GuzzleHttp\Client
-			$url = "http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.claim.details'&Parms='[{\"COMPRESSION\":\"\"}]'&Json='{\"CLAIMNO\":\"".$claimno."\",\"STYLE\":\"D\"}'";
-			$response = $client->request('GET',$url,['auth' => ['arosenthal', 'Pa55word.']]);
+			$url = getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.claim.details'&Parms='[{\"COMPRESSION\":\"\"}]'&Json='{\"CLAIMNO\":\"".$claimno."\",\"STYLE\":\"D\"}'";
+			$response = $client->request('GET',$url,['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
 			if($response->getStatusCode()!="200")
 			{
@@ -208,9 +207,9 @@ class MiddleRestController extends Controller
     		return null;
     	}
 
-    	$url = "http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.approve.claim'&Parms='[{\"COMPRESSION\":\"\"},{\"TEST_RUN\":\"X\"}]'&Json='".json_encode($json)."'";
+    	$url = getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.approve.claim'&Parms='[{\"COMPRESSION\":\"\"},{\"TEST_RUN\":\"X\"}]'&Json='".json_encode($json)."'";
 
-    	$response = $client->request('GET',$url,['auth' => ['arosenthal', 'Pa55word.']]);
+    	$response = $client->request('GET',$url,['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
 		if($response->getStatusCode()!="200")
 		{
@@ -270,10 +269,10 @@ class MiddleRestController extends Controller
     		return "json";
     	}
 
-    	$url = "http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.approve.claim'&Parms='[{\"COMPRESSION\":\"\"},{\"TEST_RUN\":\"\"}]'&Json='".json_encode($json)."'";
+    	$url = getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.demo.approve.claim'&Parms='[{\"COMPRESSION\":\"\"},{\"TEST_RUN\":\"\"}]'&Json='".json_encode($json)."'";
 
     
-    	$response = $client->request('GET',$url,['auth' => ['arosenthal', 'Pa55word.']]);
+    	$response = $client->request('GET',$url,['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
 		if($response->getStatusCode()!="200")
 		{
@@ -316,7 +315,7 @@ class MiddleRestController extends Controller
     public function reports(Request $request)
     {
      	$client = new Client(); //GuzzleHttp\Client
-		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.scheduler'&Parms='[{\"METADATA\":\"\",\"REPORT_TYPE\":\"T\"}]'&Json='{\"USERNAME\":\"AROSENTHAL\",\"REPORT\":{\"MODE\":\"R\",\"NAME\":\"RM07DOCS\",\"PARAMETERS\":[{\"SELNAME\":\"MATNR\",\"KIND\":\"S\",\"SIGN\":\"I\",\"OPTION\":\"EQ\",\"LOW\":\"CK-700\"}]},\"EMAIL\":\"AXROSENTHAL@GMAIL.COM\",\"VIA_EMAIL\":\"X\"}'&\$format=json",['auth' => ['arosenthal', 'Pa55word.']]);
+     	$response = $client->request(getenv("URL_BASE").'GET',"/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.scheduler'&Parms='[{\"METADATA\":\"\",\"REPORT_TYPE\":\"T\"}]'&Json='{\"USERNAME\":\"AROSENTHAL\",\"REPORT\":{\"MODE\":\"R\",\"NAME\":\"RM07DOCS\",\"PARAMETERS\":[{\"SELNAME\":\"MATNR\",\"KIND\":\"S\",\"SIGN\":\"I\",\"OPTION\":\"EQ\",\"LOW\":\"CK-700\"}]},\"EMAIL\":\"AXROSENTHAL@GMAIL.COM\",\"VIA_EMAIL\":\"X\"}'&\$format=json",['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
 		if($response->getStatusCode()!="200"){
 			return [];
@@ -329,7 +328,7 @@ class MiddleRestController extends Controller
 
     public function schelule_report(Request $request, $reportName){
     	$client = new Client();
-    	$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.scheduler'&Parms='[{\"METADATA\":\"\",\"REPORT_TYPE\":\"T\"}]'&Json='{\"USERNAME\":\"AROSENTHAL\",\"REPORT\":{\"MODE\":\"R\",\"NAME\":\"" . $reportName ."\",\"PARAMETERS\":[{\"SELNAME\":\"MATNR\",\"KIND\":\"S\",\"SIGN\":\"I\",\"OPTION\":\"EQ\",\"LOW\":\"CK-700\"}]},\"EMAIL\":\"AXROSENTHAL@GMAIL.COM\",\"VIA_EMAIL\":\"X\"}'&\$format=json",['auth' => ['arosenthal','Pa55word.']]);
+    	$response = $client->request('GET',getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.scheduler'&Parms='[{\"METADATA\":\"\",\"REPORT_TYPE\":\"T\"}]'&Json='{\"USERNAME\":\"AROSENTHAL\",\"REPORT\":{\"MODE\":\"R\",\"NAME\":\"" . $reportName ."\",\"PARAMETERS\":[{\"SELNAME\":\"MATNR\",\"KIND\":\"S\",\"SIGN\":\"I\",\"OPTION\":\"EQ\",\"LOW\":\"CK-700\"}]},\"EMAIL\":\"AXROSENTHAL@GMAIL.COM\",\"VIA_EMAIL\":\"X\"}'&\$format=json",['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
     	if($response->getStatusCode()!="200"){
 			return [];
@@ -341,7 +340,7 @@ class MiddleRestController extends Controller
     public function list_reports(Request $request)
     {
      	$client = new Client(); //GuzzleHttp\Client
-		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.list'&Parms='{}'&Json='{\"USERNAME\":\"AROSENTHAL\"}'&\$format=xml",['auth' => ['arosenthal', 'Pa55word.']]);
+     	$response = $client->request('GET',getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.list'&Parms='{}'&Json='{\"USERNAME\":\"AROSENTHAL\"}'&\$format=xml",['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
 		if($response->getStatusCode()!="200"){
 			return [];
@@ -362,7 +361,7 @@ class MiddleRestController extends Controller
     public function reports_details(Request $request, $pki)
     {
      	$client = new Client(); //GuzzleHttp\Client
-		$response = $client->request('GET',"http://meisterv2.dyndns.org:8000/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.retriever'&Parms='{}'&Json='{\"PKY\":\"" .$pki ."\"}'&\$format=json",['auth' => ['arosenthal', 'Pa55word.']]);
+     	$response = $client->request('GET',getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute?Endpoint='meister.report.retriever'&Parms='{}'&Json='{\"PKY\":\"" .$pki ."\"}'&\$format=json",['auth' => [getenv("AUTH_USER"), getenv("AUTH_PASS")]]);
 
 		if($response->getStatusCode()!="200"){
 			return [];

@@ -1,1 +1,6 @@
 vendor/
+node_modules/
+bower_components/
+settings/
+.buildpath
+.project
