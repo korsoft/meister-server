@@ -7,13 +7,17 @@
       </md-toolbar>
 
       <md-content style="">
-        <md-menu-content width="4">
+        <!--md-menu-content width="4">
           <md-menu-item>
           <md-button ng-click="gotoMainReports()">Meister Reports
           </md-button>
-        </md-menu-item>
+        </md-menu-item-->
         <md-menu-item>
           <md-button ng-click="gotoClaims()">Meister Claims
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button ng-click="gotoSalesOrder()">Sales Order
           </md-button>
         </md-menu-item>
       </md-menu-content>
@@ -61,7 +65,7 @@
     <md-content class="md-padding" layout-xs="column" layout="row">
     <div flex-xs flex-gt-xs="50" layout="column">
 
-    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+    <!--md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">Meister Reports</span>
@@ -74,7 +78,7 @@
         <md-card-actions layout="row" layout-align="end center">
           <md-button ng-click="gotoMainReports()" class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
         </md-card-actions>
-      </md-card>
+      </md-card -->
 
        <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
         <md-card-title>
@@ -88,6 +92,21 @@
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
           <md-button ng-click="gotoClaims()" class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
+        </md-card-actions>
+      </md-card>
+
+       <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Sales Order</span>
+            <span class="md-subhead">Sales Order</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-xs card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-click="gotoSalesOrder()" class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
         </md-card-actions>
       </md-card>
      </div>

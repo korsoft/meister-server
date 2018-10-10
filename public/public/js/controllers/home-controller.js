@@ -19,6 +19,10 @@
 	    	$state.go('claims');
 	    };
 
+	    $rootScope.gotoSalesOrder = function(){
+	    	$state.go('sales_order');
+	    };
+
 	    $rootScope.gotoMainReports = function(){
 	    	$state.go('reports');
 	    };

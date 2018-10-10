@@ -33,6 +33,14 @@ meister.constant('SERVER_BASE_URL', "http://localhost:8000/api");
                 filters: []
             }
         })
+        .state('sales_order', {
+            url: '/SalesOrder',
+            templateUrl: 'partials/sales-order-partial.html',
+            controller: 'SalesOrderController',
+            params: {
+                filters: []
+            }
+        })
         .state('reports', {
             url: '/reports',
             templateUrl: 'partials/reports-partial.html',
