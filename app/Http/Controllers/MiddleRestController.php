@@ -108,6 +108,88 @@ class MiddleRestController extends Controller
 
     }
 
+    protected static function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+
+    public function execute(Request $request)
+    {
+
+    	Log::info("MiddleRestController::execute");
+
+    	$validator = \Validator::make($request->all(), [
+            'Endpoint' => 'required',
+            'Json' => 'required'
+        ]);
+        
+        if ($validator->fails()){
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+
+        $endpoint = $request->input("Endpoint");
+        $json = $request->input("Json");
+
+        if($json !== null){
+            $json = preg_replace("/\\n/", '', $json);
+            $json = "'" . preg_replace('/\\"/','"', $json) . "'";
+        }
+
+    	$url = getenv("URL_BASE")."/sap/opu/odata/MEISTER/ENGINE/Execute";
+
+    	$query = [
+                    "Endpoint" => "'" . $endpoint . "'",
+                    "Parms" => "'[{\"COMPRESSION\":\"\",\"STYLE\":\"DEFAULT\"}]'",
+                    "Json" => $json,
+                    "\$format" => "json"
+                ];
+             
+     	$client = new Client(); //GuzzleHttp\Client
+     	$response = $client->request('GET',$url,
+     		[
+     			'auth' 	=> [getenv("AUTH_USER"), getenv("AUTH_PASS")],
+     			'query' => $query
+     		]
+     	);
+
+		if($response->getStatusCode()!="200")
+               throw new Exception("Connection failure", 1);
+
+       	$body = (string) $response->getBody();
+
+        $result = json_decode($body, true);
+
+        Log::info("result",$result);
+
+        if(is_array($result) && count($result)>0){
+                if(isset($result["d"]) && isset($result["d"]["results"]) && isset($result["d"]["results"][0]) ){
+                    $report = $result["d"]["results"][0];
+                    if(isset($report["Json"])){
+                        if(self::isJson($report["Json"])){
+                            return [
+                            	"Endpoint" => $report["Endpoint"],
+                            	"Params" => json_decode($report["Parms"],true),
+                            	"Json" => json_decode($report["Json"],true)
+                            ];
+                        } else {
+                            return response()->json(array(
+                                'code'      =>  404,
+                                'message'   =>  "Invalid JSON Response"
+                            ), 404);
+                        }
+                        
+                    }
+                }
+        }
+
+        return response()->json(array(
+                                'code'      =>  404,
+                                'message'   =>  "Invalid JSON Response"
+                            ), 404);
+		
+
+    }
+
     public function detail(Request $request,$claimno)
     {
 
