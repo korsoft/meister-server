@@ -44,7 +44,7 @@
     <div layout="row" flex="100" layout-xs="column">
 
 
-     <div flex="20" flex-xs="100">
+     <div flex="20" flex-xs="100" style="padding-top: 80px">
         <div layout="column" >
           <fieldset class="table-set" >
           <h5>Partner Info</h5>
@@ -76,7 +76,7 @@
                 </md-select>
           </md-input-container>
           <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
-          <label>Ship To:</label>
+          <label>Deliver To:</label>
           <md-select ng-model="shipTo2Selected" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in shipToArray" ng-value="s.value" >
@@ -167,9 +167,20 @@
       </div>
 
       <div  layout="column" flex="100" style="padding-top: 15px">
-       
-       <b>Material Catalog</b>
-        <fieldset class="table-set" >
+       <div>
+        <div style="text-align: left;float: left;width: 50%;padding-top:20px">
+          <b>Material Catalog</b>
+        </div>
+        <div style="text-align: right;float: right;width: 50%">
+          <md-button ng-show="!hiddenMaterial" class="md-raised md-button" ng-click="hideMaterials()">
+            Hide Catalog
+            </md-button>
+            <md-button ng-show="hiddenMaterial" class="md-raised md-button" ng-click="showMaterials()">
+            Show Catalog
+            </md-button>
+        </div>
+       </div>
+        <fieldset class="table-set" ng-show="!hiddenMaterial">
           
           <div flex="100" class="table-container">
             <md-table-container ng-show="materialCatalogProgress">
@@ -222,7 +233,7 @@
        
        <b>Sales Order Info</b>
         <fieldset class="table-set" >
-          <div flex="100" class="table-container">
+          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 456px' : 'height: 237px'}}">
             <md-table-container ng-show="readOrderProgress">
               <table md-table md-row-select ng-model="salesOrderSelected" md-progress="readOrderProgress">
                 <thead md-head >
@@ -287,7 +298,7 @@
        
        <b>Sales Order Info</b>
         <fieldset class="table-set" >
-          <div flex="100" class="table-container">
+          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 393px' : 'height: 261px'}}">
             <md-table-container ng-show="salesPartnerProgress">
               <table md-table md-row-select ng-model="salesHistorySelected" md-progress="salesPartnerProgress">
                 <thead md-head >
@@ -423,19 +434,18 @@
     </section>
   </md-content>
   <br/><br/><br/>
-  <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW' && salesOrderSelected.length>0">
+  <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'">
       <div class="md-toolbar-tools">Notes / Header</div>
     </md-toolbar>
-     <md-content md-theme="altTheme" ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW' && salesOrderSelected.length>0">
+     <md-content md-theme="altTheme" ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'">
       <section>
         <md-list layout-padding>
-        <md-list-item class="md-3-line" ng-repeat="n in notes | filter:{ LINE: salesOrderSelected[0].line_no }">
-            {{n.LINE}}
+        <md-list-item class="md-3-line" ng-repeat="n in notes | filter:notesFilter"
+            style="border-bottom-style: dashed;border-bottom-width: 1px;">
             <div class="md-list-item-text">
-             <p>
-                {{n.TEXT}}
-              </p>
-            </div>
+              <div style="width: 20%;float: left;">{{n.LINE}}</div>
+              <div style="width: 80%;float: right;">{{n.TEXT}}</div>
+             </div>
         </md-list-item>
     </section>
   </md-content>
