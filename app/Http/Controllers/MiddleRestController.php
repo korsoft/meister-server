@@ -143,6 +143,8 @@ class MiddleRestController extends Controller
                     "Json" => $json,
                     "\$format" => "json"
                 ];
+
+        Log::info("Url: " . $url,["params"=>$query]);
              
      	$client = new Client(); //GuzzleHttp\Client
      	$response = $client->request('GET',$url,

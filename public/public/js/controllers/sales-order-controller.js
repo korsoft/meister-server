@@ -1,7 +1,8 @@
 (function(app) {
 	app.controller('SalesOrderController', ['$scope','$rootScope','$timeout','$mdSidenav','$mdMenu','$state',
+		'$mdDialog',
 		'SalesOrderService', 
-		function($scope,$rootScope,$timeout, $mdSidenav,$mdMenu, $state, SalesOrderService) {
+		function($scope,$rootScope,$timeout, $mdSidenav,$mdMenu, $state, $mdDialog, SalesOrderService) {
 		
 		$scope.shipToArray = [
 			{"label":"3000 - Smith Inc. LLC", value: "3000"}
@@ -59,6 +60,11 @@
 		$scope.tabSelected = 0;
 		$scope.ats = {};
 		$scope.notes = [];
+		$scope.salesHistory = [];
+		$scope.salesMaterial = [];
+		$scope.salesHistorySelected = [];
+		$scope.salesMaterialSelected = [];
+		$scope.analytics = null;
 
 		function getExecutionTimeBetween2Dates(a, b){
 
@@ -101,14 +107,17 @@
 		          }
 		     	);
 			}
+
+			$scope.getSalesPartner();
+			$scope.calculateAnalytics();
 		};
 
 		$scope.addLines = function(){
 			$scope.salesOrder = [];
 			var endpoint = "Meister.Demo.RL.SD.Update";
 			var json = '{"ORDERNO":"'+  $scope.orderSelected + '","REPEAT":"' + $scope.multiplier + 
-				'","MATERIAL":"' + $scope.materialSelected.MATERIAL + 
-				'","QTY":"1","UOM":"'+ $scope.materialSelected.UOM+'"}';
+				'","MATERIAL":"' + $scope.materialSelected[0].MATERIAL + 
+				'","QTY":"1","UOM":"'+ $scope.materialSelected[0].UOM+'"}';
 				console.log("endpoint",endpoint);
 				console.log("json",json);
 
@@ -131,11 +140,46 @@
 
 		$scope.onSelectMaterialRow = function(){
 			console.log("onSelectMaterialRow",$scope.materialSelected);
-			$scope.calculateATS()
+			$scope.calculateATS();
+			$scope.getSalesPartner();
 		};
 
 		$scope.onSelectSalesOrderRow = function(){
 			console.log("onSelectSalesOrderRow",$scope.salesOrderSelected);
+		};
+
+		$scope.calculateAnalytics = function(){
+			$scope.analytics = null;
+			console.log("calculateAnalytics...");
+			if($scope.shipToSelected && $scope.shipTo2Selected && $scope.soldToSelected && $scope.payerSelected &&
+			 	$scope.organizationSelected && $scope.channelSelected && $scope.divisionSelected && $scope.officeSelected 
+			 	&& $scope.groupSelected && $scope.tabSelected == 3){
+				
+				var endpoint = "Meister.Demo.RL.Analytics";
+				var json = '{"SALESORG":"' + $scope.organizationSelected + 
+					'","CHANNEL":"' + $scope.channelSelected + '","DIVISION":"' + $scope.divisionSelected + 
+					'","SALESGRP":"' + $scope.groupSelected + '","OFFICE":"' + $scope.officeSelected + 
+					'","SOLDTO":"' + $scope.soldToSelected + '"}';
+					console.log("endpoint",endpoint);
+					console.log("json",json);
+
+					$scope.log = "Executing Calulate Analytics<br/>" + $scope.log;
+					var start = new Date();
+					$scope.calculateAnalyticsProgress = SalesOrderService.execute(endpoint, json);
+					$scope.calculateAnalyticsProgress.then(
+			          function(result) { 
+			          	var end = new Date();
+			          	console.log("calculateAnalytics result",result);		        	  
+			          	$scope.log = "Completed Calculate Analytics<br/>" + $scope.log;
+			          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
+			          	$scope.analytics =  result.data.Json[0];
+			          	console.log("Analytics",$scope.analytics);
+			     	  },
+			          function(errorPayload) {
+			              console.log('SalesOrderService.execute failure', errorPayload);
+			          }
+			     	);
+			}
 		};
 
 		$scope.getListNotesByOrder = function(){
@@ -163,6 +207,59 @@
 		     	);
 		};
 
+		$scope.changeGeneric = function(){
+			$scope.getSalesPartner();
+			$scope.calculateAnalytics();
+		};
+
+		$scope.onSalesHistorySelected = function(){
+			console.log("onSalesHistorySelected",$scope.salesHistorySelected);
+		};
+
+		$scope.getSalesPartner = function(){
+			console.log("getSalesPartner...");
+			$scope.salesHistory = [];
+			$scope.salesHistorySelected = [];
+			if($scope.shipToSelected && $scope.shipTo2Selected && $scope.soldToSelected && $scope.payerSelected &&
+			 	$scope.organizationSelected && $scope.channelSelected && $scope.divisionSelected && $scope.officeSelected 
+			 	&& $scope.groupSelected && $scope.materialSelected.length>0 && $scope.tabSelected == 1){
+				
+				var endpoint = "Meister.Demo.RL.Sales.History";
+				var json = '{"SALESORG":"' + $scope.organizationSelected + 
+					'","CHANNEL":"' + $scope.channelSelected + '","DIVISION":"' + $scope.divisionSelected + 
+					'","SALESGRP":"' + $scope.groupSelected + '","OFFICE":"' + $scope.officeSelected + 
+					'","SOLDTO":"' + $scope.soldToSelected + '"}';
+					console.log("endpoint",endpoint);
+					console.log("json",json);
+
+					$scope.log = "Executing Get Sales History Operation<br/>" + $scope.log;
+					var start = new Date();
+					$scope.salesPartnerProgress = SalesOrderService.execute(endpoint, json);
+					$scope.salesPartnerProgress.then(
+			          function(result) { 
+			          	var end = new Date();
+			          	console.log("SalesOrderService.execute result",result);		        	  
+			          	$scope.log = "Completed Sales History<br/>" + $scope.log;
+			          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
+			          	var histories = result.data.Json[0].HISTORY;;
+			          	_.forEach(histories,function(row){
+			          		var json = angular.copy(row);
+			          		if(json.LINE_ITEMS && json.LINE_ITEMS.length>0){
+			          			json.line_item = row.LINE_ITEMS[0];
+			          			json.MATERIAL  = row.LINE_ITEMS[0].MATERIAL;
+			          		}
+			          		delete json.LINE_ITEMS;
+			          		$scope.salesHistory.push(json);
+			          	});
+			          	console.log("Histories",$scope.salesHistory);
+			     	  },
+			          function(errorPayload) {
+			              console.log('SalesOrderService.execute failure', errorPayload);
+			          }
+			     	);
+			}
+		};
+
 		$scope.calculateATS = function(){
 			console.log("Calculate ATS",$scope.materialSelected[0]);
 			$scope.salesOrder = [];
@@ -187,6 +284,15 @@
 		              console.log('SalesOrderService.execute failure', errorPayload);
 		          }
 		     	);
+		};
+
+		$scope.showLogs = function(ev){
+			 $mdDialog.show({
+			      contentElement: '#myDialog',
+			      parent: angular.element(document.querySelector('#tablesContainerMain')),
+			      targetEvent: ev,
+			      clickOutsideToClose: true
+			    });
 		};
 
 		$scope.changeOrder = function(order){
