@@ -1,4 +1,4 @@
-<div ng-controller="ClaimsController" ng-cloak class="demo-so demo-background">
+<div ng-controller="SalesOrderController" ng-cloak class="demo-so demo-background">
 
 
 
@@ -39,150 +39,145 @@
 
     </md-toolbar>
 
-  <md-content class="md-padding" layout="column">
+  <md-content class="md-padding" layout="row">
     
-     <div layout="row" flex="100" layout-xs="column">
-        
-        <div flex="40" flex-xs="100" >
-          <fieldset class="search-set">
-            <legend>Partner Info</legend>
-            <div layout="row" flex="100" style="margin-bottom: 17px">
-              <div flex="30">
-                <label>Ship To:</label>
-              </div>
-              <div flex="70">
-                <select name="shipTo" style="width:80%" ng-model="shipToSelected" ng-change="changeShipTo(shipToSelected)">
-                  <option value=""></option>
-                  <option ng-repeat="s in shipToArray" value="{{s.value}}">{{s.label}}</option>
-                </select>
-              </div> 
-            </div>
-            <div layout="row" flex="100" style="margin-bottom: 17px">
-              <div flex="30">
-                <label>Sold To:</label>
-              </div>
-              <div flex="70">
-                <select name="soldTo" style="width:80%" ng-model="soldToSelected">
-                  <option value=""></option>
-                  <option ng-repeat="s in soldToArray" value="{{s.value}}">{{s.label}}</option>
-                </select>
-              </div> 
-            </div>
-            <div layout="row" flex="100" style="margin-bottom: 17px">
-              <div flex="30">
-                <label>Payer:</label>
-              </div>
-              <div flex="70">
-                <select name="payer" style="width:80%" ng-model="payerSelected">
-                  <option value=""></option>
-                  <option ng-repeat="s in payerArray" value="{{s.value}}">{{s.label}}</option>
-                </select>
-              </div> 
-            </div>
-            <div layout="row" flex="100" style="margin-bottom: 20px">
-              <div flex="30">
-                <label>Ship To:</label>
-              </div>
-              <div flex="70">
-                <select name="shipTo2" style="width:80%" ng-model="shipTo2Selected">
-                  <option value=""></option>
-                  <option ng-repeat="s in shipToArray" value="{{s.value}}">{{s.label}}</option>
-                </select>
-              </div> 
-            </div>
-          </fieldset>
-        </div>
-        <div flex="50" flex-xs="100">
-           <fieldset class="search-set">
-            <legend>Sales Selection</legend>
-            <div layout="row" flex="100" style="margin-bottom: 10px">
-              <div flex="30">
-                <label>Organization:</label>
-              </div>
-              <div flex="70">
-                <select name="organization" style="width:80%" ng-model="organizarionSelected">
-                  <option value=""></option>
-                  <option ng-repeat="s in organizationArray" value="{{s.value}}">{{s.label}}</option>
-                </select>
-              </div> 
-            </div>
-            <div layout="row" flex="100" style="margin-bottom: 10px">
-              <div flex="30">
-                <label>Channel:</label>
-              </div>
-              <div flex="70">
-                <select name="channel" style="width:80%" ng-model="channelSelected">
-                  <option value=""></option>
-                  <option ng-repeat="s in channelArray" value="{{s.value}}">{{s.label}}</option>
-                </select>
-              </div> 
-            </div>
-            <div layout="row" flex="100" style="margin-bottom: 10px">
-              <div flex="30">
-                <label>Division:</label>
-              </div>
-              <div flex="70">
-                <select name="division" style="width:80%" ng-model="divisionSelected">
-                  <option value=""></option>
-                  <option ng-repeat="s in divisionArray" value="{{s.value}}">{{s.label}}</option>
-                </select>
-              </div> 
-            </div>
-            <div layout="row" flex="100" style="margin-bottom: 10px">
-              <div flex="30">
-                <label>Office:</label>
-              </div>
-              <div flex="70">
-                <select name="office" style="width:80%" ng-model="officeSelected">
-                  <option value=""></option>
-                  <option ng-repeat="s in officeArray" value="{{s.value}}">{{s.label}}</option>
-                </select>
-              </div> 
-            </div>
-            <div layout="row" flex="100" style="margin-bottom: 10px">
-              <div flex="30">
+    <div layout="row" flex="100" layout-xs="column">
+
+
+     <div flex="20" flex-xs="100">
+        <div layout="column" >
+          <fieldset class="table-set" >
+          <h5>Partner Info</h5>
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+          <label>Ship To:</label>
+          <md-select ng-model="shipToSelected" ng-change="changeShipTo(shipToSelected)">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in shipToArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+          <label>Sold To:</label>
+           <md-select ng-model="soldToSelected">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in soldToArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+              <label>Payer:</label>
+              <md-select ng-model="payerSelected">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in payerArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+          <label>Ship To:</label>
+          <md-select ng-model="shipTo2Selected">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in shipToArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+          </md-input-container>
+
+           <h5>Sales Selection</h5>
+           <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+            <label>Organization:</label>
+               <md-select ng-model="organizationSelected">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in organizationArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+            <label>Channel:</label>
+             <md-select ng-model="channelSelected">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in channelArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+             </md-input-container>
+             <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+             <label>Division:</label>
+            <md-select ng-model="divisionSelected">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in divisionArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+            <label>Office:</label>
+              <md-select ng-model="officeSelected">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in officeArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
                 <label>Group:</label>
-              </div>
-              <div flex="70">
-                <select name="group" style="width:80%" ng-model="groupSelected">
-                  <option value=""></option>
-                  <option ng-repeat="s in groupArray" value="{{s.value}}">{{s.label}}</option>
-                </select>
-              </div> 
-            </div>
+                <md-select ng-model="groupSelected">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in groupArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+            </md-input-container> 
           </fieldset>
-        </div>
-        <div flex="10" flex-xs="100" style="margin-top: 10px">
-            <div layout="column">
-              <button flex="100" style="margin-bottom: 7px">BI Xfer</button>
-              <button flex="100" style="margin-bottom: 7px">Notes</button>
-              <button flex="100" style="margin-bottom: 7px" disabled="true">Sales/Partner</button>
-              <button flex="100" style="margin-bottom: 7px" disabled="true">Sales/Item</button>
-              <button flex="100" style="margin-bottom: 7px" disabled="true">ATS</button>
-              <button flex="100" style="margin-bottom: 7px" disabled="true">Analytics</button>
-            </div>
+              
         </div>
     </div>
-    <div layout="column" flex="100" >
+
+    <div flex="60" flex-xs="100" >
+
+      <div layout="column" flex="100">
+        <md-tabs md-dynamic-height md-selected="tabSelected">
+          <md-tab label="Sales Order">
+          </md-tab>
+          <md-tab label="Sales/Partner">
+            
+          </md-tab>
+          <md-tab label="Sales/Item">
+            
+          </md-tab>
+          <md-tab label="Analytics">
+            
+          </md-tab>
+          <md-tab label="Add Notes">
+            
+          </md-tab>
+        </md-tabs>
+      </div>
+
+      <div  layout="column" flex="100" style="padding-top: 15px">
        
+       <b>Material Catalog</b>
         <fieldset class="table-set" >
-          <legend>Material Catalog</legend>
+          
           <div flex="100" class="table-container">
-            <md-table-container ng-show="materialCatalog && materialCatalog.length>0">
-              <table  md-table md-progress="materialCatalogProgress">
+            <md-table-container ng-show="materialCatalogProgress">
+              <table md-table md-row-select ng-model="materialSelected" md-progress="materialCatalogProgress">
                 <thead md-head >
-                  <tr md-row class="">
-                    <th md-column class="td-space"></th>
+                  <tr md-row>
                     <th md-column class="td-space"><span>Description</span></th>
                     <th md-column class="td-space"><span>Group</span></th>
                     <th md-column class="td-space"><span>Material</span></th>
                     <th md-column class="td-space"><span>Plant</span></th>
                     <th md-column class="td-space"><span>Price</span></th>
                     <th md-column class="td-space"><span>Uom</span></th>
+                  </tr>
                 </thead>
                 <tbody md-body> 
-                  <tr md-row ng-repeat="m in materialCatalog">
-                    <td md-cell class="td-space"></td>
+                  <tr md-row md-auto-select md-select="m" md-on-select="onSelectMaterialRow"  ng-repeat="m in materialCatalog" 
+                      >
                     <td md-cell class="td-space">{{m.DESCRIPTION}}</td>
                     <td md-cell class="td-space">{{m.GROUP}}</td>
                     <td md-cell class="td-space">{{m.MATERIAL}}</td>
@@ -195,79 +190,153 @@
             </md-table-container> 
           </div>
         </fieldset>
-        
-    </div>
-    <div class="add-notes" layout="row" flex="100" layout-xs="column" style="padding-top: 10px">
-      <div layout="row" flex="30" flex-xs="100" style="margin-bottom: 10px">
-        <div flex="30">
-          <label>Order#:</label>
-        </div>
-        <div flex="70">
-          <select name="order" style="width:80%">
-            <option></option>
-          </select>
-        </div> 
-      </div>
-      <div flex flex-xs="100">
-         No Sales Document Selected yet
-      </div>
-      <div flex="10" flex-xs="100">
-        <button>Add Notes</button>
-      </div>
-    </div>
-    <div layout="column" flex="100" style="padding-top: 10px">
-      <fieldset class="table-set" >
-          <legend>Sales Order Info</legend>
-          <div flex="100" class="table-container">
-          </div>
-      </fieldset>
-    </div>
-    <div style="padding-top: 10px" layout="row" layout-xs="column" flex="100" >
-      <div flex="30" flex-xs="100" style="padding-bottom: 10px">
-          <button disabled="true">Add Item</button>
-      </div>
-      <div flex="30" flex-xs="100" style="padding-bottom: 10px">
-            Multiplier
-            <input type="range" style="width:70%" flex="100" ng-model="multiplier" min="1" max="30" step="1" list="tickmarks">{{multiplier}}
-          <datalist id="tickmarks">
-            <option value="0">
-            <option value="2">
-            <option value="4">
-            <option value="6">
-            <option value="8">
-            <option value="10">
-            <option value="12">
-            <option value="14">
-            <option value="16">
-            <option value="18">
-            <option value="20">
-            <option value="22">
-            <option value="24">
-            <option value="26">
-            <option value="28">
-            <option value="30">
-          </datalist>
-           
-      </div>
-      <div flex="30" flex-xs="100"></div>
-       <div flex="10" flex-xs="100" style="padding-bottom: 50px">
-          <button>Notes ...</button> 
-      </div>
-    </div>
+       </div>
 
-    <div layout="column" flex="100" style="padding-top: 10px;" >
+       <div layout="column"  flex="100">
+             
+             <fieldset class="table-set" style="border: 0px">
+
+          <div flex="100" class="table-container-2">
+            <label style="font-size: 12px;font-weight: bold;">Order Number:</label>
+          <select style="width: 100px" name="order" ng-model="orderSelected" ng-change="changeOrder(orderSelected)" ng-disabled="!shipToSelected || !shipTo2Selected || !soldToSelected || !payerSelected || !organizationSelected || !channelSelected || !divisionSelected || !officeSelected || !groupSelected">
+              <option value="0"></option>
+              <option ng-repeat="o in orderArray" value="{{o.value}}" ng-selected="orderSelected == o.value">{{o.label}}</option>
+            </select>
+            &nbsp;
+           <label style="font-size: 12px;font-weight: bold;" ng-show="!orderSelected || orderSelected == '0'">No Sales Document Selected yet</label>
+           <label style="font-size: 12px;font-weight: bold;" ng-show="salesOrder.length>0 ">Number of Lines items {{salesOrder.length}}</label>
+          </div>
+        </fieldset>
+      </div> 
+
+      <div layout="column"  flex="100">
+       
+       <b>Sales Order Info</b>
+        <fieldset class="table-set" >
+          <div flex="100" class="table-container">
+            <md-table-container ng-show="readOrderProgress">
+              <table md-table md-row-select ng-model="salesOrderSelected" md-progress="readOrderProgress">
+                <thead md-head >
+                  <tr md-row>
+                    <th md-column class="td-space"><span>LineNo</span></th>
+                    <th md-column class="td-space"><span>Material</span></th>
+                    <th md-column class="td-space"><span>Plant</span></th>
+                    <th md-column class="td-space"><span>Price</span></th>
+                    <th md-column class="td-space"><span>Quality</span></th>
+                  </tr>
+                </thead>
+                <tbody md-body> 
+                  <tr md-row md-auto-select md-select="s" md-on-select="onSelectSalesOrderRow" ng-repeat="s in salesOrder" >
+                    <td md-cell class="td-space">{{s.line_no}}</td>
+                    <td md-cell class="td-space">{{s.material}}</td>
+                    <td md-cell class="td-space">{{s.plant}}</td>
+                    <td md-cell class="td-space">{{s.price}}</td>
+                    <td md-cell class="td-space">{{s.qty}}</td>                                       
+                  </tr>
+                </tbody>
+              </table>
+            </md-table-container> 
+          </div>
+        </fieldset>
+       
+          </div>
+      <!--
+      <div style="padding-top: 20px" layout="column"  flex="100">
+        <b>Execution Log</b>
       <fieldset class="table-set" >
-          <legend>Execution Log:</legend>
           <div flex="100"  class="table-container" style="background-color: #e2dfdf;height: 120px">
             <span ng-bind-html="log" style="font-size: 12px"></span>
           </div>
       </fieldset>
     </div>
-    <div flex="100" layout="row" style="padding-top: 10px">
+
+    <div layout="column"  flex="100">
       <div layout="column" layout-xs="row" flex="90" flex-xs="100"></div>
       <div layout="column" layout-xs="row" flex="10" flex-xs="100" style="padding-bottom: 50px">
           <button style="width: 100px">Log</button>
       </div>
+    </div>
+  -->
+
+</div>
+
+
+    
+
+  <div flex="20" flex-xs="100" ng-show="materialSelected.length>0">
+    <div layout="column" style="padding-top: 80px" ng-show="tabSelected == 0">
+    <md-toolbar md-scroll-shrink>
+      <div class="md-toolbar-tools">ATP</div>
+    </md-toolbar>
+     <md-content md-theme="altTheme">
+      <section>
+      <md-table-container ng-show="calculateATSProgress">
+              <table md-table md-progress="calculateATSProgress">
+                <tbody md-body> 
+                  <tr md-row >
+                    <td md-cell class="td-space">Unrestricted Stock</td>
+                    <td md-cell class="td-space" style="text-align: right;">{{ats.UNRESTRICTED_STCK}}</td>
+                  </tr>
+                  <tr md-row >
+                    <td md-cell class="td-space">Sales Reqs</td>
+                    <td md-cell class="td-space" style="text-align: right;">{{ats.SALES_REQS}}</td>
+                  </tr>
+                  <tr md-row >
+                    <td md-cell class="td-space">Orders</td>
+                    <td md-cell class="td-space" style="text-align: right;">{{ats.ORDERS}}</td>
+                  </tr>
+                  <tr md-row >
+                    <td md-cell class="td-space">Delivery Notes</td>
+                    <td md-cell class="td-space" style="text-align: right;">{{ats.DELIVERY}}</td>
+                  </tr>
+                  <tr md-row >
+                    <td md-cell class="td-space">Total Stock</td>
+                    <td md-cell class="td-space" style="text-align: right;">{{ats.TOTAL_STCK}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </md-table-container> 
+    </section>
+  </md-content>
+  <br/><br/><br/>
+  <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'">
+      <div class="md-toolbar-tools">Notes / Header</div>
+    </md-toolbar>
+     <md-content md-theme="altTheme" ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'">
+      <section>
+        <md-list layout-padding>
+        <md-list-item class="md-3-line" ng-repeat="n in notes">
+            {{n.LINE}}
+            <div class="md-list-item-text">
+             <p>
+                {{n.TEXT}}
+              </p>
+            </div>
+        </md-list-item>
+    </section>
+  </md-content>
+
+  <md-content style="padding-top: 50px">
+           <md-button class="md-raised md-primary md-button" ng-click="addLines()" ng-disabled="addLinesPromisse">
+            Add lines
+            </md-button>
+            <br/>
+            <md-slider-container>
+              <md-slider ng-model="multiplier" min="0" max="100" aria-label="blue" id="multiplier-slider"
+                         class="md-primary">
+              </md-slider>
+              <md-input-container>
+                <input type="number" style="width: 50px" ng-model="multiplier" aria-label="blue" aria-controls="multiplier-slider">
+              </md-input-container>
+            </md-slider-container>
+            <br/>
+            <md-button class="md-raised md-primary md-button">
+            Logs
+            </md-button>
+      </md-content>
+    </div>
+  </div>
+   
     </div>
      
   </md-content>

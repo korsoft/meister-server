@@ -119,13 +119,11 @@
 .demo-so .td-space {
   padding-left: 5px !important; }
 
-.demo-so md-content.md-default-theme, .demo-so md-content {
-  background-color: #f0f0f0; }
-
 .demo-so .table-set {
   padding-right: 5px;
   padding-left: 5px;
-  min-width: 0; }
+  min-width: 0;
+  border-color: #8c83bd; }
 
 .demo-so table.md-table thead.md-head > tr.md-row {
   height: 35px;
@@ -138,6 +136,10 @@
   height: 200px;
   background-color: #ABABAB;
   border: 1px solid black;
+  overflow: auto; }
+
+.demo-so .table-container-2 {
+  height: 60px;
   overflow: auto; }
 
 .demo-so md-table-container {
@@ -161,3 +163,14 @@
 
 .demo-so .add-notes {
   margin-top: 15px; }
+
+.demo-so md-checkbox.md-default-theme.md-checked .md-icon, .demo-so md-checkbox.md-checked .md-icon {
+  background-color: rgba(130, 123, 126, 0.87); }
+
+.demo-so table.md-table.md-row-select td.md-cell:first-child, .demo-so table.md-table.md-row-select th.md-column:first-child {
+  width: 20px;
+  padding: 0; }
+
+.demo-so md-tabs.md-default-theme .md-tab.md-active, .demo-so md-tabs .md-tab.md-active, .demo-so md-tabs.md-default-theme .md-tab.md-active md-icon, .demo-so md-tabs .md-tab.md-active md-icon, .demo-so md-tabs.md-default-theme .md-tab.md-focused, .demo-so md-tabs .md-tab.md-focused, .demo-so md-tabs.md-default-theme .md-tab.md-focused md-icon, .demo-so md-tabs .md-tab.md-focused md-icon {
+  color: white;
+  background-color: #3f51b5; }
