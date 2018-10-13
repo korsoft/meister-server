@@ -66,6 +66,11 @@
 		$scope.salesMaterialSelected = [];
 		$scope.analytics = null;
 		$scope.hiddenMaterial = false;
+		$scope.note = {
+			type: "HDR",
+			text: "",
+			lineNumber:1
+		};
 
 		function getExecutionTimeBetween2Dates(a, b){
 
@@ -113,9 +118,61 @@
 			$scope.calculateAnalytics();
 		};
 
+		$scope.saveNote = function(ev){
+			
+			var endpoint = "";
+			var json = "";
+			
+			if($scope.note.type == "HDR"){
+				endpoint = "Meister.Demo.PP.Hrd.Notes";
+				json = '{"ORDERNO":"' + $scope.orderSelected + '","NOTES":[{"TEXT":"' 
+				+ $scope.note.text + '"}]}';
+			} else if($scope.note.type == "LINE"){
+				endpoint = "Meister.Demo.PP.Line.Notes";
+				json = '{"ORDERNO":"' + $scope.orderSelected + '","LINE_ITEM":"' 
+				+ $scope.note.lineNumber + '","NOTES":[{"TEXT":"' + $scope.note.text + '"}]}';
+			}
+
+			
+			console.log("endpoint",endpoint);
+			console.log("json",json);
+
+			$scope.log = "Executing Save Note<br/>" + $scope.log;
+			var start = new Date();
+			$scope.addNoteProgress = SalesOrderService.execute(endpoint, json);
+			$scope.addNoteProgress.then(
+		          function(result) { 
+		          	var end = new Date();
+		          	console.log("SaveNote result",result);		        	  
+		          	$scope.log = "Completed Save Note<br/>" + $scope.log;
+		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
+		          	$scope.note = {
+						type: "HDR",
+						text: "",
+						lineNumber:1
+					};
+					$scope.getListNotesByOrder();
+					var alert = $mdDialog.alert({
+				        title: 'Note Added',
+				        textContent: 'The note was added successful',
+				        ok: 'OK'
+				      });
+					$mdDialog
+				        .show( alert )
+				        .finally(function() {
+				          alert = undefined;
+				        });
+		     	  },
+		          function(errorPayload) {
+		          	console.log('SalesOrderService.execute failure', errorPayload);
+		          }
+		     	);
+		};
+
 		$scope.addLines = function(){
 			$scope.salesOrder = [];
 			var endpoint = "Meister.Demo.RL.SD.Update";
+			$scope.disableAddLines = true;
 			var json = '{"ORDERNO":"'+  $scope.orderSelected + '","REPEAT":"' + $scope.multiplier + 
 				'","MATERIAL":"' + $scope.materialSelected[0].MATERIAL + 
 				'","QTY":"1","UOM":"'+ $scope.materialSelected[0].UOM+'"}';
@@ -124,9 +181,10 @@
 
 				$scope.log = "Executing Add Lines Operation<br/>" + $scope.log;
 				var start = new Date();
-				$scope.readOrderProgress = SalesOrderService.execute(endpoint, json);
-				$scope.readOrderProgress.then(
+				$scope.addLinesProgress = SalesOrderService.execute(endpoint, json);
+				$scope.addLinesProgress.then(
 		          function(result) { 
+		          	$scope.disableAddLines = false;
 		          	var end = new Date();
 		          	console.log("SalesOrderService.execute result",result);		        	  
 		          	$scope.log = "Completed Add Lines Operation<br/>" + $scope.log;
@@ -134,6 +192,7 @@
 		          	$scope.changeOrder($scope.orderSelected);
 		     	  },
 		          function(errorPayload) {
+		          	$scope.disableAddLines = false;
 		              console.log('SalesOrderService.execute failure', errorPayload);
 		          }
 		     	);
@@ -201,7 +260,7 @@
 
 		$scope.getListNotesByOrder = function(){
 			console.log("Calculate getListNotesByOrder",$scope.orderSelected);
-			$scope.salesOrder = [];
+			$scope.notes = [];
 			var endpoint = "Meister.Demo.PP.Read.Notes";
 			var json = '{"ORDERNO":"'+ $scope.orderSelected +'"}';
 			console.log("endpoint",endpoint);
@@ -259,7 +318,7 @@
 			          	console.log("SalesOrderService.execute result",result);		        	  
 			          	$scope.log = "Completed Sales History<br/>" + $scope.log;
 			          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
-			          	var histories = result.data.Json[0].HISTORY;;
+			          	var histories = result.data.Json[0].HISTORY;
 			          	_.forEach(histories,function(row){
 			          		var json = angular.copy(row);
 			          		if(json.LINE_ITEMS && json.LINE_ITEMS.length>0){
@@ -361,6 +420,7 @@
 				$scope.readOrderProgress.then(
 		          function(result) { 
 		          	var end = new Date();
+		          	$scope.disableAddLines = false;
 		          	console.log("SalesOrderService.execute result",result);		        	  
 		          	$scope.log = "Completed Read SO<br/>" + $scope.log;
 		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
@@ -368,6 +428,7 @@
 		          	
 		     	  },
 		          function(errorPayload) {
+		          	$scope.disableAddLines = false;
 		              console.log('SalesOrderService.execute failure', errorPayload);
 		          }
 		     	);

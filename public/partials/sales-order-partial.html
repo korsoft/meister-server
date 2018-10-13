@@ -393,6 +393,35 @@
        
           </div>
 
+
+    <div layout="column"  flex="100" ng-show="tabSelected == 4" style="padding-top: 20px">
+       
+       <b>Add Notes</b>
+        <fieldset class="table-set" >
+          <md-input-container class="md-block" flex-gt-sm>
+          <md-radio-group ng-model="note.type" layout="row">
+            <md-radio-button value="HDR" class="md-primary">At Header</md-radio-button>
+            <md-radio-button value="LINE" class="md-primary">At Line Item </md-radio-button>
+          </md-radio-group>
+        </md-input-container>
+          <md-input-container ng-show="note.type == 'LINE'" class="md-block" flex-gt-sm>
+                <label>Line Number</label>
+                <input type="number" flex="20" min="1" ng-model="note.lineNumber" aria-label="blue">
+          </md-input-container>
+          <md-input-container class="md-block" flex="50" flex-gt-sm style="margin-bottom: 0px">
+            <label>Text</label>
+            <textarea ng-model="note.text" cols="40" rows="3" md-detect-hidden></textarea>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <md-button class="md-raised md-primary md-button" 
+                ng-click="saveNote($event)" ng-disabled="note.text.length==0 || !orderSelected ||  orderSelected=='0' || orderSelected=='NEW'">
+            Save
+            </md-button>
+          </md-input-container>
+        </fieldset>
+       
+          </div>
+
 </div>
 
 
@@ -451,7 +480,8 @@
   </md-content>
 
   <md-content style="padding-top: 50px">
-           <md-button class="md-raised md-primary md-button" ng-click="addLines()" ng-disabled="addLinesPromisse">
+           <md-button class="md-raised md-primary md-button" ng-click="addLines()" 
+           ng-disabled="disableAddLines">
             Add lines
             </md-button>
             <br/>
