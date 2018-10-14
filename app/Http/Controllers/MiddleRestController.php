@@ -161,7 +161,7 @@ class MiddleRestController extends Controller
 
         $result = json_decode($body, true);
 
-        Log::info("result",$result);
+        //Log::info("result",$result);
 
         if(is_array($result) && count($result)>0){
                 if(isset($result["d"]) && isset($result["d"]["results"]) && isset($result["d"]["results"][0]) ){
