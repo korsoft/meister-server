@@ -340,6 +340,7 @@
 		$scope.calculateATS = function(){
 			console.log("Calculate ATS",$scope.materialSelected[0]);
 			$scope.salesOrder = [];
+			$scope.salesMaterial = [];
 			var endpoint = "Meister.Demo.RL.Stock";
 			var json = '{"MATERIAL":"'+$scope.materialSelected[0].MATERIAL+'","PLANT":"'+$scope.materialSelected[0].PLANT+'"}';
 				console.log("endpoint",endpoint);
@@ -351,10 +352,11 @@
 				$scope.calculateATSProgress.then(
 		          function(result) { 
 		          	var end = new Date();
-		          	console.log("SalesOrderService.execute result",result);		        	  
+		          	console.log("calculateATS result",result);		        	  
 		          	$scope.log = "Completed Calculate ATS<br/>" + $scope.log;
 		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
 		          	$scope.ats = result.data.Json[0].DETAILS[0].DETAIL;
+		          	$scope.salesMaterial = result.data.Json[0].DETAILS[0].MRP;
 		          	console.log("ats",$scope.ats);
 		     	  },
 		          function(errorPayload) {
