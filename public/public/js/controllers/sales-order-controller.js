@@ -67,6 +67,8 @@
 		$scope.salesMaterialSelected = [];
 		$scope.analytics = null;
 		$scope.hiddenMaterial = false;
+		$scope.hiddenATP = false;
+		$scope.hiddenNotes = false;
 		$scope.note = {
 			type: "HDR",
 			text: "",
@@ -360,7 +362,6 @@
 
 		$scope.calculateATS = function(){
 			console.log("Calculate ATS",$scope.materialSelected[0]);
-			$scope.salesOrder = [];
 			$scope.salesMaterial = [];
 			$scope.salesMaterialPage = [];
 			var endpoint = "Meister.Demo.RL.Stock";

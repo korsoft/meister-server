@@ -83,55 +83,58 @@
 
     </md-toolbar>
 
-  <md-content class="md-padding" layout="row">
+  <md-content class="md-padding" layout="row" style="padding-top: 0px">
     
     <div layout="row" flex="100" layout-xs="column">
 
 
-     <div flex="{{hiddenPartnerInfo ? '1' : '20'}}" flex-xs="100" style="padding-top: 48px">
+     <div flex="{{hiddenPartnerInfo ? '1' : '20'}}" flex-xs="100" style="padding-top: 49px">
       <div layout="column">
           <div style="text-align: right;float: right;width: 100%">
-             <md-button  ng-show="!hiddenPartnerInfo" id="btn_hide_material" class="md-icon-button" aria-label="Hide Materials" ng-click="hidePartnerInfo()" title="Hide Partner Info">
+             <md-button  ng-show="!hiddenPartnerInfo" id="btn_hide_material" class="md-mini"  aria-label="Hide Materials" ng-click="hidePartnerInfo()" 
+              style="margin:0px 10px -60px 0px;min-width:0px"
+              title="Hide Partner Info" >
                 <md-icon class="material-icons">arrow_back</md-icon>
             </md-button>
-            <md-button  ng-show="hiddenPartnerInfo" id="btn_show_material" class="md-icon-button" aria-label="Hide Materials" ng-click="showPartnerInfo()" title="Show Partner Info">
+            <md-button  ng-show="hiddenPartnerInfo" id="btn_show_material" class="md-mini"  aria-label="Hide Materials" ng-click="showPartnerInfo()"
+            style="margin:0px 10px -60px 0px;min-width:0px" title="Show Partner Info">
                 <md-icon class="material-icons">arrow_forward</md-icon>
             </md-button>
           </div>
       </div>
         <div layout="column" ng-show="!hiddenPartnerInfo">
           <fieldset class="table-set" >
-          <h5>Partner Info</h5>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+          <h5 style="padding-top: 0px;margin-top: 5px;margin-bottom: 5px">Partner Info</h5>
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
           <label>Ship To:</label>
-          <md-select ng-model="shipToSelected" ng-change="changeShipTo(shipToSelected)">
+          <md-select ng-model="shipToSelected" ng-required="true" ng-change="changeShipTo(shipToSelected)">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in shipToArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
           <label>Sold To:</label>
-           <md-select ng-model="soldToSelected" ng-change="changeGeneric()">
+           <md-select ng-model="soldToSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in soldToArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
               <label>Payer:</label>
-              <md-select ng-model="payerSelected" ng-change="changeGeneric()">
+              <md-select ng-model="payerSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in payerArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
           <label>Deliver To:</label>
-          <md-select ng-model="shipTo2Selected" ng-change="changeGeneric()">
+          <md-select ng-model="shipTo2Selected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in shipToArray" ng-value="s.value" >
                     {{s.label}}
@@ -139,46 +142,46 @@
                 </md-select>
           </md-input-container>
 
-           <h5>Sales Selection</h5>
-           <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+           <h5 style="padding-top: 0px;margin-top: 20px;margin-bottom: 5px">Sales Selection</h5>
+           <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
             <label>Organization:</label>
-               <md-select ng-model="organizationSelected" ng-change="changeGeneric()">
+               <md-select ng-model="organizationSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in organizationArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
             </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
             <label>Channel:</label>
-             <md-select ng-model="channelSelected" ng-change="changeGeneric()">
+             <md-select ng-model="channelSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in channelArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
              </md-input-container>
-             <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+             <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
              <label>Division:</label>
-            <md-select ng-model="divisionSelected" ng-change="changeGeneric()">
+            <md-select ng-model="divisionSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in divisionArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
             </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
             <label>Office:</label>
-              <md-select ng-model="officeSelected" ng-change="changeGeneric()">
+              <md-select ng-model="officeSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in officeArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
             </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
+            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
                 <label>Group:</label>
-                <md-select ng-model="groupSelected" ng-change="changeGeneric()">
+                <md-select ng-model="groupSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in groupArray" ng-value="s.value" >
                     {{s.label}}
@@ -192,7 +195,7 @@
 
     <div flex="{{hiddenPartnerInfo ? '80' : '60'}}" flex-xs="100" id="tablesContainerMain">
 
-      <div layout="column" flex="100">
+      <div layout="column" flex="100" style="margin-top: -6px;">
         <md-tabs md-dynamic-height md-selected="tabSelected">
           <md-tab label="Sales Order" md-on-select="changeGeneric()">
           </md-tab>
@@ -205,23 +208,29 @@
         </md-tabs>
       </div>
 
-      <div  layout="column" flex="100">
-       <div>
-        <div style="text-align: left;float: left;width: 50%;padding-top:20px">
-          <b>{{tabSelected==1 ? 'Orders by Partner' : tabSelected==3 ? 'Top 3 Materials' :  'Material Catalog'}}</b>
+      <div  layout="column" flex="100"  ng-show="tabSelected != 3">
+       <div style="height: 25px">
+        <div style="text-align: left;float: left;width: 50%;padding-top:0px">
+          <b>Material Catalog</b>
         </div>
-        <div style="text-align: right;float: right;width: 50%">
-           <md-button  ng-show="!hiddenMaterial" id="btn_hide_material" class="md-icon-button" aria-label="Hide Materials" ng-click="hideMaterials()">
+        <div style="text-align: right;float: right;width: 50%;padding-top: 0px;margin-top: -17px">
+          <md-button id="btn_hide_material" class="md-fab md-primary md-mini" 
+              aria-label="Hide Materials" style="padding-top: 0px;margin-top: 0px" title="Add Note" 
+              ng-disabled="!orderSelected || orderSelected=='0' || orderSelected=='NEW'"
+              ng-click="showAddNote($event)">
+              <md-icon class="material-icons">note_add</md-icon>
+          </md-button>
+           <md-button  ng-show="!hiddenMaterial" id="btn_hide_material" class="md-fab md-primary md-mini" aria-label="Hide Materials" ng-click="hideMaterials()" style="padding-top: 0px;margin-top: 0px" title="Hide">
               <md-icon class="material-icons">arrow_upward</md-icon>
           </md-button>
-          <md-button  ng-show="hiddenMaterial" id="btn_show_material" class="md-icon-button" aria-label="Hide Materials" ng-click="showMaterials()">
+          <md-button  ng-show="hiddenMaterial" id="btn_show_material" class="md-fab md-primary md-mini" aria-label="Hide Materials" ng-click="showMaterials()" style="padding-top: 0px;margin-top: 0px" title="Show">
               <md-icon class="material-icons">arrow_downward</md-icon>
           </md-button>
         </div>
        </div>
         <fieldset class="table-set" ng-show="!hiddenMaterial">
           
-          <div flex="100" class="table-container">
+          <div flex="100" class="table-container" style="height:176px">
             <md-table-container ng-show="materialCatalogProgress">
               <table md-virtual-repeat-container md-table md-row-select ng-model="materialSelected" md-progress="materialCatalogProgress">
                 <thead md-head >
@@ -251,7 +260,7 @@
         </fieldset>
        </div>
 
-       <div layout="column"  flex="100" ng-show="tabSelected == 0">
+       <div layout="column"  flex="100" ng-show="tabSelected == 0" style="height: 48px">
              
         <fieldset class="table-set" layout="row" style="border: 0px;padding-bottom: 0px;">
 
@@ -265,22 +274,22 @@
                   <option ng-repeat="o in orderArray" value="{{o.value}}" ng-selected="orderSelected == o.value">{{o.label}}</option>
                 </select>
             </div>
-            <div style="padding-top: 5px;padding-left: 4px;">
+            <div style="padding-left: 15px;">
               <label style="font-size: 12px;font-weight: bold;" ng-show="!orderSelected || orderSelected == '0'">No Sales Document Selected yet</label>
               <label style="font-size: 12px;font-weight: bold;" ng-show="salesOrder.length>0 ">Number of Lines items {{salesOrder.length}}</label>
             </div>          
-          <div ng-show="materialSelected.length>0">
+          <div ng-show="materialSelected.length>0" style="padding-left: 20px;">
               <md-button class="md-raised md-primary md-button" ng-click="addLines()" 
-               ng-disabled="disableAddLines">
+               ng-disabled="disableAddLines" style="line-height:24px;min-height: 25px; margin-top: 0px">
                 Add lines
               </md-button>
             </div>
-            <div ng-show="materialSelected.length>0">
+            <div ng-show="materialSelected.length>0" style="padding-left: 20px;">
               <md-slider-container>
                   <md-slider ng-model="multiplier" min="0" max="100" aria-label="blue" id="multiplier-slider"
                              class="md-primary">
                   </md-slider>
-                  <md-input-container>
+                  <md-input-container style="margin: 0;padding: 0">
                     <input type="number" style="width: 50px" ng-model="multiplier" aria-label="blue" aria-controls="multiplier-slider">
                   </md-input-container>
               </md-slider-container>
@@ -293,16 +302,16 @@
       <div layout="column"  flex="100" ng-show="tabSelected == 0">
        
         <fieldset class="table-set" >
-          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 456px' : 'height: 237px'}};">
+          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 402px' : 'height: 208px'}};">
             <md-table-container ng-show="readOrderProgress">
               <table md-table md-row-select ng-model="salesOrderSelected" md-progress="readOrderProgress" md-body  md-virtual-repeat-container>
                 <thead md-head>
-                  <tr md-row>
+                  <tr md-row >
                     <th md-column class="td-space"><span>LineNo</span></th>
                     <th md-column class="td-space"><span>Material</span></th>
                     <th md-column class="td-space"><span>Plant</span></th>
-                    <th md-column class="td-space"><span>Price</span></th>
-                    <th md-column class="td-space"><span>Quality</span></th>
+                    <th md-column class="td-space"><span>Unit</span></th>
+                    <th md-column class="td-space"><span>Quantity</span></th>
                   </tr>
                 </thead>
                 <tbody md-body> 
@@ -390,9 +399,9 @@
 
 <div layout="column"  flex="100" ng-show="tabSelected == 2">
          <fieldset class="table-set" >
-          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 450px' : 'height: 300px'}}">
-            <md-table-container ng-show="calculateATSProgress" style="{{hiddenMaterial ? 'height: 450px' : 'height: 300px'}}">
-              <table md-virtual-repeat-container md-table md-row-select ng-model="salesMaterialSelected" md-progress="calculateATSProgress" style="{{hiddenMaterial ? 'height: 450px' : 'height: 300px'}}">
+          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 450px' : 'height: 256px'}}">
+            <md-table-container ng-show="calculateATSProgress" style="{{hiddenMaterial ? 'height: 450px' : 'height: 256px'}}">
+              <table md-virtual-repeat-container md-table md-row-select ng-model="salesMaterialSelected" md-progress="calculateATSProgress" style="{{hiddenMaterial ? 'height: 450px' : 'height: 256px'}}">
                 <thead md-head >
                   <tr md-row>
                     <th md-column class="td-space"><span>PLNGSEGMT</span></th>
@@ -513,23 +522,11 @@
        
           </div>
 
-
-<div layout="column"  flex="100" ng-show="tabSelected == 3" style="padding-top: 20px">
-         <fieldset class="table-set" ng-show="analytics" >
-          <div flex="100">
-            <b>Average Partner Sales in USD: {{analytics.average | currency : "" : 2}}</b><br/>
-            <b>Highest Sales Amount in USD: {{analytics.highsale | currency : "" : 2}}</b><br/>
-            <b>Highest Quantity in Product Units sold to Partner: {{analytics.mostqty}}</b><br/>
-            <b>Standard Deviation of the Average with respect to total sales in USD: {{analytics.stddev | currency : "" : 2}}</b>
-          </div>
-        </fieldset>
-</div>
-
-<div layout="column"  flex="100" ng-show="tabSelected == 3" style="padding-top: 20px">
+<div layout="column"  flex="100" ng-show="tabSelected == 3" style="padding-top: 25px">
        
-        <fieldset class="table-set" >
+        <fieldset class="table-set" ng-show="calculateAnalyticsProgress" >
           <div flex="100">
-            <md-table-container ng-show="calculateAnalyticsProgress">
+            <md-table-container >
               <table md-table md-progress="calculateAnalyticsProgress">
                 <thead md-head>
                   <tr md-row>
@@ -548,6 +545,19 @@
        
           </div>
 
+<div layout="column"  flex="100" ng-show="tabSelected == 3" style="padding-top: 20px">
+         <fieldset class="table-set" ng-show="analytics" >
+          <div flex="100">
+            <b>Average Partner Sales in USD: {{analytics.average | currency : "" : 2}}</b><br/>
+            <b>Highest Sales Amount in USD: {{analytics.highsale | currency : "" : 2}}</b><br/>
+            <b>Highest Quantity in Product Units sold to Partner: {{analytics.mostqty | currency : "" : 0}}</b><br/>
+            <b>Standard Deviation of the Average with respect to total sales in USD: {{analytics.stddev | currency : "" : 2}}</b>
+          </div>
+        </fieldset>
+</div>
+
+
+
 
     
 
@@ -557,32 +567,42 @@
     
 
   <div flex="20" flex-xs="100" ng-show="materialSelected.length>0">
-    <div layout="column" style="padding-top: 68px" ng-show="tabSelected == 0">
+    <div layout="column" style="padding-top: 67px" ng-show="tabSelected == 0">
     <md-toolbar md-scroll-shrink>
-      <div class="md-toolbar-tools">ATP</div>
+      <div class="md-toolbar-tools">ATP
+<div flex></div>
+       <md-button  ng-show="!hiddenATP" class="md-mini"  aria-label="Hide" ng-click="hiddenATP=true"
+              title="Hide" >
+            <md-icon class="material-icons">arrow_upward</md-icon>
+            </md-button>
+            <md-button  ng-show="hiddenATP" class="md-mini"  aria-label="Show" ng-click="hiddenATP=false" title="Show">
+                <md-icon class="material-icons">arrow_downward</md-icon>
+            </md-button>
+      </div>
+      
     </md-toolbar>
-     <md-content md-theme="altTheme">
+     <md-content md-theme="altTheme" ng-show="!hiddenATP">
       <section>
       <md-table-container ng-show="calculateATSProgress">
               <table md-table md-progress="calculateATSProgress">
                 <tbody md-body> 
-                  <tr md-row >
+                  <tr md-row style="height:33px">
                     <td md-cell class="td-space">Unrestricted Stock</td>
                     <td md-cell class="td-space" style="text-align: right;">{{ats.UNRESTRICTED_STCK}}</td>
                   </tr>
-                  <tr md-row >
+                  <tr md-row style="height:33px">
                     <td md-cell class="td-space">Sales Reqs</td>
                     <td md-cell class="td-space" style="text-align: right;">{{ats.SALES_REQS}}</td>
                   </tr>
-                  <tr md-row >
+                  <tr md-row style="height:33px">
                     <td md-cell class="td-space">Orders</td>
                     <td md-cell class="td-space" style="text-align: right;">{{ats.ORDERS}}</td>
                   </tr>
-                  <tr md-row >
+                  <tr md-row style="height:33px">
                     <td md-cell class="td-space">Delivery Notes</td>
                     <td md-cell class="td-space" style="text-align: right;">{{ats.DELIVERY}}</td>
                   </tr>
-                  <tr md-row >
+                  <tr md-row style="height:33px">
                     <td md-cell class="td-space">Total Stock</td>
                     <td md-cell class="td-space" style="text-align: right;">{{ats.TOTAL_STCK}}</td>
                   </tr>
@@ -591,17 +611,27 @@
             </md-table-container> 
     </section>
   </md-content>
-  <br/><br/><br/>
-  <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'">
+
+  <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'" style="margin-top:45px">
       <div class="md-toolbar-tools" md-truncate flex >
          Notes
-         <div flex></div>
-         <md-button id="btn_add" ng-click="showAddNote($event)" class="md-icon-button" aria-label="Add note">
+         &nbsp;
+         <md-button id="btn_add" ng-click="showAddNote($event)" class="md-icon-button" aria-label="Add note" title="Ad Note">
           <md-icon class="material-icons">add</md-icon>
-        </md-button>
+           </md-button>
+          <div flex></div>
+        <md-button  ng-show="!hiddenNotes" class="md-mini"  aria-label="Hide" ng-click="hiddenNotes=true"
+              title="Hide" >
+            <md-icon class="material-icons">arrow_upward</md-icon>
+            </md-button>
+            <md-button  ng-show="hiddenNotes" class="md-mini"  aria-label="Show" ng-click="hiddenNotes=false" title="Show">
+                <md-icon class="material-icons">arrow_downward</md-icon>
+            </md-button>
+       
       </div>      
     </md-toolbar>
-     <md-content md-theme="altTheme" ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'">
+     <md-content md-theme="altTheme" ng-show="!hiddenNotes && orderSelected && orderSelected!='0' && orderSelected!='NEW'"
+      style="height: 156px">
       <section>
         <md-list layout-padding>
         <md-list-item class="md-3-line" ng-repeat="n in notes | filter:notesFilter"
@@ -614,7 +644,7 @@
     </section>
   </md-content>
 
-      <md-content style="padding-top: 50px">
+      <md-content style="text-align: center;">
         <md-button class="md-raised md-primary md-button" ng-click="showLogs($event)">
           Logs
         </md-button>

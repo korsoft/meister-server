@@ -113,8 +113,8 @@
   min-height: 40px; }
 
 .demo-so md-toolbar {
-  height: 40px;
-  min-height: 40px; }
+  height: 30px;
+  min-height: 30px; }
 
 .demo-so .td-space {
   padding-left: 5px !important; }
@@ -140,7 +140,7 @@
   overflow-y: hidden; }
 
 .demo-so .table-container-2 {
-  overflow: auto;
+  /*overflow: auto;*/
   padding-top: 10px; }
 
 .demo-so md-table-container {
