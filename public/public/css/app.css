@@ -136,11 +136,12 @@
   height: 200px;
   background-color: #ABABAB;
   border: 1px solid black;
-  overflow: auto; }
+  overflow-x: auto;
+  overflow-y: hidden; }
 
 .demo-so .table-container-2 {
-  height: 30px;
-  overflow: auto; }
+  overflow: auto;
+  padding-top: 10px; }
 
 .demo-so md-table-container {
   display: inline-table;
@@ -174,3 +175,10 @@
 .demo-so md-tabs.md-default-theme .md-tab.md-active, .demo-so md-tabs .md-tab.md-active, .demo-so md-tabs.md-default-theme .md-tab.md-active md-icon, .demo-so md-tabs .md-tab.md-active md-icon, .demo-so md-tabs.md-default-theme .md-tab.md-focused, .demo-so md-tabs .md-tab.md-focused, .demo-so md-tabs.md-default-theme .md-tab.md-focused md-icon, .demo-so md-tabs .md-tab.md-focused md-icon {
   color: white;
   background-color: #3f51b5; }
+
+.demo-so .md-tab {
+  margin-top: 10px;
+  padding: 5px 10px; }
+
+.demo-so md-pagination-wrapper {
+  height: 0px; }

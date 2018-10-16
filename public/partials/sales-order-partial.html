@@ -1,6 +1,50 @@
 <div ng-controller="SalesOrderController" ng-cloak class="demo-so demo-background">
 
-
+  <div style="visibility: hidden">
+          <div class="md-dialog-container" id="myDialog" >
+            <md-dialog layout-padding>
+              <h2>Executing Log</h2>
+              <fieldset class="table-set" >
+                <div  class="table-container" style="background-color: #e2dfdf;width: 300px;height: 350px">
+                  <span ng-bind-html="log" style="font-size: 12px"></span>
+                </div>
+            </fieldset>
+            </md-dialog>
+          </div>
+  </div>
+  <div style="visibility: hidden">
+    <div class="md-dialog-container" id="addNoteDialog" >
+      <md-dialog layout-padding>
+        <div layout="column"  flex="100" style="padding-top: 20px">
+ 
+         <b>Add Notes</b>
+          <fieldset class="table-set" >
+            <md-input-container class="md-block" flex-gt-sm>
+            <md-radio-group ng-model="note.type" layout="row">
+              <md-radio-button value="HDR" class="md-primary">At Header</md-radio-button>
+              <md-radio-button value="LINE" class="md-primary">At Line Item </md-radio-button>
+            </md-radio-group>
+          </md-input-container>
+            <md-input-container ng-show="note.type == 'LINE'" class="md-block" flex-gt-sm>
+                  <label>Line Number</label>
+                  <input type="number" flex="20" min="1" ng-model="note.lineNumber" aria-label="blue">
+            </md-input-container>
+            <md-input-container class="md-block" flex="50" flex-gt-sm style="margin-bottom: 0px">
+              <label>Text</label>
+              <textarea ng-model="note.text" cols="40" rows="3" md-detect-hidden></textarea>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm>
+              <md-button class="md-raised md-primary md-button" 
+                  ng-click="saveNote($event)" ng-disabled="note.text.length==0 || !orderSelected ||  orderSelected=='0' || orderSelected=='NEW'">
+              Save
+              </md-button>
+            </md-input-container>
+          </fieldset>
+         
+        </div>
+      </md-dialog>
+    </div>
+  </div>
 
 <md-toolbar class="md-hue-2">
 
@@ -44,7 +88,7 @@
     <div layout="row" flex="100" layout-xs="column">
 
 
-     <div flex="20" flex-xs="100" style="padding-top: 80px">
+     <div flex="20" flex-xs="100" style="padding-top: 68px">
         <div layout="column" >
           <fieldset class="table-set" >
           <h5>Partner Info</h5>
@@ -138,19 +182,6 @@
 
     <div flex="60" flex-xs="100" id="tablesContainerMain">
 
-       <div style="visibility: hidden">
-          <div class="md-dialog-container" id="myDialog" >
-            <md-dialog layout-padding>
-              <h2>Executing Log</h2>
-              <fieldset class="table-set" >
-                <div  class="table-container" style="background-color: #e2dfdf;width: 300px;height: 350px">
-                  <span ng-bind-html="log" style="font-size: 12px"></span>
-                </div>
-            </fieldset>
-            </md-dialog>
-          </div>
-        </div>
-
       <div layout="column" flex="100">
         <md-tabs md-dynamic-height md-selected="tabSelected">
           <md-tab label="Sales Order" md-on-select="changeGeneric()">
@@ -161,49 +192,47 @@
           </md-tab>
           <md-tab label="Analytics" md-on-select="changeGeneric()">
           </md-tab>
-          <md-tab label="Add Notes" md-on-select="changeGeneric()">
-          </md-tab>
         </md-tabs>
       </div>
 
-      <div  layout="column" flex="100" style="padding-top: 15px">
+      <div  layout="column" flex="100">
        <div>
         <div style="text-align: left;float: left;width: 50%;padding-top:20px">
           <b>Material Catalog</b>
         </div>
         <div style="text-align: right;float: right;width: 50%">
-          <md-button ng-show="!hiddenMaterial" class="md-raised md-button" ng-click="hideMaterials()">
-            Hide Catalog
-            </md-button>
-            <md-button ng-show="hiddenMaterial" class="md-raised md-button" ng-click="showMaterials()">
-            Show Catalog
-            </md-button>
+           <md-button  ng-show="!hiddenMaterial" id="btn_hide_material" class="md-icon-button" aria-label="Hide Materials" ng-click="hideMaterials()">
+              <md-icon class="material-icons">arrow_upward</md-icon>
+          </md-button>
+          <md-button  ng-show="hiddenMaterial" id="btn_show_material" class="md-icon-button" aria-label="Hide Materials" ng-click="showMaterials()">
+              <md-icon class="material-icons">arrow_downward</md-icon>
+          </md-button>
         </div>
        </div>
         <fieldset class="table-set" ng-show="!hiddenMaterial">
           
           <div flex="100" class="table-container">
             <md-table-container ng-show="materialCatalogProgress">
-              <table md-table md-row-select ng-model="materialSelected" md-progress="materialCatalogProgress">
+              <table md-virtual-repeat-container md-table md-row-select ng-model="materialSelected" md-progress="materialCatalogProgress">
                 <thead md-head >
                   <tr md-row>
-                    <th md-column class="td-space"><span>Description</span></th>
-                    <th md-column class="td-space"><span>Group</span></th>
-                    <th md-column class="td-space"><span>Material</span></th>
-                    <th md-column class="td-space"><span>Plant</span></th>
-                    <th md-column class="td-space"><span>Price</span></th>
-                    <th md-column class="td-space"><span>Uom</span></th>
+                    <th md-column class="td-space" ><span>Description</span></th>
+                    <th md-column class="td-space" ><span>Group</span></th>
+                    <th md-column class="td-space" ><span>Material</span></th>
+                    <th md-column class="td-space" ><span>Plant</span></th>
+                    <th md-column class="td-space" ><span>Price</span></th>
+                    <th md-column class="td-space" ><span>Uom</span></th>
                   </tr>
                 </thead>
                 <tbody md-body> 
-                  <tr md-row md-auto-select md-select="m" md-on-select="onSelectMaterialRow"  ng-repeat="m in materialCatalog" 
+                  <tr md-row md-auto-select md-select="m" md-on-select="onSelectMaterialRow"  md-virtual-repeat="m in materialCatalog" 
                       >
-                    <td md-cell class="td-space">{{m.DESCRIPTION}}</td>
-                    <td md-cell class="td-space">{{m.GROUP}}</td>
-                    <td md-cell class="td-space">{{m.MATERIAL}}</td>
-                    <td md-cell class="td-space">{{m.PLANT}}</td>
-                    <td md-cell class="td-space">{{m.PRICE}}</td>
-                    <td md-cell class="td-space">{{m.UOM}}</td>                                       
+                    <td md-cell class="td-space" width="30%">{{m.DESCRIPTION}}</td>
+                    <td md-cell class="td-space" width="10%">{{m.GROUP}}</td>
+                    <td md-cell class="td-space" width="20%">{{m.MATERIAL}}</td>
+                    <td md-cell class="td-space" width="10%">{{m.PLANT}}</td>
+                    <td md-cell class="td-space" width="20%">{{m.PRICE}}</td>
+                    <td md-cell class="td-space" width="10%">{{m.UOM}}</td>                                       
                   </tr>
                 </tbody>
               </table>
@@ -214,29 +243,50 @@
 
        <div layout="column"  flex="100" ng-show="tabSelected == 0">
              
-             <fieldset class="table-set" style="border: 0px">
+        <fieldset class="table-set" layout="row" style="border: 0px;padding-bottom: 0px;">
 
-          <div flex="100" class="table-container-2">
-            <label style="font-size: 12px;font-weight: bold;">Order Number:</label>
-          <select style="width: 100px" name="order" ng-model="orderSelected" ng-change="changeOrder(orderSelected)" ng-disabled="!shipToSelected || !shipTo2Selected || !soldToSelected || !payerSelected || !organizationSelected || !channelSelected || !divisionSelected || !officeSelected || !groupSelected">
-              <option value="0"></option>
-              <option ng-repeat="o in orderArray" value="{{o.value}}" ng-selected="orderSelected == o.value">{{o.label}}</option>
-            </select>
-            &nbsp;
-           <label style="font-size: 12px;font-weight: bold;" ng-show="!orderSelected || orderSelected == '0'">No Sales Document Selected yet</label>
-           <label style="font-size: 12px;font-weight: bold;" ng-show="salesOrder.length>0 ">Number of Lines items {{salesOrder.length}}</label>
+          <div flex="100" layout="row" class="table-container-2">
+            <div style="padding-top: 5px;">
+              <label style="font-size: 12px;font-weight: bold;">Order Number:</label>
+            </div>
+            <div >
+              <select style="width: 100px" name="order" ng-model="orderSelected" ng-change="changeOrder(orderSelected)" ng-disabled="!shipToSelected || !shipTo2Selected || !soldToSelected || !payerSelected || !organizationSelected || !channelSelected || !divisionSelected || !officeSelected || !groupSelected">
+                  <option value="0"></option>
+                  <option ng-repeat="o in orderArray" value="{{o.value}}" ng-selected="orderSelected == o.value">{{o.label}}</option>
+                </select>
+            </div>
+            <div style="padding-top: 5px;padding-left: 4px;">
+              <label style="font-size: 12px;font-weight: bold;" ng-show="!orderSelected || orderSelected == '0'">No Sales Document Selected yet</label>
+              <label style="font-size: 12px;font-weight: bold;" ng-show="salesOrder.length>0 ">Number of Lines items {{salesOrder.length}}</label>
+            </div>          
+          <div ng-show="materialSelected.length>0">
+              <md-button class="md-raised md-primary md-button" ng-click="addLines()" 
+               ng-disabled="disableAddLines">
+                Add lines
+              </md-button>
+            </div>
+            <div ng-show="materialSelected.length>0">
+              <md-slider-container>
+                  <md-slider ng-model="multiplier" min="0" max="100" aria-label="blue" id="multiplier-slider"
+                             class="md-primary">
+                  </md-slider>
+                  <md-input-container>
+                    <input type="number" style="width: 50px" ng-model="multiplier" aria-label="blue" aria-controls="multiplier-slider">
+                  </md-input-container>
+              </md-slider-container>
+            </div>
           </div>
+
         </fieldset>
       </div> 
 
       <div layout="column"  flex="100" ng-show="tabSelected == 0">
        
-       <b>Sales Order Info</b>
         <fieldset class="table-set" >
-          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 456px' : 'height: 237px'}}">
+          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 456px' : 'height: 237px'}};">
             <md-table-container ng-show="readOrderProgress">
-              <table md-table md-row-select ng-model="salesOrderSelected" md-progress="readOrderProgress">
-                <thead md-head >
+              <table md-table md-row-select ng-model="salesOrderSelected" md-progress="readOrderProgress" md-body  md-virtual-repeat-container>
+                <thead md-head>
                   <tr md-row>
                     <th md-column class="td-space"><span>LineNo</span></th>
                     <th md-column class="td-space"><span>Material</span></th>
@@ -246,12 +296,12 @@
                   </tr>
                 </thead>
                 <tbody md-body> 
-                  <tr md-row md-auto-select md-select="s" md-on-select="onSelectSalesOrderRow" ng-repeat="s in salesOrder" >
-                    <td md-cell class="td-space">{{s.line_no}}</td>
-                    <td md-cell class="td-space">{{s.material}}</td>
-                    <td md-cell class="td-space">{{s.plant}}</td>
-                    <td md-cell class="td-space">{{s.price}}</td>
-                    <td md-cell class="td-space">{{s.qty}}</td>                                       
+                  <tr md-row md-auto-select md-select="s" md-on-select="onSelectSalesOrderRow" md-virtual-repeat="s in salesOrder" >
+                    <td md-cell class="td-space" width="10%">{{s.line_no}}</td>
+                    <td md-cell class="td-space" width="25%">{{s.material}}</td>
+                    <td md-cell class="td-space" width="20%">{{s.plant}}</td>
+                    <td md-cell class="td-space" width="25%">{{s.price}}</td>
+                    <td md-cell class="td-space" width="10%">{{s.qty}}</td>                                       
                   </tr>
                 </tbody>
               </table>
@@ -299,9 +349,9 @@
        <b>Sales Order Info</b>
         <fieldset class="table-set" >
           <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 393px' : 'height: 261px'}}">
-            <md-table-container ng-show="salesPartnerProgress">
-              <table md-table md-row-select ng-model="salesHistorySelected" md-progress="salesPartnerProgress">
-                <thead md-head >
+            <md-table-container ng-show="salesPartnerProgress" style="{{hiddenMaterial ? 'height: 393px' : 'height: 261px'}}">
+              <table md-virtual-repeat-container md-table md-row-select ng-model="salesHistorySelected" md-progress="salesPartnerProgress" style="{{hiddenMaterial ? 'height: 393px' : 'height: 261px'}}">
+                <thead md-head fix-head>
                   <tr md-row>
                     <th md-column class="td-space"><span>LineNo</span></th>
                     <th md-column class="td-space"><span>Material</span></th>
@@ -311,12 +361,12 @@
                   </tr>
                 </thead>
                 <tbody md-body> 
-                  <tr md-row md-auto-select md-select="s" md-on-select="onSalesHistorySelected" ng-repeat="s in salesHistory | filter:{MATERIAL : materialSelected[0].MATERIAL}" >
-                    <td md-cell class="td-space">{{s.line_item.LINE_ITEM}}</td>
-                    <td md-cell class="td-space">{{s.line_item.MATERIAL}}</td>
-                    <td md-cell class="td-space">{{s.line_item.UOM}}</td>
-                    <td md-cell class="td-space">{{s.line_item.PRICE}}</td>
-                    <td md-cell class="td-space">{{s.line_item.QUANTITY}}</td>                                       
+                  <tr md-row md-auto-select md-select="s" md-on-select="onSalesHistorySelected" md-virtual-repeat="s in salesHistory | filter:{MATERIAL : materialSelected[0].MATERIAL}" >
+                    <td md-cell class="td-space" width="10%">{{s.line_item.LINE_ITEM}}</td>
+                    <td md-cell class="td-space" width="25%">{{s.line_item.MATERIAL}}</td>
+                    <td md-cell class="td-space" width="20%">{{s.line_item.UOM}}</td>
+                    <td md-cell class="td-space" width="25%">{{s.line_item.PRICE}}</td>
+                    <td md-cell class="td-space" width="20%">{{s.line_item.QUANTITY}}</td>                                       
                   </tr>
                 </tbody>
               </table>
@@ -331,8 +381,8 @@
 <div layout="column"  flex="100" ng-show="tabSelected == 2">
          <fieldset class="table-set" >
           <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 450px' : 'height: 300px'}}">
-            <md-table-container ng-show="calculateATSProgress">
-              <table md-table md-row-select ng-model="salesMaterialSelected" md-progress="calculateATSProgress">
+            <md-table-container ng-show="calculateATSProgress" style="{{hiddenMaterial ? 'height: 450px' : 'height: 300px'}}">
+              <table md-virtual-repeat-container md-table md-row-select ng-model="salesMaterialSelected" md-progress="calculateATSProgress" style="{{hiddenMaterial ? 'height: 450px' : 'height: 300px'}}">
                 <thead md-head >
                   <tr md-row>
                     <th md-column class="td-space"><span>PLNGSEGMT</span></th>
@@ -392,7 +442,7 @@
                   </tr>
                 </thead>
                 <tbody md-body> 
-                  <tr md-row md-auto-select md-select="s" ng-repeat="s in salesMaterial" >
+                  <tr md-row md-auto-select md-select="s" md-virtual-repeat="s in salesMaterial">
                     <td md-cell class="td-space">{{s.PLNGSEGMT}}</td>
                     <td md-cell class="td-space">{{s.PLNGSEGNO}}</td>
                     <td md-cell class="td-space">{{s.SORT_DATE}}</td>
@@ -489,33 +539,7 @@
           </div>
 
 
-    <div layout="column"  flex="100" ng-show="tabSelected == 4" style="padding-top: 20px">
-       
-       <b>Add Notes</b>
-        <fieldset class="table-set" >
-          <md-input-container class="md-block" flex-gt-sm>
-          <md-radio-group ng-model="note.type" layout="row">
-            <md-radio-button value="HDR" class="md-primary">At Header</md-radio-button>
-            <md-radio-button value="LINE" class="md-primary">At Line Item </md-radio-button>
-          </md-radio-group>
-        </md-input-container>
-          <md-input-container ng-show="note.type == 'LINE'" class="md-block" flex-gt-sm>
-                <label>Line Number</label>
-                <input type="number" flex="20" min="1" ng-model="note.lineNumber" aria-label="blue">
-          </md-input-container>
-          <md-input-container class="md-block" flex="50" flex-gt-sm style="margin-bottom: 0px">
-            <label>Text</label>
-            <textarea ng-model="note.text" cols="40" rows="3" md-detect-hidden></textarea>
-          </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm>
-            <md-button class="md-raised md-primary md-button" 
-                ng-click="saveNote($event)" ng-disabled="note.text.length==0 || !orderSelected ||  orderSelected=='0' || orderSelected=='NEW'">
-            Save
-            </md-button>
-          </md-input-container>
-        </fieldset>
-       
-          </div>
+    
 
 </div>
 
@@ -523,7 +547,7 @@
     
 
   <div flex="20" flex-xs="100" ng-show="materialSelected.length>0">
-    <div layout="column" style="padding-top: 80px" ng-show="tabSelected == 0">
+    <div layout="column" style="padding-top: 68px" ng-show="tabSelected == 0">
     <md-toolbar md-scroll-shrink>
       <div class="md-toolbar-tools">ATP</div>
     </md-toolbar>
@@ -559,7 +583,13 @@
   </md-content>
   <br/><br/><br/>
   <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'">
-      <div class="md-toolbar-tools">Notes / Header</div>
+      <div class="md-toolbar-tools" md-truncate flex >
+         Notes
+         <div flex></div>
+         <md-button id="btn_add" ng-click="showAddNote($event)" class="md-icon-button" aria-label="Add note">
+          <md-icon class="material-icons">add</md-icon>
+        </md-button>
+      </div>      
     </md-toolbar>
      <md-content md-theme="altTheme" ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'">
       <section>
@@ -574,24 +604,10 @@
     </section>
   </md-content>
 
-  <md-content style="padding-top: 50px">
-           <md-button class="md-raised md-primary md-button" ng-click="addLines()" 
-           ng-disabled="disableAddLines">
-            Add lines
-            </md-button>
-            <br/>
-            <md-slider-container>
-              <md-slider ng-model="multiplier" min="0" max="100" aria-label="blue" id="multiplier-slider"
-                         class="md-primary">
-              </md-slider>
-              <md-input-container>
-                <input type="number" style="width: 50px" ng-model="multiplier" aria-label="blue" aria-controls="multiplier-slider">
-              </md-input-container>
-            </md-slider-container>
-            <br/>
-            <md-button class="md-raised md-primary md-button" ng-click="showLogs($event)">
-            Logs
-            </md-button>
+      <md-content style="padding-top: 50px">
+        <md-button class="md-raised md-primary md-button" ng-click="showLogs($event)">
+          Logs
+        </md-button>
       </md-content>
     </div>
   </div>
