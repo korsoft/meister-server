@@ -88,8 +88,18 @@
     <div layout="row" flex="100" layout-xs="column">
 
 
-     <div flex="20" flex-xs="100" style="padding-top: 68px">
-        <div layout="column" >
+     <div flex="{{hiddenPartnerInfo ? '1' : '20'}}" flex-xs="100" style="padding-top: 48px">
+      <div layout="column">
+          <div style="text-align: right;float: right;width: 100%">
+             <md-button  ng-show="!hiddenPartnerInfo" id="btn_hide_material" class="md-icon-button" aria-label="Hide Materials" ng-click="hidePartnerInfo()" title="Hide Partner Info">
+                <md-icon class="material-icons">arrow_back</md-icon>
+            </md-button>
+            <md-button  ng-show="hiddenPartnerInfo" id="btn_show_material" class="md-icon-button" aria-label="Hide Materials" ng-click="showPartnerInfo()" title="Show Partner Info">
+                <md-icon class="material-icons">arrow_forward</md-icon>
+            </md-button>
+          </div>
+      </div>
+        <div layout="column" ng-show="!hiddenPartnerInfo">
           <fieldset class="table-set" >
           <h5>Partner Info</h5>
           <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px">
@@ -180,7 +190,7 @@
         </div>
     </div>
 
-    <div flex="60" flex-xs="100" id="tablesContainerMain">
+    <div flex="{{hiddenPartnerInfo ? '80' : '60'}}" flex-xs="100" id="tablesContainerMain">
 
       <div layout="column" flex="100">
         <md-tabs md-dynamic-height md-selected="tabSelected">
@@ -198,7 +208,7 @@
       <div  layout="column" flex="100">
        <div>
         <div style="text-align: left;float: left;width: 50%;padding-top:20px">
-          <b>Material Catalog</b>
+          <b>{{tabSelected==1 ? 'Orders by Partner' : tabSelected==3 ? 'Top 3 Materials' :  'Material Catalog'}}</b>
         </div>
         <div style="text-align: right;float: right;width: 50%">
            <md-button  ng-show="!hiddenMaterial" id="btn_hide_material" class="md-icon-button" aria-label="Hide Materials" ng-click="hideMaterials()">
@@ -298,10 +308,10 @@
                 <tbody md-body> 
                   <tr md-row md-auto-select md-select="s" md-on-select="onSelectSalesOrderRow" md-virtual-repeat="s in salesOrder" >
                     <td md-cell class="td-space" width="10%">{{s.line_no}}</td>
-                    <td md-cell class="td-space" width="25%">{{s.material}}</td>
+                    <td md-cell class="td-space" width="30%">{{s.material}}</td>
                     <td md-cell class="td-space" width="20%">{{s.plant}}</td>
                     <td md-cell class="td-space" width="25%">{{s.price}}</td>
-                    <td md-cell class="td-space" width="10%">{{s.qty}}</td>                                       
+                    <td md-cell class="td-space" width="15%">{{s.qty}}</td>                                       
                   </tr>
                 </tbody>
               </table>
@@ -344,9 +354,9 @@
        
           </div>
 
-    <div layout="column"  flex="100" ng-show="tabSelected == 1">
+    <div layout="column"  flex="100" ng-show="tabSelected == 1 && materialSelected.length>0">
        
-       <b>Sales Order Info</b>
+       <b>Items by Order</b>
         <fieldset class="table-set" >
           <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 393px' : 'height: 261px'}}">
             <md-table-container ng-show="salesPartnerProgress" style="{{hiddenMaterial ? 'height: 393px' : 'height: 261px'}}">

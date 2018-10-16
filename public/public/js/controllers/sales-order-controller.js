@@ -347,7 +347,17 @@
 			      clickOutsideToClose: true
 			    });
 		};
-		
+
+		$scope.showPartnerInfo = function(){
+			console.log("showPartnerInfo...");
+			$scope.hiddenPartnerInfo = false;
+		};
+
+		$scope.hidePartnerInfo = function(){
+			console.log("hidePartnerInfo...");
+			$scope.hiddenPartnerInfo = true;
+		};
+
 		$scope.calculateATS = function(){
 			console.log("Calculate ATS",$scope.materialSelected[0]);
 			$scope.salesOrder = [];
