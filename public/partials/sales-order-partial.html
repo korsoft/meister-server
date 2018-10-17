@@ -214,20 +214,20 @@
           <b>Material Catalog</b>
         </div>
         <div style="text-align: right;float: right;width: 50%;padding-top: 0px;margin-top: -17px">
-           <md-button class="md-fab md-primary md-mini" style="padding-top: 0px;margin-top: 0px" 
+           <md-button class="md-primary md-raised md-mini" style="margin: 0px; min-width: 0px" 
             title="Show Logs" ng-click="showLogs($event)">
           <md-icon class="material-icons">list</md-icon>
         </md-button>
-          <md-button id="btn_hide_material" class="md-fab md-primary md-mini" 
-              aria-label="Hide Materials" style="padding-top: 0px;margin-top: 0px" title="Add Note" 
+          <md-button id="btn_hide_material" class="md-primary md-raised md-mini" 
+              aria-label="Hide Materials" style="margin: 0px; min-width: 0px" title="Add Note" 
               ng-disabled="!orderSelected || orderSelected=='0' || orderSelected=='NEW'"
               ng-click="showAddNote($event)">
               <md-icon class="material-icons">note_add</md-icon>
           </md-button>
-           <md-button  ng-show="!hiddenMaterial" id="btn_hide_material" class="md-fab md-primary md-mini" aria-label="Hide Materials" ng-click="hideMaterials()" style="padding-top: 0px;margin-top: 0px" title="Hide">
+           <md-button  ng-show="!hiddenMaterial" id="btn_hide_material" class="md-primary md-raised md-mini" aria-label="Hide Materials" ng-click="hideMaterials()" style="margin: 0px; min-width: 0px" title="Hide">
               <md-icon class="material-icons">expand_less</md-icon>
           </md-button>
-          <md-button  ng-show="hiddenMaterial" id="btn_show_material" class="md-fab md-primary md-mini" aria-label="Hide Materials" ng-click="showMaterials()" style="padding-top: 0px;margin-top: 0px" title="Show">
+          <md-button  ng-show="hiddenMaterial" id="btn_show_material" class="md-primary md-raised md-mini" aria-label="Hide Materials" ng-click="showMaterials()" style="margin: 0px;min-width: 0px" title="Show">
               <md-icon class="material-icons">expand_more</md-icon>
           </md-button>
         </div>
@@ -616,7 +616,7 @@
     </section>
   </md-content>
 
-  <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'" style="margin-top:45px">
+  <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'" style="margin-top:5px">
       <div class="md-toolbar-tools" md-truncate flex >
          Notes
          &nbsp;
@@ -634,11 +634,9 @@
        
       </div>      
     </md-toolbar>
-     <md-content md-theme="altTheme" ng-show="!hiddenNotes && orderSelected && orderSelected!='0' && orderSelected!='NEW'"
-      style="height: 156px">
+     <md-content md-theme="altTheme" ng-show="!hiddenNotes && orderSelected && orderSelected!='0' && orderSelected!='NEW'" md-virtual-repeat-container style="height: 245px">
       <section>
-        <md-list layout-padding>
-        <md-list-item class="md-3-line" ng-repeat="n in notes | filter:notesFilter"
+        <md-list-item class="md-3-line" md-virtual-repeat="n in notes | filter:notesFilter"
             style="border-bottom-style: dashed;border-bottom-width: 1px;">
             <div class="md-list-item-text">
               <div style="width: 20%;float: left;">{{n.LINE}}</div>
