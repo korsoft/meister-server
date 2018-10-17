@@ -182,3 +182,7 @@
 
 .demo-so md-pagination-wrapper {
   height: 0px; }
+
+.md-button.md-default-theme.md-primary.md-raised, .md-button.md-primary.md-raised, .md-button.md-default-theme.md-primary.md-fab, .md-button.md-primary.md-fab {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #fa7b17; }

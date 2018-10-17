@@ -94,11 +94,11 @@
              <md-button  ng-show="!hiddenPartnerInfo" id="btn_hide_material" class="md-mini"  aria-label="Hide Materials" ng-click="hidePartnerInfo()" 
               style="margin:0px 10px -60px 0px;min-width:0px"
               title="Hide Partner Info" >
-                <md-icon class="material-icons">arrow_back</md-icon>
+                <md-icon class="material-icons">navigate_before</md-icon>
             </md-button>
             <md-button  ng-show="hiddenPartnerInfo" id="btn_show_material" class="md-mini"  aria-label="Hide Materials" ng-click="showPartnerInfo()"
             style="margin:0px 10px -60px 0px;min-width:0px" title="Show Partner Info">
-                <md-icon class="material-icons">arrow_forward</md-icon>
+                <md-icon class="material-icons">navigate_next</md-icon>
             </md-button>
           </div>
       </div>
@@ -214,6 +214,10 @@
           <b>Material Catalog</b>
         </div>
         <div style="text-align: right;float: right;width: 50%;padding-top: 0px;margin-top: -17px">
+           <md-button class="md-fab md-primary md-mini" style="padding-top: 0px;margin-top: 0px" 
+            title="Show Logs" ng-click="showLogs($event)">
+          <md-icon class="material-icons">list</md-icon>
+        </md-button>
           <md-button id="btn_hide_material" class="md-fab md-primary md-mini" 
               aria-label="Hide Materials" style="padding-top: 0px;margin-top: 0px" title="Add Note" 
               ng-disabled="!orderSelected || orderSelected=='0' || orderSelected=='NEW'"
@@ -221,10 +225,10 @@
               <md-icon class="material-icons">note_add</md-icon>
           </md-button>
            <md-button  ng-show="!hiddenMaterial" id="btn_hide_material" class="md-fab md-primary md-mini" aria-label="Hide Materials" ng-click="hideMaterials()" style="padding-top: 0px;margin-top: 0px" title="Hide">
-              <md-icon class="material-icons">arrow_upward</md-icon>
+              <md-icon class="material-icons">expand_less</md-icon>
           </md-button>
           <md-button  ng-show="hiddenMaterial" id="btn_show_material" class="md-fab md-primary md-mini" aria-label="Hide Materials" ng-click="showMaterials()" style="padding-top: 0px;margin-top: 0px" title="Show">
-              <md-icon class="material-icons">arrow_downward</md-icon>
+              <md-icon class="material-icons">expand_more</md-icon>
           </md-button>
         </div>
        </div>
@@ -573,10 +577,10 @@
 <div flex></div>
        <md-button  ng-show="!hiddenATP" class="md-mini"  aria-label="Hide" ng-click="hiddenATP=true"
               title="Hide" >
-            <md-icon class="material-icons">arrow_upward</md-icon>
+            <md-icon class="material-icons">expand_less</md-icon>
             </md-button>
             <md-button  ng-show="hiddenATP" class="md-mini"  aria-label="Show" ng-click="hiddenATP=false" title="Show">
-                <md-icon class="material-icons">arrow_downward</md-icon>
+                <md-icon class="material-icons">expand_more</md-icon>
             </md-button>
       </div>
       
@@ -622,10 +626,10 @@
           <div flex></div>
         <md-button  ng-show="!hiddenNotes" class="md-mini"  aria-label="Hide" ng-click="hiddenNotes=true"
               title="Hide" >
-            <md-icon class="material-icons">arrow_upward</md-icon>
+            <md-icon class="material-icons">expand_less</md-icon>
             </md-button>
             <md-button  ng-show="hiddenNotes" class="md-mini"  aria-label="Show" ng-click="hiddenNotes=false" title="Show">
-                <md-icon class="material-icons">arrow_downward</md-icon>
+                <md-icon class="material-icons">expand_more</md-icon>
             </md-button>
        
       </div>      
@@ -644,11 +648,6 @@
     </section>
   </md-content>
 
-      <md-content style="text-align: center;">
-        <md-button class="md-raised md-primary md-button" ng-click="showLogs($event)">
-          Logs
-        </md-button>
-      </md-content>
     </div>
   </div>
    
