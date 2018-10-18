@@ -1,5 +1,45 @@
 <div ng-controller="SalesOrderController" ng-cloak class="demo-so demo-background">
 
+  <div style="visibility: hidden;">
+      <div class="md-dialog-container" id="atpContainer">
+          <md-dialog layout-padding style="height:200px">
+            <md-toolbar md-scroll-shrink>
+              <div class="md-toolbar-tools">ATP</div>
+            </md-toolbar>
+               <md-content>
+                <section>
+                <md-table-container >
+                        <table md-table >
+                          <tbody md-body> 
+                            <tr md-row style="height:33px">
+                              <td md-cell class="td-space">Unrestricted Stock</td>
+                              <td md-cell class="td-space" style="text-align: right;">{{ats.UNRESTRICTED_STCK}}</td>
+                            </tr>
+                            <tr md-row style="height:33px">
+                              <td md-cell class="td-space">Sales Reqs</td>
+                              <td md-cell class="td-space" style="text-align: right;">{{ats.SALES_REQS}}</td>
+                            </tr>
+                            <tr md-row style="height:33px">
+                              <td md-cell class="td-space">Orders</td>
+                              <td md-cell class="td-space" style="text-align: right;">{{ats.ORDERS}}</td>
+                            </tr>
+                            <tr md-row style="height:33px">
+                              <td md-cell class="td-space">Delivery Notes</td>
+                              <td md-cell class="td-space" style="text-align: right;">{{ats.DELIVERY}}</td>
+                            </tr>
+                            <tr md-row style="height:33px">
+                              <td md-cell class="td-space">Total Stock</td>
+                              <td md-cell class="td-space" style="text-align: right;">{{ats.TOTAL_STCK}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </md-table-container> 
+              </section>
+            </md-content>
+
+          </md-dialog>
+      </div>
+  </div>
   <div style="visibility: hidden">
           <div class="md-dialog-container" id="myDialog" >
             <md-dialog layout-padding>
@@ -17,23 +57,13 @@
       <md-dialog layout-padding>
         <div layout="column"  flex="100" style="padding-top: 20px">
  
-         <b>Add Notes</b>
+         <b>{{note.title}}</b>
           <fieldset class="table-set" >
-            <md-input-container class="md-block" flex-gt-sm>
-            <md-radio-group ng-model="note.type" layout="row">
-              <md-radio-button value="HDR" class="md-primary">At Header</md-radio-button>
-              <md-radio-button value="LINE" class="md-primary">At Line Item </md-radio-button>
-            </md-radio-group>
-          </md-input-container>
-            <md-input-container ng-show="note.type == 'LINE'" class="md-block" flex-gt-sm>
-                  <label>Line Number</label>
-                  <input type="number" flex="20" min="1" ng-model="note.lineNumber" aria-label="blue">
-            </md-input-container>
             <md-input-container class="md-block" flex="50" flex-gt-sm style="margin-bottom: 0px">
-              <label>Text</label>
+              <label>Note content</label>
               <textarea ng-model="note.text" cols="40" rows="3" md-detect-hidden></textarea>
             </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm>
+            <md-input-container class="md-block" flex-gt-sm style="text-align: right;">
               <md-button class="md-raised md-primary md-button" 
                   ng-click="saveNote($event)" ng-disabled="note.text.length==0 || !orderSelected ||  orderSelected=='0' || orderSelected=='NEW'">
               Save
@@ -89,7 +119,7 @@
 
 
      <div flex="{{hiddenPartnerInfo ? '1' : '20'}}" flex-xs="100" style="padding-top: 49px">
-      <div layout="column">
+      <div layout="column" ng-show="!isMobileDevice">
           <div style="text-align: right;float: right;width: 100%">
              <md-button  ng-show="!hiddenPartnerInfo" id="btn_hide_material" class="md-mini"  aria-label="Hide Materials" ng-click="hidePartnerInfo()" 
               style="margin:0px 10px -60px 0px;min-width:0px"
@@ -104,8 +134,24 @@
       </div>
         <div layout="column" ng-show="!hiddenPartnerInfo">
           <fieldset class="table-set" >
-          <h5 style="padding-top: 0px;margin-top: 5px;margin-bottom: 5px">Partner Info</h5>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
+            <div style="width: 100%;height:15px">
+              <div style="width: 50%;float: left;">
+                <h5 style="padding-top: 0px;margin-top: 5px;margin-bottom: 5px">Partner Info <span style="color: red">*</span></h5>
+              </div>
+              <div style="width: 50%;float: right;text-align: right;">
+                 <md-button  ng-show="isMobileDevice && !collapseParterInfo  " id="btn_hide_material" class="md-mini"  aria-label="Hide Materials" ng-click="collapseParterInfo = true" 
+                  style="margin:0px;min-width:0px"
+                  title="Hide Partner Info" >
+                    <md-icon class="material-icons">expand_less</md-icon>
+                </md-button>
+                <md-button  ng-show="isMobileDevice && collapseParterInfo" id="btn_show_material" class="md-mini"  aria-label="Hide Materials" ng-click="collapseParterInfo = false"
+                style="margin:0px;min-width:0px" title="Show Partner Info">
+                    <md-icon class="material-icons">expand_more</md-icon>
+                </md-button>
+              </div>
+          </div>
+          <div ng-show="!isMobileDevice || !collapseParterInfo " style="width: 100%;padding-top: 10px ">
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px" >
           <label>Ship To:</label>
           <md-select ng-model="shipToSelected" ng-required="true" ng-change="changeShipTo(shipToSelected)">
                 <md-option ng-value=""></md-option>
@@ -114,7 +160,8 @@
                   </md-option>
                 </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px" 
+          >
           <label>Sold To:</label>
            <md-select ng-model="soldToSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
@@ -123,7 +170,8 @@
                   </md-option>
                 </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px"
+         >
               <label>Payer:</label>
               <md-select ng-model="payerSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
@@ -132,7 +180,8 @@
                   </md-option>
                 </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px"
+         >
           <label>Deliver To:</label>
           <md-select ng-model="shipTo2Selected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
@@ -141,8 +190,24 @@
                   </md-option>
                 </md-select>
           </md-input-container>
-
-           <h5 style="padding-top: 0px;margin-top: 20px;margin-bottom: 5px">Sales Selection</h5>
+        </div>
+           <div style="width: 100%;height:15px;padding-top: 20px">
+              <div style="width: 50%;float: left;">
+                <h5 style="padding-top: 0px;margin-top: 5px;margin-bottom: 5px">Sales selection<span style="color: red">*</span></h5>
+              </div>
+              <div style="width: 50%;float: right;text-align: right;">
+                 <md-button  ng-show="isMobileDevice && !collapseSalesSelection  " id="btn_hide_material" class="md-mini"  aria-label="Hide Materials" ng-click="collapseSalesSelection = true" 
+                  style="margin:0px;min-width:0px"
+                  title="Hide Partner Info" >
+                    <md-icon class="material-icons">expand_less</md-icon>
+                </md-button>
+                <md-button  ng-show="isMobileDevice && collapseSalesSelection" id="btn_show_material" class="md-mini"  aria-label="Hide Materials" ng-click="collapseSalesSelection = false"
+                style="margin:0px;min-width:0px" title="Show Partner Info">
+                    <md-icon class="material-icons">expand_more</md-icon>
+                </md-button>
+              </div>
+          </div>
+          <div ng-show="!isMobileDevice || !collapseSalesSelection " style="width: 100%;padding-top: 20px ">
            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
             <label>Organization:</label>
                <md-select ng-model="organizationSelected" ng-required="true" ng-change="changeGeneric()">
@@ -188,6 +253,7 @@
                   </md-option>
                 </md-select>
             </md-input-container> 
+          </div>
           </fieldset>
               
         </div>
@@ -195,7 +261,7 @@
 
     <div flex="{{hiddenPartnerInfo ? '80' : '60'}}" flex-xs="100" id="tablesContainerMain">
 
-      <div layout="column" flex="100" style="margin-top: -6px;">
+      <div layout="column" flex="100" style="{{isMobileDevice ? 'margin-top: 5px;margin-bottom: 20px' : 'margin-top: -6px;'}}">
         <md-tabs md-dynamic-height md-selected="tabSelected">
           <md-tab label="Sales Order" md-on-select="changeGeneric()">
           </md-tab>
@@ -214,6 +280,11 @@
           <b>Material Catalog</b>
         </div>
         <div style="text-align: right;float: right;width: 50%;padding-top: 0px;margin-top: -17px">
+        <md-button class="md-primary md-raised md-mini" style="margin: 0px; min-width: 0px" 
+            title="Show ATP" ng-click="showAtpDialog($event)" ng-show="isMobileDevice"
+            ng-disabled="materialSelected.length==0">
+          <md-icon class="material-icons">receipt</md-icon>
+        </md-button>
            <md-button class="md-primary md-raised md-mini" style="margin: 0px; min-width: 0px" 
             title="Show Logs" ng-click="showLogs($event)">
           <md-icon class="material-icons">list</md-icon>
@@ -264,38 +335,40 @@
         </fieldset>
        </div>
 
-       <div layout="column"  flex="100" ng-show="tabSelected == 0" style="height: 48px">
+       <div layout="column"  flex="100" ng-show="tabSelected == 0" style="{{!isMobileDevice ? 'height: 42px;' : ''}}">
              
         <fieldset class="table-set" layout="row" style="border: 0px;padding-bottom: 0px;">
 
-          <div flex="100" layout="row" class="table-container-2">
-            <div style="padding-top: 5px;">
+          <div flex="100" flex-xs="100" layout="row" layout-xs="column" class="table-container-2">
+            <div style="padding-top: 5px;" flex="15" flex-xs="50" layout-xs="row">
               <label style="font-size: 12px;font-weight: bold;">Order Number:</label>
             </div>
-            <div >
-              <select style="width: 100px" name="order" ng-model="orderSelected" ng-change="changeOrder(orderSelected)" ng-disabled="!shipToSelected || !shipTo2Selected || !soldToSelected || !payerSelected || !organizationSelected || !channelSelected || !divisionSelected || !officeSelected || !groupSelected">
+            <div flex="20" flex-xs="50" layout-xs="row">
+              <select style="{{!isMobileDevice ? 'width: 90%' : 'width:50%'}}" name="order" ng-model="orderSelected" ng-change="changeOrder(orderSelected)" ng-disabled="!shipToSelected || !shipTo2Selected || !soldToSelected || !payerSelected || !organizationSelected || !channelSelected || !divisionSelected || !officeSelected || !groupSelected">
                   <option value="0"></option>
                   <option ng-repeat="o in orderArray" value="{{o.value}}" ng-selected="orderSelected == o.value">{{o.label}}</option>
                 </select>
             </div>
-            <div style="padding-left: 15px;">
+            <div  flex="25" flex-xs="50">
               <label style="font-size: 12px;font-weight: bold;" ng-show="!orderSelected || orderSelected == '0'">No Sales Document Selected yet</label>
               <label style="font-size: 12px;font-weight: bold;" ng-show="salesOrder.length>0 ">Number of Lines items {{salesOrder.length}}</label>
             </div>          
-          <div ng-show="materialSelected.length>0" style="padding-left: 20px;">
+          <div ng-show="materialSelected.length>0" layout-xs="row" flex="15" flex-xs="50">
               <md-button class="md-raised md-primary md-button" ng-click="addLines()" 
-               ng-disabled="disableAddLines" style="line-height:24px;min-height: 25px; margin-top: 0px">
+               ng-disabled="disableAddLines" style="line-height:24px;min-height: 25px; margin: 0px">
                 Add lines
               </md-button>
             </div>
-            <div ng-show="materialSelected.length>0" style="padding-left: 20px;">
-              <md-slider-container>
+            <div ng-show="materialSelected.length>0"  flex="25" layout-xs="row" flex-xs="50">
+              <md-slider-container style="{{!isMobileDevice ? 'margin-top: -8px;' : ''}}">
                   <md-slider ng-model="multiplier" min="0" max="100" aria-label="blue" id="multiplier-slider"
                              class="md-primary">
                   </md-slider>
-                  <md-input-container style="margin: 0;padding: 0">
+                  {{multiplier}}
+                  <!--md-input-container style="margin: 0;padding: 0">
                     <input type="number" style="width: 50px" ng-model="multiplier" aria-label="blue" aria-controls="multiplier-slider">
-                  </md-input-container>
+
+                  </md-input-container -->
               </md-slider-container>
             </div>
           </div>
@@ -562,17 +635,11 @@
 
 
 
-
-    
-
 </div>
-
-
-    
 
   <div flex="20" flex-xs="100" ng-show="materialSelected.length>0">
     <div layout="column" style="padding-top: 67px" ng-show="tabSelected == 0">
-    <md-toolbar md-scroll-shrink>
+    <md-toolbar md-scroll-shrink ng-show="!isMobileDevice">
       <div class="md-toolbar-tools">ATP
 <div flex></div>
        <md-button  ng-show="!hiddenATP" class="md-mini"  aria-label="Hide" ng-click="hiddenATP=true"
@@ -585,7 +652,7 @@
       </div>
       
     </md-toolbar>
-     <md-content md-theme="altTheme" ng-show="!hiddenATP">
+     <md-content md-theme="altTheme" ng-show="!hiddenATP && !isMobileDevice">
       <section>
       <md-table-container ng-show="calculateATSProgress">
               <table md-table md-progress="calculateATSProgress">

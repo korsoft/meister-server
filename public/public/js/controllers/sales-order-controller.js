@@ -1,8 +1,8 @@
 (function(app) {
-	app.controller('SalesOrderController', ['$scope','$rootScope','$timeout','$mdSidenav','$mdMenu','$state',
+	app.controller('SalesOrderController', ['$scope','$rootScope','$timeout','$mdSidenav','$mdMenu','$mdMedia','$state',
 		'$mdDialog',
 		'SalesOrderService', 
-		function($scope,$rootScope,$timeout, $mdSidenav,$mdMenu, $state, $mdDialog, SalesOrderService) {
+		function($scope,$rootScope,$timeout, $mdSidenav,$mdMenu, $mdMedia, $state, $mdDialog, SalesOrderService) {
 		
 		$scope.shipToArray = [
 			{"label":"3000 - Smith Inc. LLC", value: "3000"}
@@ -72,9 +72,15 @@
 		$scope.note = {
 			type: "HDR",
 			text: "",
+			title: "Add Note",
 			lineNumber:1
 		};
 		var ROW_BY_PAGE = 50;
+
+		$scope.isMobileDevice = $mdMedia('xs');
+		$scope.collapseParterInfo = true;
+		$scope.collapseSalesSelection = true;
+
 
 		function getExecutionTimeBetween2Dates(a, b){
 
@@ -342,8 +348,27 @@
 		};
 
 		$scope.showAddNote = function(ev){
+			if($scope.salesOrderSelected.length>0){
+				$scope.note.type = "LINE";
+				$scope.note.lineNumber = $scope.salesOrderSelected[0].line_no;
+				$scope.note.title = "Adding Notes to Line Item " + $scope.salesOrderSelected[0].line_no;
+			}
+			else {
+				$scope.note.type = "HDR";
+				$scope.note.title = "Adding Header notes";
+			}
+
 			 $mdDialog.show({
 			      contentElement: '#addNoteDialog',
+			      parent: angular.element(document.querySelector('#tablesContainerMain')),
+			      targetEvent: ev,
+			      clickOutsideToClose: true
+			    });
+		};
+
+		$scope.showAtpDialog = function(ev){
+			$mdDialog.show({
+			      contentElement: '#atpContainer',
 			      parent: angular.element(document.querySelector('#tablesContainerMain')),
 			      targetEvent: ev,
 			      clickOutsideToClose: true

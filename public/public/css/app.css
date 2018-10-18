@@ -107,7 +107,7 @@
   background-color: #f0f0f0; }
 
 .demo-so md-toolbar.md-default-theme.md-hue-2:not(.md-menu-toolbar), .demo-so md-toolbar.md-hue-2:not(.md-menu-toolbar) {
-  background-color: #1283e4;
+  background-color: #0888df;
   color: white;
   height: 40px;
   min-height: 40px; }
@@ -123,7 +123,7 @@
   padding-right: 5px;
   padding-left: 5px;
   min-width: 0;
-  border-color: #8c83bd; }
+  border-color: lightgray; }
 
 .demo-so table.md-table thead.md-head > tr.md-row {
   height: 35px;
@@ -185,4 +185,4 @@
 
 .md-button.md-default-theme.md-primary.md-raised, .md-button.md-primary.md-raised, .md-button.md-default-theme.md-primary.md-fab, .md-button.md-primary.md-fab {
   color: rgba(255, 255, 255, 0.87);
-  background-color: #fa7b17; }
+  background-color: #ffa528; }
