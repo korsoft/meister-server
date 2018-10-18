@@ -106,12 +106,6 @@
 .demo-background {
   background-color: #f0f0f0; }
 
-.demo-so md-toolbar.md-default-theme.md-hue-2:not(.md-menu-toolbar), .demo-so md-toolbar.md-hue-2:not(.md-menu-toolbar) {
-  background-color: #0888df;
-  color: white;
-  height: 40px;
-  min-height: 40px; }
-
 .demo-so md-toolbar {
   height: 30px;
   min-height: 30px; }
@@ -123,7 +117,9 @@
   padding-right: 5px;
   padding-left: 5px;
   min-width: 0;
-  border-color: lightgray; }
+  border-color: #ececec;
+  border-style: solid;
+  border-width: 0.7px; }
 
 .demo-so table.md-table thead.md-head > tr.md-row {
   height: 35px;
@@ -134,7 +130,7 @@
 
 .demo-so .table-container {
   height: 200px;
-  background-color: #ABABAB;
+  background-color: #f3f2f2;
   border: 1px solid black;
   overflow-x: auto;
   overflow-y: hidden; }
@@ -186,3 +182,19 @@
 .md-button.md-default-theme.md-primary.md-raised, .md-button.md-primary.md-raised, .md-button.md-default-theme.md-primary.md-fab, .md-button.md-primary.md-fab {
   color: rgba(255, 255, 255, 0.87);
   background-color: #ffa528; }
+
+.main-menu-option-card {
+  height: 120px; }
+
+md-toolbar.md-default-theme.md-hue-2:not(.md-menu-toolbar), md-toolbar.md-hue-2:not(.md-menu-toolbar) {
+  background-color: #0888df;
+  color: white;
+  height: 40px;
+  min-height: 40px;
+  border-bottom: solid;
+  border-bottom-color: black;
+  border-bottom-width: 3px; }
+
+md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolbar) {
+  background-color: #0888df;
+  color: white; }

@@ -1,8 +1,10 @@
 (function(app) {
-	app.controller('HomeController', ['$scope','$rootScope','$timeout','$mdSidenav','$mdMenu','$state', 
-		function($scope,$rootScope,$timeout, $mdSidenav,$mdMenu, $state) {
+	app.controller('HomeController', ['$scope','$rootScope','$timeout','$mdSidenav','$mdMenu','$state','$mdMedia', 
+		function($scope,$rootScope,$timeout, $mdSidenav,$mdMenu, $state,  $mdMedia) {
 		$scope.toggleLeft = buildToggler('left');
     	$scope.toggleRight = buildToggler('right');
+
+    	$scope.isMobileDevice = $mdMedia('xs');
     	
 	    function buildToggler(componentId) {
 	      return function() {

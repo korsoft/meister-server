@@ -635,12 +635,16 @@
             <b>Average Partner Sales in USD: {{analytics.average | currency : "" : 2}}</b><br/>
             <b>Highest Sales Amount in USD: {{analytics.highsale | currency : "" : 2}}</b><br/>
             <b>Highest Quantity in Product Units sold to Partner: {{analytics.mostqty | currency : "" : 0}}</b><br/>
-            <b>Standard Deviation of the Average with respect to total sales in USD: {{analytics.stddev | currency : "" : 2}}</b>
+            <b>Standard Deviation of the Average with respect to total sales: {{analytics.stddev}}</b>
           </div>
         </fieldset>
 </div>
 
-
+<div layout="column"  flex="100" ng-show="tabSelected == 3 && labelsForGraphicReport.length>0" style="padding-top: 20px">
+    <h5>Partner Sales Trailing 18 Months</h5>
+    <canvas class="chart-base" chart-type="'bar'" chart-options="chartOptions"  chart-data="dataForGraphicReport" chart-labels="labelsForGraphicReport" >
+    </canvas>
+</div>
 
 </div>
 

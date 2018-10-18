@@ -3,21 +3,29 @@
 <md-sidenav class="md-sidenav-left" md-component-id="left">
 
       <md-toolbar class="md-theme-indigo">
-        <h1 class="md-toolbar-tools">Meister Claims Resolution</h1>
+        <h1 class="md-toolbar-tools">Demo Suite</h1>
       </md-toolbar>
 
-      <md-content style="">
+      <md-content style="" >
         <!--md-menu-content width="4">
           <md-menu-item>
           <md-button ng-click="gotoMainReports()">Meister Reports
           </md-button>
         </md-menu-item-->
         <md-menu-item>
-          <md-button ng-click="gotoClaims()">Meister Claims
+          <md-button ng-click="gotoClaims()">Budget/Claims
           </md-button>
         </md-menu-item>
         <md-menu-item>
           <md-button ng-click="gotoSalesOrder()">Sales Order
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button >Purchase Order
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button onclick="window.location='http://meistersdk.dyndns.org'">Reporting/SDK
           </md-button>
         </md-menu-item>
       </md-menu-content>
@@ -31,8 +39,11 @@
         <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
          <md-icon ng-bind="'menu'"></md-icon>
         </md-button>
-
-        <h2 flex md-truncate>Meister Claims Resolution</h2>
+        <img src="public/images/meister.png" height="34px">
+        &nbsp;&nbsp;
+        <h2 flex md-truncate>
+           Demo Suite
+        </h2>
 
       
         <md-menu>
@@ -62,8 +73,8 @@
 
     </md-toolbar>
 
-    <md-content class="md-padding" layout-xs="column" layout="row">
-    <div flex-xs flex-gt-xs="50" layout="column">
+    <md-content class="md-padding" layout-xs="column" layout="row" style="padding-top: 0px">
+    <div flex-xs flex-gt-xs="50" layout="column" style="padding-right: 15px">
 
     <!--md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
         <md-card-title>
@@ -80,11 +91,11 @@
         </md-card-actions>
       </md-card -->
 
-       <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+       <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">Meister Claims</span>
-            <span class="md-subhead">Meister Claims</span>
+            <span class="md-headline">Budget/Claims</span>
+            <span class="md-subhead">Budget/Claims</span>
           </md-card-title-text>
           <md-card-title-media>
             <div class="md-media-xs card-media"></div>
@@ -95,7 +106,7 @@
         </md-card-actions>
       </md-card>
 
-       <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+       <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card">
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">Sales Order</span>
@@ -109,6 +120,44 @@
           <md-button ng-click="gotoSalesOrder()" class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
         </md-card-actions>
       </md-card>
+
+      <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Purchase Order</span>
+            <span class="md-subhead">Purchase Order</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-xs card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
+        </md-card-actions>
+      </md-card>
+
+       <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Reporting/SDK</span>
+            <span class="md-subhead">Reporting/SDK</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-xs card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary md-button md-ink-ripple" style="color:white" onclick="window.location='http://meistersdk.dyndns.org'">Launch</md-button>
+        </md-card-actions>
+      </md-card>
+     </div>
+
+     <div flex-xs flex-gt-xs="50" layout="column" style="padding-bottom: 20px; {{!isMobileDevice ? 'padding-left: 15px' : 'padding-right: 15px'}}">
+
+         <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card" style="height: 529px">
+           
+          </md-card>
+
      </div>
  </md-content>
 </div>

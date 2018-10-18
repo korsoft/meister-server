@@ -80,7 +80,9 @@
 		$scope.isMobileDevice = $mdMedia('xs');
 		$scope.collapseParterInfo = true;
 		$scope.collapseSalesSelection = true;
-
+		$scope.dataForGraphicReport = [];
+		$scope.labelsForGraphicReport = [];
+		
 
 		function getExecutionTimeBetween2Dates(a, b){
 
@@ -295,8 +297,11 @@
 		};
 
 		$scope.changeGeneric = function(){
-			$scope.getSalesPartner();
-			$scope.calculateAnalytics();
+			if($scope.salesHistory.length==0)
+				$scope.getSalesPartner();
+
+			if($scope.analytics == null)
+				$scope.calculateAnalytics();
 		};
 
 		$scope.onSalesHistorySelected = function(){
@@ -307,9 +312,11 @@
 			console.log("getSalesPartner...");
 			$scope.salesHistory = [];
 			$scope.salesHistorySelected = [];
+			$scope.dataForGraphicReport = [];
+			$scope.labelsForGraphicReport = [];
 			if($scope.shipToSelected && $scope.shipTo2Selected && $scope.soldToSelected && $scope.payerSelected &&
 			 	$scope.organizationSelected && $scope.channelSelected && $scope.divisionSelected && $scope.officeSelected 
-			 	&& $scope.groupSelected && $scope.materialSelected.length>0 && $scope.tabSelected == 1){
+			 	&& $scope.groupSelected && $scope.materialSelected.length>0){
 				
 				var endpoint = "Meister.Demo.RL.Sales.History";
 				var json = '{"SALESORG":"' + $scope.organizationSelected + 
@@ -329,16 +336,12 @@
 			          	$scope.log = "Completed Sales History<br/>" + $scope.log;
 			          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
 			          	$scope.salesHistory = result.data.Json[0].HISTORY;
-			          	/*_.forEach(histories,function(row){
-			          		var json = angular.copy(row);
-			          		if(json.LINE_ITEMS && json.LINE_ITEMS.length>0){
-			          			json.line_item = row.LINE_ITEMS[0];
-			          			json.MATERIAL  = row.LINE_ITEMS[0].MATERIAL;
-			          		}
-			          		delete json.LINE_ITEMS;
-			          		$scope.salesHistory.push(json);
-			          	});*/
+			          	var report = SalesOrderService.buildSalesHistoryDataForGraphicReports($scope.salesHistory);
+			          	console.log("report",report);
+			          	$scope.dataForGraphicReport = report.data;
+			          	$scope.labelsForGraphicReport = report.labels;
 			          	console.log("Histories",$scope.salesHistory);
+			          	console.log("dataForGraphicReport",$scope.dataForGraphicReport);
 			     	  },
 			          function(errorPayload) {
 			              console.log('SalesOrderService.execute failure', errorPayload);
