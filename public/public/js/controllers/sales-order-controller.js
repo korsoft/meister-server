@@ -1,8 +1,8 @@
 (function(app) {
-	app.controller('SalesOrderController', ['$scope','$rootScope','$timeout','$mdSidenav','$mdMenu','$mdMedia','$state',
+	app.controller('SalesOrderController', ['$scope','$rootScope','$timeout','$filter','$mdSidenav','$mdMenu','$mdMedia','$state',
 		'$mdDialog',
 		'SalesOrderService', 
-		function($scope,$rootScope,$timeout, $mdSidenav,$mdMenu, $mdMedia, $state, $mdDialog, SalesOrderService) {
+		function($scope,$rootScope,$timeout, $filter, $mdSidenav,$mdMenu, $mdMedia, $state, $mdDialog, SalesOrderService) {
 		
 		$scope.shipToArray = [
 			{"label":"3000 - Smith Inc. LLC", value: "3000"}
@@ -82,6 +82,21 @@
 		$scope.collapseSalesSelection = true;
 		$scope.dataForGraphicReport = [];
 		$scope.labelsForGraphicReport = [];
+
+		$scope.chartOptions = {
+			scales: {
+				yAxes: [
+		        {
+		            ticks: {
+		                callback: function(label, index, labels) {
+		                	//console.log("chartOptions ticks",label);
+		                    return $filter('currency')(label, "$", 0);
+		                }
+		            }
+		        }
+		    	]
+        	}
+		};
 		
 
 		function getExecutionTimeBetween2Dates(a, b){
@@ -210,6 +225,12 @@
 		     	);
 		};
 
+		$scope.formatStandardDeviation = function(sd){
+			if(!sd)
+				return "";
+			return sd.substring(0,2) + "." + sd.substring(2,4) + "%";
+		};
+
 		$scope.onSelectMaterialRow = function(){
 			console.log("onSelectMaterialRow",$scope.materialSelected);
 			$scope.calculateATS();
@@ -316,7 +337,7 @@
 			$scope.labelsForGraphicReport = [];
 			if($scope.shipToSelected && $scope.shipTo2Selected && $scope.soldToSelected && $scope.payerSelected &&
 			 	$scope.organizationSelected && $scope.channelSelected && $scope.divisionSelected && $scope.officeSelected 
-			 	&& $scope.groupSelected && $scope.materialSelected.length>0){
+			 	&& $scope.groupSelected){
 				
 				var endpoint = "Meister.Demo.RL.Sales.History";
 				var json = '{"SALESORG":"' + $scope.organizationSelected + 

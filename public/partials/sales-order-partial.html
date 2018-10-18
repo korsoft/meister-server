@@ -635,7 +635,7 @@
             <b>Average Partner Sales in USD: {{analytics.average | currency : "" : 2}}</b><br/>
             <b>Highest Sales Amount in USD: {{analytics.highsale | currency : "" : 2}}</b><br/>
             <b>Highest Quantity in Product Units sold to Partner: {{analytics.mostqty | currency : "" : 0}}</b><br/>
-            <b>Standard Deviation of the Average with respect to total sales: {{analytics.stddev}}</b>
+            <b>Standard Deviation of the Average with respect to total sales: {{formatStandardDeviation(analytics.stddev)}}</b>
           </div>
         </fieldset>
 </div>
