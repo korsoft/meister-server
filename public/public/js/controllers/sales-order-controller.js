@@ -325,11 +325,11 @@
 					$scope.salesPartnerProgress.then(
 			          function(result) { 
 			          	var end = new Date();
-			          	console.log("SalesOrderService.execute result",result);		        	  
+			          	console.log("Meister.Demo.RL.Sales.History result",result);		        	  
 			          	$scope.log = "Completed Sales History<br/>" + $scope.log;
 			          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
-			          	var histories = result.data.Json[0].HISTORY;
-			          	_.forEach(histories,function(row){
+			          	$scope.salesHistory = result.data.Json[0].HISTORY;
+			          	/*_.forEach(histories,function(row){
 			          		var json = angular.copy(row);
 			          		if(json.LINE_ITEMS && json.LINE_ITEMS.length>0){
 			          			json.line_item = row.LINE_ITEMS[0];
@@ -337,7 +337,7 @@
 			          		}
 			          		delete json.LINE_ITEMS;
 			          		$scope.salesHistory.push(json);
-			          	});
+			          	});*/
 			          	console.log("Histories",$scope.salesHistory);
 			     	  },
 			          function(errorPayload) {
