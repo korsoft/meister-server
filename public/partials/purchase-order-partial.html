@@ -1,45 +1,5 @@
-<div ng-controller="SalesOrderController" ng-cloak class="demo-so demo-background">
+<div ng-controller="PurchaseOrderController" ng-cloak class="demo-so demo-background">
 
-  <div style="visibility: hidden;">
-      <div class="md-dialog-container" id="atpContainer">
-          <md-dialog layout-padding style="height:200px">
-            <md-toolbar md-scroll-shrink>
-              <div class="md-toolbar-tools">ATP</div>
-            </md-toolbar>
-               <md-content>
-                <section>
-                <md-table-container >
-                        <table md-table >
-                          <tbody md-body> 
-                            <tr md-row style="height:33px">
-                              <td md-cell class="td-space">Unrestricted Stock</td>
-                              <td md-cell class="td-space" style="text-align: right;">{{ats.UNRESTRICTED_STCK}}</td>
-                            </tr>
-                            <tr md-row style="height:33px">
-                              <td md-cell class="td-space">Sales Reqs</td>
-                              <td md-cell class="td-space" style="text-align: right;">{{ats.SALES_REQS}}</td>
-                            </tr>
-                            <tr md-row style="height:33px">
-                              <td md-cell class="td-space">Orders</td>
-                              <td md-cell class="td-space" style="text-align: right;">{{ats.ORDERS}}</td>
-                            </tr>
-                            <tr md-row style="height:33px">
-                              <td md-cell class="td-space">Delivery Notes</td>
-                              <td md-cell class="td-space" style="text-align: right;">{{ats.DELIVERY}}</td>
-                            </tr>
-                            <tr md-row style="height:33px">
-                              <td md-cell class="td-space">Total Stock</td>
-                              <td md-cell class="td-space" style="text-align: right;">{{ats.TOTAL_STCK}}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </md-table-container> 
-              </section>
-            </md-content>
-
-          </md-dialog>
-      </div>
-  </div>
   <div style="visibility: hidden">
           <div class="md-dialog-container" id="myDialog" >
             <md-dialog layout-padding>
@@ -83,7 +43,7 @@
          <md-icon ng-bind="'home'"></md-icon>
         </md-button>
 
-        <h2 flex md-truncate>Sales Order</h2>
+        <h2 flex md-truncate>Purchase Order</h2>
 
     
          <md-menu>
@@ -150,110 +110,39 @@
                 </md-button>
               </div>
           </div>
-          <div ng-show="!isMobileDevice || !collapseParterInfo " style="width: 100%;padding-top: 10px ">
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px" >
-          <label>Ship To:</label>
-          <md-select ng-model="shipToSelected" ng-required="true" ng-change="changeShipTo(shipToSelected)">
+          <div ng-show="!isMobileDevice || !collapseParterInfo " style="width: 100%;padding-top: 20px ">
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 20px" >
+          <label>Vendor:</label>
+          <md-select ng-model="vendorSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in shipToArray" ng-value="s.value" >
+                  <md-option ng-repeat="s in vendorArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px" 
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 20px" 
           >
-          <label>Sold To:</label>
-           <md-select ng-model="soldToSelected" ng-required="true" ng-change="changeGeneric()">
+          <label>Purchasing Organization:</label>
+           <md-select ng-model="purchasingOrganizationSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in soldToArray" ng-value="s.value" >
+                  <md-option ng-repeat="s in purchasingOrganizationArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 20px"
+         >
+              <label>Plant :</label>
+              <md-select ng-model="plantSelected" ng-required="true" ng-change="changeGeneric()">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in plantArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
           </md-input-container>
           <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px"
          >
-              <label>Payer:</label>
-              <md-select ng-model="payerSelected" ng-required="true" ng-change="changeGeneric()">
-                <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in payerArray" ng-value="s.value" >
-                    {{s.label}}
-                  </md-option>
-                </md-select>
-          </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px"
-         >
-          <label>Deliver To:</label>
-          <md-select ng-model="shipTo2Selected" ng-required="true" ng-change="changeGeneric()">
-                <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in shipToArray" ng-value="s.value" >
-                    {{s.label}}
-                  </md-option>
-                </md-select>
-          </md-input-container>
-        </div>
-           <div style="width: 100%;height:15px;padding-top: 20px">
-              <div style="width: 50%;float: left;">
-                <h5 style="padding-top: 0px;margin-top: 5px;margin-bottom: 5px">Sales selection<span style="color: red">*</span></h5>
-              </div>
-              <div style="width: 50%;float: right;text-align: right;">
-                 <md-button  ng-show="isMobileDevice && !collapseSalesSelection  " id="btn_hide_material" class="md-mini"  aria-label="Hide Materials" ng-click="collapseSalesSelection = true" 
-                  style="margin:0px;min-width:0px"
-                  title="Hide Partner Info" >
-                    <md-icon class="material-icons">expand_less</md-icon>
-                </md-button>
-                <md-button  ng-show="isMobileDevice && collapseSalesSelection" id="btn_show_material" class="md-mini"  aria-label="Hide Materials" ng-click="collapseSalesSelection = false"
-                style="margin:0px;min-width:0px" title="Show Partner Info">
-                    <md-icon class="material-icons">expand_more</md-icon>
-                </md-button>
-              </div>
-          </div>
-          <div ng-show="!isMobileDevice || !collapseSalesSelection " style="width: 100%;padding-top: 20px ">
-           <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
-            <label>Organization:</label>
-               <md-select ng-model="organizationSelected" ng-required="true" ng-change="changeGeneric()">
-                <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in organizationArray" ng-value="s.value" >
-                    {{s.label}}
-                  </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
-            <label>Channel:</label>
-             <md-select ng-model="channelSelected" ng-required="true" ng-change="changeGeneric()">
-                <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in channelArray" ng-value="s.value" >
-                    {{s.label}}
-                  </md-option>
-                </md-select>
-             </md-input-container>
-             <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
-             <label>Division:</label>
-            <md-select ng-model="divisionSelected" ng-required="true" ng-change="changeGeneric()">
-                <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in divisionArray" ng-value="s.value" >
-                    {{s.label}}
-                  </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
-            <label>Office:</label>
-              <md-select ng-model="officeSelected" ng-required="true" ng-change="changeGeneric()">
-                <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in officeArray" ng-value="s.value" >
-                    {{s.label}}
-                  </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px">
-                <label>Group:</label>
-                <md-select ng-model="groupSelected" ng-required="true" ng-change="changeGeneric()">
-                <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in groupArray" ng-value="s.value" >
-                    {{s.label}}
-                  </md-option>
-                </md-select>
-            </md-input-container> 
-          </div>
+         
           </fieldset>
               
         </div>
@@ -263,11 +152,9 @@
 
       <div layout="column" flex="100" style="{{isMobileDevice ? 'margin-top: 5px;margin-bottom: 20px' : 'margin-top: -6px;'}}">
         <md-tabs md-dynamic-height md-selected="tabSelected">
-          <md-tab label="Sales Order" md-on-select="changeGeneric()">
+          <md-tab label="Purchase Order" md-on-select="changeGeneric()">
           </md-tab>
-          <md-tab label="Sales by Partner" md-on-select="changeGeneric()">
-          </md-tab>
-          <md-tab label="Sales by Material" md-on-select="changeGeneric()">
+          <md-tab label="PO by Vendor" md-on-select="changeGeneric()">
           </md-tab>
           <md-tab label="Analytics" md-on-select="changeGeneric()">
           </md-tab>
@@ -341,10 +228,10 @@
 
           <div flex="100" flex-xs="100" layout="row" layout-xs="column" class="table-container-2">
             <div style="padding-top: 5px;" flex="15" flex-xs="50" layout-xs="row">
-              <label style="font-size: 12px;font-weight: bold;">Order Number:</label>
+              <label style="font-size: 12px;font-weight: bold;">PO Number:</label>
             </div>
             <div flex="20" flex-xs="50" layout-xs="row">
-              <select style="{{!isMobileDevice ? 'width: 90%' : 'width:50%'}}" name="order" ng-model="orderSelected" ng-change="changeOrder(orderSelected)" ng-disabled="!shipToSelected || !shipTo2Selected || !soldToSelected || !payerSelected || !organizationSelected || !channelSelected || !divisionSelected || !officeSelected || !groupSelected">
+              <select style="{{!isMobileDevice ? 'width: 90%' : 'width:50%'}}" name="order" ng-model="orderSelected" ng-change="changeOrder(orderSelected)" ng-disabled="!vendorSelected  || !purchasingOrganizationSelected || !plantSelected">
                   <option value="0"></option>
                   <option ng-repeat="o in orderArray" value="{{o.value}}" ng-selected="orderSelected == o.value">{{o.label}}</option>
                 </select>
@@ -365,10 +252,6 @@
                              class="md-primary">
                   </md-slider>
                   {{multiplier}}
-                  <!--md-input-container style="margin: 0;padding: 0">
-                    <input type="number" style="width: 50px" ng-model="multiplier" aria-label="blue" aria-controls="multiplier-slider">
-
-                  </md-input-container -->
               </md-slider-container>
             </div>
           </div>
@@ -480,132 +363,6 @@
           </div>
 
 
-
-<div layout="column"  flex="100" ng-show="tabSelected == 2">
-         <fieldset class="table-set" >
-          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 476px' : 'height: 282px'}}">
-            <md-table-container ng-show="calculateATSProgress" style="{{hiddenMaterial ? 'height: 476px' : 'height: 282px'}}">
-              <table md-virtual-repeat-container md-table md-row-select ng-model="salesMaterialSelected" md-progress="calculateATSProgress" style="{{hiddenMaterial ? 'height: 476px' : 'height: 282px'}}">
-                <thead md-head >
-                  <tr md-row>
-                    <th md-column class="td-space"><span>PLNGSEGMT</span></th>
-                    <th md-column class="td-space"><span>PLNGSEGNO</span></th>
-                    <th md-column class="td-space"><span>SORT_DATE</span></th>
-                    <th md-column class="td-space"><span>SORTIND_00</span></th>
-                    <th md-column class="td-space"><span>SORTIND_01</span></th>
-                    <th md-column class="td-space"><span>SORTIND_02</span></th>
-                    <th md-column class="td-space"><span>MRP_ELEMENT_IND</span></th>
-                    <th md-column class="td-space"><span>PLUS_MINUS</span></th>
-                    <th md-column class="td-space"><span>AVAILABLE</span></th>
-                    <th md-column class="td-space"><span>AVAIL_DATE</span></th>
-                    <th md-column class="td-space"><span>FINISH_DATE</span></th>
-                    <th md-column class="td-space"><span>MRP_ELEMNT</span></th>
-                    <th md-column class="td-space"><span>ELEMNT_DATA</span></th>
-                    <th md-column class="td-space"><span>EXCMSGKEY</span></th>
-                    <th md-column class="td-space"><span>EXCMESSAGE</span></th>
-                    <th md-column class="td-space"><span>REC_REQD_QTY</span></th>
-                    <th md-column class="td-space"><span>AVAIL_QTY1</span></th>
-                    <th md-column class="td-space"><span>AVAIL_QTY2</span></th>
-                    <th md-column class="td-space"><span>ATP_QTY</span></th>
-                    <th md-column class="td-space"><span>FBYTE</span></th>
-                    <th md-column class="td-space"><span>INT_TABLE_IND1</span></th>
-                    <th md-column class="td-space"><span>INT_TABLE_IND2</span></th>
-                    <th md-column class="td-space"><span>SELECTION</span></th>
-                    <th md-column class="td-space"><span>EXCEP_IND</span></th>
-                    <th md-column class="td-space"><span>PROD_VERSION</span></th>
-                    <th md-column class="td-space"><span>BOMEXPL_NO</span></th>
-                    <th md-column class="td-space"><span>REV_LEV</span></th>
-                    <th md-column class="td-space"><span>SCRAP</span></th>
-                    <th md-column class="td-space"><span>START_DATE</span></th>
-                    <th md-column class="td-space"><span>OPEN_DATE</span></th>
-                    <th md-column class="td-space"><span>SPPROCTYPE</span></th>
-                    <th md-column class="td-space"><span>EXT_SPPROCTYPE</span></th>
-                    <th md-column class="td-space"><span>PLAN_PLANT1</span></th>
-                    <th md-column class="td-space"><span>PLAN_PLANT2</span></th>
-                    <th md-column class="td-space"><span>STG_LOC_2</span></th>
-                    <th md-column class="td-space"><span>STORAGE_LOC</span></th>
-                    <th md-column class="td-space"><span>RESCHED_DATE</span></th>
-                    <th md-column class="td-space"><span>VENDOR_NO</span></th>
-                    <th md-column class="td-space"><span>CUSTOMER</span></th>
-                    <th md-column class="td-space"><span>CUST_NAME</span></th>
-                    <th md-column class="td-space"><span>VEND_NAME</span></th>
-                    <th md-column class="td-space"><span>LOW_LEVEL_EXCPT</span></th>
-                    <th md-column class="td-space"><span>LOW_LEVEL_DELAY</span></th>
-                    <th md-column class="td-space"><span>STOCK_IN_TRANSIT</span></th>
-                    <th md-column class="td-space"><span>USER_EXIT1</span></th>
-                    <th md-column class="td-space"><span>USER_EXIT2</span></th>
-                    <th md-column class="td-space"><span>USER_EXIT3</span></th>
-                    <th md-column class="td-space"><span>SORTIND_KD</span></th>
-                    <th md-column class="td-space"><span>REC_REQD_QTY_ALT_UOM</span></th>
-                    <th md-column class="td-space"><span>AVAIL_QTY_ALT_UOM</span></th>
-                    <th md-column class="td-space"><span>TEXT_FIELD_ALT_UOM</span></th>
-                    <th md-column class="td-space"><span>ICON_TEXT</span></th>
-                    <th md-column class="td-space"><span>REQ_SEGMENT</span></th>
-                    <th md-column class="td-space"><span>STOCK_SEGMENT</span></th>
-                  </tr>
-                </thead>
-                <tbody md-body> 
-                  <tr md-row md-auto-select md-select="s" md-virtual-repeat="s in salesMaterial">
-                    <td md-cell class="td-space">{{s.PLNGSEGMT}}</td>
-                    <td md-cell class="td-space">{{s.PLNGSEGNO}}</td>
-                    <td md-cell class="td-space">{{formatSORT_DATE(s.SORT_DATE)}}</td>
-                    <td md-cell class="td-space">{{s.SORTIND_00}}</td>
-                    <td md-cell class="td-space">{{s.SORTIND_01}}</td>
-                    <td md-cell class="td-space">{{s.SORTIND_02}}</td>
-                    <td md-cell class="td-space">{{s.MRP_ELEMENT_IND}}</td>
-                    <td md-cell class="td-space">{{s.PLUS_MINUS}}</td>
-                    <td md-cell class="td-space">{{s.AVAILABLE}}</td>
-                    <td md-cell class="td-space">{{s.AVAIL_DATE}}</td>
-                    <td md-cell class="td-space">{{s.FINISH_DATE}}</td>
-                    <td md-cell class="td-space">{{s.MRP_ELEMNT}}</td>
-                    <td md-cell class="td-space">{{s.ELEMNT_DATA}}</td>
-                    <td md-cell class="td-space">{{s.EXCMSGKEY}}</td>
-                    <td md-cell class="td-space">{{s.EXCMESSAGE}}</td>
-                    <td md-cell class="td-space">{{s.REC_REQD_QTY}}</td>
-                    <td md-cell class="td-space">{{s.AVAIL_QTY1}}</td>
-                    <td md-cell class="td-space">{{s.AVAIL_QTY2}}</td>
-                    <td md-cell class="td-space">{{s.ATP_QTY}}</td>
-                    <td md-cell class="td-space">{{s.FBYTE}}</td>
-                    <td md-cell class="td-space">{{s.INT_TABLE_IND1}}</td>
-                    <td md-cell class="td-space">{{s.INT_TABLE_IND2}}</td>
-                    <td md-cell class="td-space">{{s.SELECTION}}</td>
-                    <td md-cell class="td-space">{{s.EXCEP_IND}}</td>
-                    <td md-cell class="td-space">{{s.PROD_VERSION}}</td>
-                    <td md-cell class="td-space">{{s.BOMEXPL_NO}}</td>
-                    <td md-cell class="td-space">{{s.REV_LEV}}</td>
-                    <td md-cell class="td-space">{{s.SCRAP}}</td>
-                    <td md-cell class="td-space">{{s.START_DATE}}</td>
-                    <td md-cell class="td-space">{{s.OPEN_DATE}}</td>
-                    <td md-cell class="td-space">{{s.SPPROCTYPE}}</td>
-                    <td md-cell class="td-space">{{s.EXT_SPPROCTYPE}}</td>
-                    <td md-cell class="td-space">{{s.PLAN_PLANT1}}</td>
-                    <td md-cell class="td-space">{{s.PLAN_PLANT2}}</td>
-                    <td md-cell class="td-space">{{s.STG_LOC_2}}</td>
-                    <td md-cell class="td-space">{{s.STORAGE_LOC}}</td>
-                    <td md-cell class="td-space">{{s.RESCHED_DATE}}</td>
-                    <td md-cell class="td-space">{{s.VENDOR_NO}}</td>
-                    <td md-cell class="td-space">{{s.CUSTOMER}}</td>
-                    <td md-cell class="td-space">{{s.CUST_NAME}}</td>
-                    <td md-cell class="td-space">{{s.VEND_NAME}}</td>
-                    <td md-cell class="td-space">{{s.LOW_LEVEL_EXCPT}}</td>
-                    <td md-cell class="td-space">{{s.LOW_LEVEL_DELAY}}</td>
-                    <td md-cell class="td-space">{{s.STOCK_IN_TRANSIT}}</td>
-                    <td md-cell class="td-space">{{s.USER_EXIT1}}</td>
-                    <td md-cell class="td-space">{{s.USER_EXIT2}}</td>
-                    <td md-cell class="td-space">{{s.USER_EXIT3}}</td>
-                    <td md-cell class="td-space">{{s.SORTIND_KD}}</td>
-                    <td md-cell class="td-space">{{s.REC_REQD_QTY_ALT_UOM}}</td>
-                    <td md-cell class="td-space">{{s.AVAIL_QTY_ALT_UOM}}</td>
-                    <td md-cell class="td-space">{{s.TEXT_FIELD_ALT_UOM}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </md-table-container> 
-          </div>
-        </fieldset>
-       
-          </div>
-
 <div layout="column"  flex="100" ng-show="tabSelected == 3" style="padding-top: 25px">
        
         <fieldset class="table-set" ng-show="calculateAnalyticsProgress" >
@@ -650,50 +407,7 @@
 
   <div flex="20" flex-xs="100" ng-show="materialSelected.length>0">
     <div layout="column" style="padding-top: 67px" ng-show="tabSelected == 0">
-    <md-toolbar md-scroll-shrink ng-show="!isMobileDevice">
-      <div class="md-toolbar-tools">ATP
-<div flex></div>
-       <md-button  ng-show="!hiddenATP" class="md-mini"  aria-label="Hide" ng-click="hiddenATP=true"
-              title="Hide" >
-            <md-icon class="material-icons">expand_less</md-icon>
-            </md-button>
-            <md-button  ng-show="hiddenATP" class="md-mini"  aria-label="Show" ng-click="hiddenATP=false" title="Show">
-                <md-icon class="material-icons">expand_more</md-icon>
-            </md-button>
-      </div>
-      
-    </md-toolbar>
-     <md-content md-theme="altTheme" ng-show="!hiddenATP && !isMobileDevice">
-      <section>
-      <md-table-container ng-show="calculateATSProgress">
-              <table md-table md-progress="calculateATSProgress">
-                <tbody md-body> 
-                  <tr md-row style="height:33px">
-                    <td md-cell class="td-space">Unrestricted Stock</td>
-                    <td md-cell class="td-space" style="text-align: right;">{{ats.UNRESTRICTED_STCK}}</td>
-                  </tr>
-                  <tr md-row style="height:33px">
-                    <td md-cell class="td-space">Sales Reqs</td>
-                    <td md-cell class="td-space" style="text-align: right;">{{ats.SALES_REQS}}</td>
-                  </tr>
-                  <tr md-row style="height:33px">
-                    <td md-cell class="td-space">Orders</td>
-                    <td md-cell class="td-space" style="text-align: right;">{{ats.ORDERS}}</td>
-                  </tr>
-                  <tr md-row style="height:33px">
-                    <td md-cell class="td-space">Delivery Notes</td>
-                    <td md-cell class="td-space" style="text-align: right;">{{ats.DELIVERY}}</td>
-                  </tr>
-                  <tr md-row style="height:33px">
-                    <td md-cell class="td-space">Total Stock</td>
-                    <td md-cell class="td-space" style="text-align: right;">{{ats.TOTAL_STCK}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </md-table-container> 
-    </section>
-  </md-content>
-
+    
   <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'" style="margin-top:5px">
       <div class="md-toolbar-tools" md-truncate flex >
          Notes
@@ -730,6 +444,3 @@
     </div>
      
   </md-content>
-
- 
-</div>

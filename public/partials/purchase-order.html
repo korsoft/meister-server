@@ -83,7 +83,7 @@
          <md-icon ng-bind="'home'"></md-icon>
         </md-button>
 
-        <h2 flex md-truncate>Sales Order</h2>
+        <h2 flex md-truncate>Purchase Order</h2>
 
     
          <md-menu>
@@ -356,7 +356,7 @@
           <div ng-show="materialSelected.length>0" layout-xs="row" flex="15" flex-xs="50">
               <md-button class="md-raised md-primary md-button" ng-click="addLines()" 
                ng-disabled="disableAddLines" style="line-height:24px;min-height: 25px; margin: 0px">
-                Add Items
+                Add lines
               </md-button>
             </div>
             <div ng-show="materialSelected.length>0"  flex="25" layout-xs="row" flex-xs="50">
@@ -730,6 +730,3 @@
     </div>
      
   </md-content>
-
- 
-</div>

@@ -1,55 +1,29 @@
 (function(app) {
-	app.controller('SalesOrderController', ['$scope','$rootScope','$timeout','$filter','$mdSidenav','$mdMenu','$mdMedia','$state',
+	app.controller('PurchaseOrderController', ['$scope','$rootScope','$timeout','$filter','$mdSidenav','$mdMenu','$mdMedia','$state',
 		'$mdDialog',
 		'SalesOrderService', 
 		function($scope,$rootScope,$timeout, $filter, $mdSidenav,$mdMenu, $mdMedia, $state, $mdDialog, SalesOrderService) {
 		
-		$scope.shipToArray = [
-			{"label":"3000 - Smith Inc. LLC", value: "3000"}
+		$scope.vendorArray = [
+			{label:"1000 - C.E.B. Berlin", value: "1000"}
 		];
 
-		$scope.soldToArray = [
-			{"label":"3000 - Smith Inc. LLC", value: "3000"}
+		$scope.purchasingOrganizationArray = [
+			{label:"1000 - BestRun Germany", value: "1000"}
 		];
 
-		$scope.payerArray = [
-			{"label":"3050 - Bush Holdings, Inc.", value: "3050"}
-		];
-
-		$scope.organizationArray = [
-			{"label":"3000 - USA Philadelphia", value: "3000"}
-		];
-
-		$scope.channelArray = [
-			{"label":"10 - Final customer sales", value: "10"}
-		];
-
-		$scope.divisionArray = [
-			{"label":"00 - Cross-division ", value: "00"}
-		];
-
-		$scope.officeArray = [
-			{"label":"3010 - Office Chicago", value: "3010"}
-		];
-
-		$scope.groupArray = [
-			{"label":"311 - Group C1", value: "311"}
+		$scope.plantArray = [
+			{label:"3000 - Chicago Plant", value: "3000"}
 		];
 
 		$scope.orderArray = [
-			{"label":"20168", value: "20168"},
-			{"label":"New SO", value: "NEW"}
+			{"label":"4500022451", value: "4500022451"},
+			{"label":"New PO", value: "NEW"}
 		];
 
-		$scope.shipToSelected = "";
-		$scope.shipTo2Selected = "";
-		$scope.soldToSelected = "";
-		$scope.payerSelected = "";
-		$scope.organizationSelected = "";
-		$scope.channelSelected = "";
-		$scope.divisionSelected = "";
-		$scope.officeSelected = "";
-		$scope.groupSelected = "";
+		$scope.vendorSelected = "";
+		$scope.purchasingOrganizationSelected = "";
+		$scope.plantSelected = "";
 		$scope.multiplier = 10;
 		$scope.materialCatalog = [];
 		$scope.salesOrder = [];
@@ -58,16 +32,11 @@
 		$scope.salesOrderSelected = [];
 		$scope.orderSelected = "0";
 		$scope.tabSelected = 0;
-		$scope.ats = {};
 		$scope.notes = [];
 		$scope.salesHistory = [];
-		$scope.salesMaterial = [];
-		$scope.salesMaterialPage = [];
 		$scope.salesHistorySelected = [];
-		$scope.salesMaterialSelected = [];
 		$scope.analytics = null;
 		$scope.hiddenMaterial = false;
-		$scope.hiddenATP = false;
 		$scope.hiddenNotes = false;
 		$scope.note = {
 			type: "HDR",
@@ -119,18 +88,28 @@
 
 		}
 
-		$scope.changeShipTo = function(item){
-			console.log("changeShipTo",item);
-			if(item && item != ""){
+		$scope.loadMaterialCatalog = function(){
+			console.log("loadMaterialCatalog");
+			console.log("vendorSelected",$scope.vendorSelected);
+			console.log("plantSelected",$scope.plantSelected);
+			console.log("purchasingOrganizationSelected",$scope.purchasingOrganizationSelected);
+			
+			if(!$scope.vendorSelected || $scope.vendorSelected=="" || !$scope.plantSelected || $scope.plantSelected=="" 
+				|| !$scope.purchasingOrganizationSelected || $scope.purchasingOrganizationSelected==""){
+				$scope.materialCatalog = [];
+				return;
+			}
+				
 				var endpoint = "Meister.Demo.Po.Mat.Catalog";
-				var json = '{"VENDOR":"' + item + '","PLANT":"' + item + '","PURORG":"' + item + '"}';
+				var json = '{"VENDOR":"' + $scope.vendorSelected + '","PLANT":"' + $scope.plantSelected 
+					+ '","PURORG":"' + $scope.purchasingOrganizationSelected + '"}';
 				$scope.log = "Executing Get Catalog<br/>" + $scope.log;
 				var start = new Date();
 				$scope.materialCatalogProgress = SalesOrderService.execute(endpoint, json);
 				$scope.materialCatalogProgress.then(
 		          function(result) { 
 		          	var end = new Date();
-		          	console.log("SalesOrderService.execute result",result);		        	  
+		          	console.log("Vendor result",result);		        	  
 		          	$scope.log = "Completed Get Catalog<br/>" + $scope.log;
 		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
 		          	$scope.materialCatalog = result.data.Json;
@@ -139,8 +118,6 @@
 		              console.log('SalesOrderService.execute failure', errorPayload);
 		          }
 		     	);
-			}
-
 			$scope.getSalesPartner();
 			$scope.calculateAnalytics();
 		};
@@ -241,7 +218,6 @@
 
 		$scope.onSelectMaterialRow = function(){
 			console.log("onSelectMaterialRow",$scope.materialSelected);
-			$scope.calculateATS();
 			$scope.getSalesPartner();
 		};
 
@@ -268,7 +244,7 @@
 		$scope.calculateAnalytics = function(){
 			$scope.analytics = null;
 			console.log("calculateAnalytics...");
-			if($scope.shipToSelected && $scope.shipTo2Selected && $scope.soldToSelected && $scope.payerSelected &&
+			if($scope.vendorSelected && $scope.purchasingOrganizationSelected && $scope.plantSelected &&
 			 	$scope.organizationSelected && $scope.channelSelected && $scope.divisionSelected && $scope.officeSelected 
 			 	&& $scope.groupSelected && $scope.tabSelected == 3){
 				
@@ -276,7 +252,7 @@
 				var json = '{"SALESORG":"' + $scope.organizationSelected + 
 					'","CHANNEL":"' + $scope.channelSelected + '","DIVISION":"' + $scope.divisionSelected + 
 					'","SALESGRP":"' + $scope.groupSelected + '","OFFICE":"' + $scope.officeSelected + 
-					'","SOLDTO":"' + $scope.soldToSelected + '"}';
+					'","SOLDTO":"' + $scope.purchasingOrganizationSelected + '"}';
 					console.log("endpoint",endpoint);
 					console.log("json",json);
 
@@ -326,6 +302,9 @@
 		};
 
 		$scope.changeGeneric = function(){
+
+			$scope.loadMaterialCatalog();
+
 			if($scope.salesHistory.length==0)
 				$scope.getSalesPartner();
 
@@ -343,15 +322,13 @@
 			$scope.salesHistorySelected = [];
 			$scope.dataForGraphicReport = [];
 			$scope.labelsForGraphicReport = [];
-			if($scope.shipToSelected && $scope.shipTo2Selected && $scope.soldToSelected && $scope.payerSelected &&
-			 	$scope.organizationSelected && $scope.channelSelected && $scope.divisionSelected && $scope.officeSelected 
-			 	&& $scope.groupSelected){
+			if($scope.vendorSelected && $scope.purchasingOrganizationSelected && $scope.plantSelected){
 				
 				var endpoint = "Meister.Demo.RL.Sales.History";
 				var json = '{"SALESORG":"' + $scope.organizationSelected + 
 					'","CHANNEL":"' + $scope.channelSelected + '","DIVISION":"' + $scope.divisionSelected + 
 					'","SALESGRP":"' + $scope.groupSelected + '","OFFICE":"' + $scope.officeSelected + 
-					'","SOLDTO":"' + $scope.soldToSelected + '"}';
+					'","SOLDTO":"' + $scope.purchasingOrganizationSelected + '"}';
 					console.log("endpoint",endpoint);
 					console.log("json",json);
 
@@ -398,15 +375,6 @@
 			    });
 		};
 
-		$scope.showAtpDialog = function(ev){
-			$mdDialog.show({
-			      contentElement: '#atpContainer',
-			      parent: angular.element(document.querySelector('#tablesContainerMain')),
-			      targetEvent: ev,
-			      clickOutsideToClose: true
-			    });
-		};
-
 		$scope.showPartnerInfo = function(){
 			console.log("showPartnerInfo...");
 			$scope.hiddenPartnerInfo = false;
@@ -415,34 +383,6 @@
 		$scope.hidePartnerInfo = function(){
 			console.log("hidePartnerInfo...");
 			$scope.hiddenPartnerInfo = true;
-		};
-
-		$scope.calculateATS = function(){
-			console.log("Calculate ATS",$scope.materialSelected[0]);
-			$scope.salesMaterial = [];
-			$scope.salesMaterialPage = [];
-			var endpoint = "Meister.Demo.RL.Stock";
-			var json = '{"MATERIAL":"'+$scope.materialSelected[0].MATERIAL+'","PLANT":"'+$scope.materialSelected[0].PLANT+'"}';
-				console.log("endpoint",endpoint);
-				console.log("json",json);
-
-				$scope.log = "Executing Calculate ATS<br/>" + $scope.log;
-				var start = new Date();
-				$scope.calculateATSProgress = SalesOrderService.execute(endpoint, json);
-				$scope.calculateATSProgress.then(
-		          function(result) { 
-		          	var end = new Date();
-		          	console.log("calculateATS result",result);		        	  
-		          	$scope.log = "Completed Calculate ATS<br/>" + $scope.log;
-		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
-		          	$scope.ats = result.data.Json[0].DETAILS[0].DETAIL;
-		          	$scope.salesMaterial = result.data.Json[0].DETAILS[0].MRP;
-		          	console.log("ats",$scope.ats);
-		     	  },
-		          function(errorPayload) {
-		              console.log('SalesOrderService.execute failure', errorPayload);
-		          }
-		     	);
 		};
 
 		$scope.showLogs = function(ev){
@@ -455,7 +395,7 @@
 		};
 
 		$scope.changeOrder = function(order){
-			console.log("Payer",$scope.payerSelected);
+			console.log("Order",order);
 			if(order == '' || order == '0'){
 				$scope.salesOrder = [];
 				return;
@@ -466,7 +406,7 @@
 				var json = '{"DOCTYPE":"CM","SALESORG":"' + $scope.organizationSelected + 
 					'","DIST":"' + $scope.channelSelected + '","DIVISION":"' + $scope.divisionSelected + 
 					'","SALESGRP":"' + $scope.groupSelected + '","SALESOFF":"' + $scope.officeSelected + 
-					'","SOLDTO":"' + $scope.soldToSelected + '","PAYER":"' + $scope.payerSelected + '"}';
+					'","SOLDTO":"' + $scope.purchasingOrganizationSelected + '","PAYER":"' + $scope.plantSelected + '"}';
 				console.log("endpoint",endpoint);
 				console.log("json",json);
 

@@ -25,6 +25,10 @@
 	    	$state.go('sales_order');
 	    };
 
+	    $rootScope.gotoPurchaseOrder = function(){
+	    	$state.go('purchase_order');
+	    };
+
 	    $rootScope.gotoMainReports = function(){
 	    	$state.go('reports');
 	    };
