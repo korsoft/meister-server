@@ -340,16 +340,26 @@
         <fieldset class="table-set" layout="row" style="border: 0px;padding-bottom: 0px;">
 
           <div flex="100" flex-xs="100" layout="row" layout-xs="column" class="table-container-2">
-            <div style="padding-top: 5px;" flex="15" flex-xs="50" layout-xs="row">
-              <label style="font-size: 12px;font-weight: bold;">Order Number:</label>
+            <div flex="20" flex-xs="50" layout-xs="row" style="{{!isMobileDevice ? 'margin-top: -20px' : 'height:60px'}}">
+              <md-autocomplete
+                  ng-disabled="!shipToSelected || !shipTo2Selected || !soldToSelected || !payerSelected || !organizationSelected || !channelSelected || !divisionSelected || !officeSelected || !groupSelected"
+                  md-selected-item="orderSelected"
+                  md-selected-item-change="changeOrder(o)"
+                  md-search-text="searchTextOrderNumber"
+                  md-items="o in querySearch(searchTextOrderNumber)"
+                  md-item-text="o.label"
+                  md-min-length="0"
+                  placeholder="Select an Order Number"
+                  md-floating-label="Order Number">
+                <md-item-template>
+                  <span md-highlight-text="searchTextOrderNumber" md-highlight-flags="^i">{{o.label}}</span>
+                </md-item-template>
+                <md-not-found>
+                  No order number matching "{{searchTextOrderNumber}}" were found.
+                </md-not-found>
+              </md-autocomplete>
             </div>
-            <div flex="20" flex-xs="50" layout-xs="row">
-              <select style="{{!isMobileDevice ? 'width: 90%' : 'width:50%'}}" name="order" ng-model="orderSelected" ng-change="changeOrder(orderSelected)" ng-disabled="!shipToSelected || !shipTo2Selected || !soldToSelected || !payerSelected || !organizationSelected || !channelSelected || !divisionSelected || !officeSelected || !groupSelected">
-                  <option value="0"></option>
-                  <option ng-repeat="o in orderArray" value="{{o.value}}" ng-selected="orderSelected == o.value">{{o.label}}</option>
-                </select>
-            </div>
-            <div  flex="25" flex-xs="50">
+            <div  flex="30" flex-xs="50">
               <label style="font-size: 12px;font-weight: bold;" ng-show="!orderSelected || orderSelected == '0'">No Sales Document Selected yet</label>
               <label style="font-size: 12px;font-weight: bold;" ng-show="salesOrder.length>0 ">Number of Lines items {{salesOrder.length}}</label>
             </div>          
@@ -359,7 +369,7 @@
                 Add Items
               </md-button>
             </div>
-            <div ng-show="materialSelected.length>0"  flex="25" layout-xs="row" flex-xs="50">
+            <div ng-show="materialSelected.length>0"  flex="30" layout-xs="row" flex-xs="50">
               <md-slider-container style="{{!isMobileDevice ? 'margin-top: -8px;' : ''}}">
                   <md-slider ng-model="multiplier" min="0" max="100" aria-label="blue" id="multiplier-slider"
                              class="md-primary">
