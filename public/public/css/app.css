@@ -221,3 +221,7 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolb
 
 .selectdemoSelectHeader md-content._md {
   max-height: 240px; }
+
+.footer-link {
+  text-decoration: none;
+  color: #353535; }

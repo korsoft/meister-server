@@ -73,23 +73,8 @@
 
     </md-toolbar>
 
-    <md-content class="md-padding" layout-xs="column" layout="row" style="padding-top: 0px">
+    <md-content class="md-padding" layout-xs="column" layout="row" style="padding-top: 0px;padding-bottom: 0px">
     <div flex-xs flex-gt-xs="50" layout="column" style="padding-right: 15px">
-
-    <!--md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Meister Reports</span>
-            <span class="md-subhead">Meister Reports</span>
-          </md-card-title-text>
-          <md-card-title-media>
-            <div class="md-media-xs card-media"></div>
-          </md-card-title-media>
-        </md-card-title>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button ng-click="gotoMainReports()" class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
-        </md-card-actions>
-      </md-card -->
 
        <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card">
         <md-card-title style="padding-top: 10px">
@@ -132,7 +117,7 @@
           </md-card-title-media>
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button   class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
+          <md-button  class="md-raised md-primary md-button md-ink-ripple" style="color:white">Launch</md-button>
         </md-card-actions>
       </md-card>
 
@@ -152,55 +137,90 @@
       </md-card>
      </div>
 
-     <div flex-xs flex-gt-xs="50" layout="column" style="padding-bottom: 20px; {{!isMobileDevice ? 'padding-left: 15px' : 'padding-right: 15px'}}">
+     <div flex-xs flex-gt-xs="50" layout="column" style="{{!isMobileDevice ? 'padding-left: 15px' : 'padding-right: 15px'}}" >
 
-         <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card" style="height: 529px">
-           
-           <div flex="100" class="table-container" style="text-align: center;{{!isMobileDevice ? 'padding-top: 10%' : ''}}">
-            <h3>More to See. Call to Schedule</h3>
-            <md-table-container style="{{!isMobileDevice ? 'padding-left: 20px' : ''}}">
-              <table md-table md-body>
+         <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card" style="{{!isMobileDevice ? 'height: 529px': 'height:100%'}}">
+          <md-card-title style="padding-top: 10px">
+          <md-card-title-text style="text-align: center;">
+            <span class="md-headline">More to see. Call to schedule a demo </span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-xs card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-content>
+              <table md-table md-body style="overflow: hidden;" md-card-image>
                 <tbody md-body> 
-                  <tr md-row style="background-color: #4472C4">
-                    <td md-cell class="td-space" width="30%">Invoice Authorization Tool</td>
-                    <td md-cell class="td-space" width="60%">See how Meister saved one client $1.2MM per year in late payment fees.</td>
-                    <td md-cell class="td-space" width="10%" style="background-color: white;border: 0px">
+                  <tr md-row>
+                    <td md-cell class="td-space" width="80%" style="padding: 0;border:0">
+                      <md-card-title>
+                      <md-card-title-text >
+                      <span class="md-headline">FICO Reports with EXCEL</span>
+                      <span style="color:rgba(0,0,0,0.54)">Exporting Any SAP FICO report to EXCEL. All Metadata included</span>
+                      </md-card-title-text>
+                    </md-card-title>
+                    </td>
+                    <td md-cell class="td-space" width="20%" style="padding: 0;border:0">
                       <md-button class="md-raised md-button">
                         CALL
                       </md-button>
                     </td>                       
                   </tr>
-                   <tr md-row style="background-color: rgb(205,212,234);">
-                    <td md-cell class="td-space" width="30%">Water Utility Field Services</td>
-                    <td md-cell class="td-space" width="60%">Full mobility orchestrated to multiple backend systems.</td>
-                    <td md-cell class="td-space" width="10%" style="background-color: white;border: 0px">
+                   <tr md-row>
+                    <td md-cell class="td-space" style="padding: 0;border:0">
+                      <md-card-title>
+                      <md-card-title-text >
+                      <span class="md-headline">Enterprise Orchestration</span>
+                      <span style="color:rgba(0,0,0,0.54)">Manage workflows and business processes with SAP and other systems</span>
+                      </md-card-title-text>
+                    </md-card-title>
+                    </td>
+                    <td md-cell class="td-space" style="padding: 0;border:0">
                       <md-button class="md-raised md-button">
                         CALL
                       </md-button>
                     </td>                       
                   </tr>
-                  <tr md-row style="background-color: #f4f4f5">
-                    <td md-cell class="td-space" width="30%">SAP at Excel</td>
-                    <td md-cell class="td-space" width="60%">Full Scope of SAP T-Code Reports at Excel</td>
-                    <td md-cell class="td-space" width="10%" style="background-color: white;border: 0px">
+                  <tr md-row>
+                    <td md-cell class="td-space" style="padding: 0;border:0">
+                        <md-card-title>
+                        <md-card-title-text >
+                        <span class="md-headline">Water Utility Field Services</span>
+                        <span style="color:rgba(0,0,0,0.54)">Exporting Any SAP FICO report to EXCEL. All Metadata included</span>
+                        </md-card-title-text>
+                      </md-card-title>
+                    </td>
+                    <td md-cell class="td-space" style="padding: 0;border:0">
                       <md-button class="md-raised md-button">
                         CALL
                       </md-button>
                     </td>                       
                   </tr>
-                  <tr md-row style="background-color: rgb(205,212,234);">
-                    <td md-cell class="td-space" width="30%">Client Copy</td>
-                    <td md-cell class="td-space" width="60%">If your client copy process goes forever, you need to see this</td>
-                    <td md-cell class="td-space" width="10%" style="background-color: white;border: 0px">
+                  <tr md-row>
+                    <td md-cell class="td-space" style="padding: 0;border:0">
+                       <md-card-title>
+                        <md-card-title-text >
+                        <span class="md-headline">Invoice Authorization Tool</span>
+                        <span style="color:rgba(0,0,0,0.54)">See how Meister saved for a client $1.2MM of late payment fees</span>
+                        </md-card-title-text>
+                      </md-card-title>
+                    </td>
+                    <td md-cell class="td-space" style="padding: 0;border:0">
                       <md-button class="md-raised md-button">
                         CALL
                       </md-button>
                     </td>                       
                   </tr>
-                  <tr md-row style="background-color: #4472C4">
-                    <td md-cell class="td-space" width="30%">Add Orchestration</td>
-                    <td md-cell class="td-space" width="60%">Manage SAP + other system landscapes</td>
-                    <td md-cell class="td-space" width="10%" style="background-color: white;border: 0px">
+                  <tr md-row>
+                    <td md-cell class="td-space" style="padding: 0;border:0">
+                      <md-card-title>
+                        <md-card-title-text >
+                        <span class="md-headline">Client Copy</span>
+                        <span style="color:rgba(0,0,0,0.54)">If your Client Copy process takes forever, you need to see this</span>
+                        </md-card-title-text>
+                      </md-card-title>
+                    </td>
+                    <td md-cell class="td-space" style="padding: 0;border:0">
                       <md-button class="md-raised md-button">
                         CALL
                       </md-button>
@@ -208,11 +228,26 @@
                   </tr>
                 </tbody>
               </table>
-            </md-table-container> 
-          </div>
+          </md-card-content>
 
           </md-card>
 
      </div>
+
  </md-content>
+ <footer>
+      <md-toolbar class="md-scroll-shrink" style="min-height: 40px;background-color: white;color:black;margin-bottom: 50px;padding-top: 10px">
+        <div layout="row" layout-align="center center" flex layout-xs="column" >
+          <div flex-xs flex-gt-xs="33" layout="column" style="text-align: center;">
+            <a class="footer-link" href="http://www.gameister.com" target="_blank">www.gameister.com</a>
+          </div>
+          <div flex-xs flex-gt-xs="33" layout="column" style="text-align: center;">
+            <a class="footer-link" href="mailto:info@s4meister.com" target="_blank">info@s4meister.com</a>
+          </div>
+          <div flex-xs flex-gt-xs="33" layout="column" style="text-align: center;">
+            <a class="footer-link" href="tel:214-974-8383" target="_blank">214-974-8383</a>
+          </div>
+        </div>
+      </md-toolbar>
+    </footer>
 </div>

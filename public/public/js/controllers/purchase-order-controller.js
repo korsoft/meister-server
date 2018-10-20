@@ -30,7 +30,7 @@
 		$scope.log = "";
 		$scope.materialSelected = [];
 		$scope.salesOrderSelected = [];
-		$scope.orderSelected = "0";
+		$scope.orderSelected = null;
 		$scope.tabSelected = 0;
 		$scope.notes = [];
 		$scope.salesHistory = [];
@@ -45,6 +45,22 @@
 			lineNumber:1
 		};
 		var ROW_BY_PAGE = 50;
+
+		$scope.searchTextOrderNumber = "";
+
+		$scope.querySearch = function(query) {
+		      var results = query ? $scope.orderArray.filter( createFilterFor(query) ) : $scope.orderArray,
+		          deferred;
+		      return results;
+		    }
+
+		var createFilterFor = function(query) {
+		  	return function filterFn(item) {
+		        return (item.label.toLowerCase().includes(query.toLowerCase()));
+		      };
+
+		    }
+
 
 		$scope.isMobileDevice = $mdMedia('xs');
 		$scope.collapseParterInfo = true;
@@ -137,11 +153,11 @@
 			
 			if($scope.note.type == "HDR"){
 				endpoint = "Meister.Demo.PP.Hrd.Notes";
-				json = '{"ORDERNO":"' + $scope.orderSelected + '","NOTES":[{"TEXT":"' 
+				json = '{"ORDERNO":"' + $scope.orderSelected.value + '","NOTES":[{"TEXT":"' 
 				+ $scope.note.text + '"}]}';
 			} else if($scope.note.type == "LINE"){
 				endpoint = "Meister.Demo.PP.Line.Notes";
-				json = '{"ORDERNO":"' + $scope.orderSelected + '","LINE_ITEM":"' 
+				json = '{"ORDERNO":"' + $scope.orderSelected.value + '","LINE_ITEM":"' 
 				+ $scope.note.lineNumber + '","NOTES":[{"TEXT":"' + $scope.note.text + '"}]}';
 			}
 
@@ -185,7 +201,7 @@
 			$scope.salesOrder = [];
 			var endpoint = "Meister.Demo.RL.SD.Update";
 			$scope.disableAddLines = true;
-			var json = '{"ORDERNO":"'+  $scope.orderSelected + '","REPEAT":"' + $scope.multiplier + 
+			var json = '{"ORDERNO":"'+  $scope.orderSelected.value + '","REPEAT":"' + $scope.multiplier + 
 				'","MATERIAL":"' + $scope.materialSelected[0].MATERIAL + 
 				'","QTY":"1","UOM":"'+ $scope.materialSelected[0].UOM+'"}';
 				console.log("endpoint",endpoint);
@@ -279,7 +295,7 @@
 			console.log("Calculate getListNotesByOrder",$scope.orderSelected);
 			$scope.notes = [];
 			var endpoint = "Meister.Demo.PP.Read.Notes";
-			var json = '{"ORDERNO":"'+ $scope.orderSelected +'"}';
+			var json = '{"ORDERNO":"'+ $scope.orderSelected.value +'"}';
 			console.log("endpoint",endpoint);
 			console.log("json",json);
 
@@ -396,11 +412,11 @@
 
 		$scope.changeOrder = function(order){
 			console.log("Order",order);
-			if(order == '' || order == '0'){
+			if(!order){
 				$scope.salesOrder = [];
 				return;
 			}
-			if(order == "NEW"){ //crete a new order
+			if(order.value == "NEW"){ //crete a new order
 				$scope.salesOrder = [];
 				var endpoint = "Meister.Demo.RL.SD.New.Parked";
 				var json = '{"DOCTYPE":"CM","SALESORG":"' + $scope.organizationSelected + 
@@ -421,11 +437,12 @@
 		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
 		          	var order_no = result.data.Json[0].ORDERNO;
 		          	order_no = order_no.substring(order_no.length-5,order_no.length);
-		          	$scope.orderArray.push({
+		          	var newItem = {
 		          		"label":order_no,
 		          		"value":order_no
-		          	});
-		          	$scope.orderSelected = order_no;
+		          	};
+		          	$scope.orderArray.push(newItem);
+		          	$scope.orderSelected = newItem;
 		          	$scope.getListNotesByOrder();
 		     	  },
 		          function(errorPayload) {
@@ -435,7 +452,7 @@
 			} else { //load order selected
 				$scope.getListNotesByOrder();
 				var endpoint = "Meister.Demo.RL.SD.Read";
-				var json = '{"ORDER":"' + order + '"}';
+				var json = '{"ORDER":"' + order.value + '"}';
 				$scope.log = "Executing Read SO<br/>" + $scope.log;
 				var start = new Date();
 				$scope.readOrderProgress = SalesOrderService.execute(endpoint, json);
