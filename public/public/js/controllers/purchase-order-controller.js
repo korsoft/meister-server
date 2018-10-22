@@ -199,11 +199,12 @@
 
 		$scope.addLines = function(){
 			$scope.salesOrder = [];
-			var endpoint = "Meister.Demo.RL.SD.Update";
+			var endpoint = "Meister.Demo.PO.Add.LineItems";
 			$scope.disableAddLines = true;
-			var json = '{"ORDERNO":"'+  $scope.orderSelected.value + '","REPEAT":"' + $scope.multiplier + 
-				'","MATERIAL":"' + $scope.materialSelected[0].MATERIAL + 
-				'","QTY":"1","UOM":"'+ $scope.materialSelected[0].UOM+'"}';
+			var json = '{"NUMBER":"'+  $scope.orderSelected.value + '","REPEAT":"' + $scope.multiplier + 
+				'","LINEITEMS":[{"LINENO":"00010","MATERIAL":"' + $scope.materialSelected[0].MATERIAL + 
+				'","PLANT":"' + $scope.materialSelected[0].PLANT + '","QUANTITY":"1500","NETPRICE":"' + 
+				$scope.materialSelected[0].PRICE + '"}]}';
 				console.log("endpoint",endpoint);
 				console.log("json",json);
 
@@ -215,7 +216,7 @@
 		          	$scope.disableAddLines = false;
 		          	var end = new Date();
 		          	console.log("SalesOrderService.execute result",result);		        	  
-		          	$scope.log = "Completed Add Lines Operation<br/>" + $scope.log;
+		          	$scope.log = "Completed Add Lines PO<br/>" + $scope.log;
 		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
 		          	$scope.changeOrder($scope.orderSelected);
 		     	  },
@@ -418,11 +419,9 @@
 			}
 			if(order.value == "NEW"){ //crete a new order
 				$scope.salesOrder = [];
-				var endpoint = "Meister.Demo.RL.SD.New.Parked";
-				var json = '{"DOCTYPE":"CM","SALESORG":"' + $scope.organizationSelected + 
-					'","DIST":"' + $scope.channelSelected + '","DIVISION":"' + $scope.divisionSelected + 
-					'","SALESGRP":"' + $scope.groupSelected + '","SALESOFF":"' + $scope.officeSelected + 
-					'","SOLDTO":"' + $scope.purchasingOrganizationSelected + '","PAYER":"' + $scope.plantSelected + '"}';
+				var endpoint = "Meister.Demo.PO.New.OnHold";
+				var json = '{"VENDOR":"' + $scope.vendorSelected + '","PLANT":"' + $scope.plantSelected 
+					+ '","PURORG":"' + $scope.purchasingOrganizationSelected + '"}';
 				console.log("endpoint",endpoint);
 				console.log("json",json);
 
@@ -433,10 +432,10 @@
 		          function(result) { 
 		          	var end = new Date();
 		          	console.log("SalesOrderService.execute result",result);		        	  
-		          	$scope.log = "Completed New SO<br/>" + $scope.log;
+		          	$scope.log = "Completed New PO<br/>" + $scope.log;
 		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
-		          	var order_no = result.data.Json[0].ORDERNO;
-		          	order_no = order_no.substring(order_no.length-5,order_no.length);
+		          	var order_no = result.data.Json[0].NUMBER;
+		          	//order_no = order_no.substring(order_no.length-5,order_no.length);
 		          	var newItem = {
 		          		"label":order_no,
 		          		"value":order_no
@@ -451,8 +450,8 @@
 		     	);
 			} else { //load order selected
 				$scope.getListNotesByOrder();
-				var endpoint = "Meister.Demo.RL.SD.Read";
-				var json = '{"ORDER":"' + order.value + '"}';
+				var endpoint = "Meister.Demo.PO.Read";
+				var json = '{"NUMBER":"' + order.value + '"}';
 				$scope.log = "Executing Read SO<br/>" + $scope.log;
 				var start = new Date();
 				$scope.readOrderProgress = SalesOrderService.execute(endpoint, json);
@@ -461,7 +460,7 @@
 		          	var end = new Date();
 		          	$scope.disableAddLines = false;
 		          	console.log("SalesOrderService.execute result",result);		        	  
-		          	$scope.log = "Completed Read SO<br/>" + $scope.log;
+		          	$scope.log = "Completed Read PO<br/>" + $scope.log;
 		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
 		          	$scope.salesOrder = result.data.Json[0].lineitem;
 		          	
