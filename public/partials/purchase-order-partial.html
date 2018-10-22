@@ -140,8 +140,17 @@
                   </md-option>
                 </md-select>
           </md-input-container>
-          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 10px"
-         >
+         
+         <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 20px" 
+          >
+          <label>Purchase Group:</label>
+           <md-select ng-model="purchasegroupSelected" ng-required="true" ng-change="changeGeneric()">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in purchasegroupArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+          </md-input-container>
          
           </fieldset>
               
@@ -161,7 +170,7 @@
         </md-tabs>
       </div>
 
-      <div  layout="column" flex="100"  ng-show="tabSelected != 3 && tabSelected!=1">
+      <div  layout="column" flex="100"  ng-show="tabSelected == 0">
        <div style="height: 25px">
         <div style="text-align: left;float: left;width: 50%;padding-top:0px">
           <b>Material Catalog</b>
@@ -228,7 +237,7 @@
           <div flex="100" flex-xs="100" layout="row" layout-xs="column" class="table-container-2">
             <div flex="20" flex-xs="50" layout-xs="row" style="{{!isMobileDevice ? 'margin-top: -20px' : 'height:60px'}}">
               <md-autocomplete
-                  ng-disabled="!vendorSelected  || !purchasingOrganizationSelected || !plantSelected"
+                  ng-disabled="!vendorSelected  || !purchasingOrganizationSelected || !plantSelected || !purchasegroupSelected"
                   md-selected-item="orderSelected"
                   md-selected-item-change="changeOrder(o)"
                   md-search-text="searchTextOrderNumber"
@@ -280,7 +289,7 @@
                     <th md-column class="td-space"><span>LineNo</span></th>
                     <th md-column class="td-space"><span>Material</span></th>
                     <th md-column class="td-space"><span>Plant</span></th>
-                    <th md-column class="td-space"><span>Unit</span></th>
+                    <th md-column class="td-space"><span>Price</span></th>
                     <th md-column class="td-space"><span>Quantity</span></th>
                   </tr>
                 </thead>
@@ -289,8 +298,8 @@
                     <td md-cell class="td-space" width="10%">{{s.line_no}}</td>
                     <td md-cell class="td-space" width="30%">{{s.material}}</td>
                     <td md-cell class="td-space" width="20%">{{s.plant}}</td>
-                    <td md-cell class="td-space" width="25%">{{s.price}}</td>
-                    <td md-cell class="td-space" width="15%">{{s.qty}}</td>                                       
+                    <td md-cell class="td-space" width="25%">{{s.price | currency : "" : 2}}</td>
+                    <td md-cell class="td-space" width="15%">{{s.qty | currency : "" : 0}}</td>                                       
                   </tr>
                 </tbody>
               </table>
@@ -301,30 +310,35 @@
           </div>
 
    <div layout="column"  flex="100" ng-show="tabSelected == 1" style="padding-top: 20px">
-
-     <b>PO by Vendor</b>
+    <div style="height: 25px">
+        <div style="text-align: left;float: left;width: 50%;padding-top:0px">
+          <b>PO by Vendor</b>
+        </div>
+     </div>
         <fieldset class="table-set" >
           <div flex="100" class="table-container" style="height: 250px">
-            <md-table-container ng-show="salesPartnerProgress" style="height: 250px">
-              <table md-virtual-repeat-container style="height: 250px" md-table md-row-select ng-model="salesHistorySelected" md-progress="salesPartnerProgress" >
-                <thead md-head fix-head>
+            <md-table-container ng-show="salesPartnerProgress && vendorSelected" style="height: 250px">
+              <table style="height: 250px" md-table md-row-select ng-model="salesHistorySelected" md-progress="salesPartnerProgress" >
+                <thead md-head md-order="salesHistoryQuery.order">
                   <tr md-row>
-                    <th md-column class="td-space"><span>SALES_DOCUMENT</span></th>
-                    <th md-column class="td-space"><span>DOCUMENT_DATE</span></th>
-                    <th md-column class="td-space"><span>CATEGORY</span></th>
-                    <th md-column class="td-space"><span>NET_VALUE</span></th>
-                    <th md-column class="td-space"><span>CURRENCY</span></th>
-                    <th md-column class="td-space"><span>DELIVERY_DATE</span></th>
+                    <th md-column class="td-space" md-order-by="SALES_DOCUMENT"><span>SALES_DOCUMENT</span></th>
+                    <th md-column class="td-space" md-order-by="DOC_TYPE"><span>DOC_TYPE</span></th>
+                    <th md-column class="td-space" md-order-by="DOCUMENT_DATE"><span>DOCUMENT_DATE</span></th>
+                    <th md-column class="td-space" md-order-by="CATEGORY"><span>CATEGORY</span></th>
+                    <th md-column class="td-space" md-order-by="NET_VALUE"><span>NET_VALUE</span></th>
+                    <th md-column class="td-space" md-order-by="CURRENCY"><span>CURRENCY</span></th>
+                    <th md-column class="td-space" md-order-by="DELIVERY_DATE"><span>DELIVERY_DATE</span></th>
                   </tr>
                 </thead>
                 <tbody md-body> 
-                  <tr md-row md-auto-select md-select="s" md-on-select="onSalesHistorySelected" md-virtual-repeat="s in salesHistory" >
-                    <td md-cell class="td-space" width="10%">{{s.SALES_DOCUMENT}}</td>
-                    <td md-cell class="td-space" width="25%">{{s.DOCUMENT_DATE}}</td>
-                    <td md-cell class="td-space" width="20%">{{s.CATEGORY}}</td>
-                    <td md-cell class="td-space" width="25%">{{s.NET_VALUE}}</td>
-                    <td md-cell class="td-space" width="20%">{{s.CURRENCY}}</td>                                       
-                    <td md-cell class="td-space" width="20%">{{s.DELIVERY_DATE}}</td>
+                  <tr md-row md-auto-select md-select="s" md-on-select="onSalesHistorySelected" ng-repeat="s in salesHistory | orderBy: salesHistoryQuery.order"" >
+                    <td md-cell class="td-space">{{s.SALES_DOCUMENT}}</td>
+                    <td md-cell class="td-space">{{s.DOC_TYPE}}</td>
+                    <td md-cell class="td-space">{{s.DOCUMENT_DATE}}</td>
+                    <td md-cell class="td-space">{{s.CATEGORY}}</td>
+                    <td md-cell class="td-space">{{s.NET_VALUE}}</td>
+                    <td md-cell class="td-space">{{s.CURRENCY}}</td>                                       
+                    <td md-cell class="td-space">{{s.DELIVERY_DATE}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -334,80 +348,9 @@
 
    </div>
 
-    <div layout="column"  flex="100" ng-show="tabSelected == 1 && salesHistorySelected.length>0">
-       
-       <b>Items by Order</b>
-        <fieldset class="table-set" >
-          <div flex="100" class="table-container" >
-            <md-table-container ng-show="salesPartnerProgress" >
-              <table md-virtual-repeat-container md-table md-progress="salesPartnerProgress" >
-                <thead md-head fix-head>
-                  <tr md-row>
-                    <th md-column class="td-space"><span>LineNo</span></th>
-                    <th md-column class="td-space"><span>Material</span></th>
-                    <th md-column class="td-space"><span>Uom</span></th>
-                    <th md-column class="td-space"><span>Price</span></th>
-                    <th md-column class="td-space"><span>Quantity</span></th>
-                    <th md-column class="td-space"><span>Item Cat</span></th>
-                    <th md-column class="td-space"><span>Mat Group</span></th>
-                    <th md-column class="td-space"><span>Description</span></th>
-                  </tr>
-                </thead>
-                <tbody md-body> 
-                  <tr md-row md-virtual-repeat="s in salesHistorySelected[0].LINE_ITEMS" >
-                    <td md-cell class="td-space" >{{s.LINE_ITEM}}</td>
-                    <td md-cell class="td-space" >{{s.MATERIAL}}</td>
-                    <td md-cell class="td-space" >{{s.UOM}}</td>
-                    <td md-cell class="td-space" >{{s.PRICE}}</td>
-                    <td md-cell class="td-space" >{{s.QUANTITY}}</td>           
-                    <td md-cell class="td-space" >{{s.ITEM_CAT}}</td>                                       
-                    <td md-cell class="td-space" >{{s.MAT_GROUP}}</td>                                       
-                    <td md-cell class="td-space" >{{s.DESCRIPTION}}</td>                                       
-                  </tr>
-                </tbody>
-              </table>
-            </md-table-container> 
-          </div>
-        </fieldset>
-       
-          </div>
 
 
-<div layout="column"  flex="100" ng-show="tabSelected == 3" style="padding-top: 25px">
-       
-        <fieldset class="table-set" ng-show="calculateAnalyticsProgress" >
-          <div flex="100">
-            <md-table-container >
-              <table md-table md-progress="calculateAnalyticsProgress">
-                <thead md-head>
-                  <tr md-row>
-                    <th md-column class="td-space"><span>Top {{analytics.popmats.length}} Materials</span></th>
-                  </tr>
-                </thead>
-                <tbody md-body> 
-                  <tr md-row ng-repeat="m in analytics.popmats">
-                    <td md-cell class="td-space">{{m.material}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </md-table-container> 
-          </div>
-        </fieldset>
-       
-          </div>
-
-<div layout="column"  flex="100" ng-show="tabSelected == 3" style="padding-top: 20px">
-         <fieldset class="table-set" ng-show="analytics" >
-          <div flex="100">
-            <b>Average Partner Sales in USD: {{analytics.average | currency : "" : 2}}</b><br/>
-            <b>Highest Sales Amount in USD: {{analytics.highsale | currency : "" : 2}}</b><br/>
-            <b>Highest Quantity in Product Units sold to Partner: {{analytics.mostqty | currency : "" : 0}}</b><br/>
-            <b>Standard Deviation of the Average with respect to total sales: {{formatStandardDeviation(analytics.stddev)}}</b>
-          </div>
-        </fieldset>
-</div>
-
-<div layout="column"  flex="100" ng-show="tabSelected == 3 && labelsForGraphicReport.length>0" style="padding-top: 20px">
+<div layout="column"  flex="100" ng-show="tabSelected == 2 && labelsForGraphicReport.length>0" style="padding-top: 20px">
     <h5>Partner Sales Trailing 18 Months</h5>
     <canvas class="chart-base" chart-type="'bar'" chart-options="chartOptions"  chart-data="dataForGraphicReport" chart-labels="labelsForGraphicReport" >
     </canvas>

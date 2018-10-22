@@ -16,6 +16,10 @@
 			{label:"3000 - Chicago Plant", value: "3000"}
 		];
 
+		$scope.purchasegroupArray = [
+			{label:"001 - Dickens, B", value: "001"}
+		];
+
 		$scope.orderArray = [
 			{"label":"4500022451", value: "4500022451"},
 			{"label":"New PO", value: "NEW"}
@@ -23,6 +27,7 @@
 
 		$scope.vendorSelected = "";
 		$scope.purchasingOrganizationSelected = "";
+		$scope.purchasegroupSelected = "";
 		$scope.plantSelected = "";
 		$scope.multiplier = 10;
 		$scope.materialCatalog = [];
@@ -45,6 +50,11 @@
 			lineNumber:1
 		};
 		var ROW_BY_PAGE = 50;
+
+		$scope.salesHistoryQuery = {
+			    order: 'DOC_TYPE'
+			  };
+			  
 
 		$scope.searchTextOrderNumber = "";
 
@@ -134,8 +144,6 @@
 		              console.log('SalesOrderService.execute failure', errorPayload);
 		          }
 		     	);
-			$scope.getSalesPartner();
-			$scope.calculateAnalytics();
 		};
 
 		$scope.formatSORT_DATE = function(date){
@@ -201,9 +209,9 @@
 			$scope.salesOrder = [];
 			var endpoint = "Meister.Demo.PO.Add.LineItems";
 			$scope.disableAddLines = true;
-			var json = '{"NUMBER":"'+  $scope.orderSelected.value + '","REPEAT":"' + $scope.multiplier + 
-				'","LINEITEMS":[{"LINENO":"00010","MATERIAL":"' + $scope.materialSelected[0].MATERIAL + 
-				'","PLANT":"' + $scope.materialSelected[0].PLANT + '","QUANTITY":"1500","NETPRICE":"' + 
+			var json = '{"Number":"'+  $scope.orderSelected.value + '","repeat":"' + $scope.multiplier + 
+				'","Lineitems":[{"LineNo":"00010","material":"' + $scope.materialSelected[0].MATERIAL + 
+				'","Plant":"' + $scope.materialSelected[0].PLANT + '","quantity":"1500","netPrice":"' + 
 				$scope.materialSelected[0].PRICE + '"}]}';
 				console.log("endpoint",endpoint);
 				console.log("json",json);
@@ -258,39 +266,7 @@
 			$scope.hiddenMaterial = false;
 		};
 
-		$scope.calculateAnalytics = function(){
-			$scope.analytics = null;
-			console.log("calculateAnalytics...");
-			if($scope.vendorSelected && $scope.purchasingOrganizationSelected && $scope.plantSelected &&
-			 	$scope.organizationSelected && $scope.channelSelected && $scope.divisionSelected && $scope.officeSelected 
-			 	&& $scope.groupSelected && $scope.tabSelected == 3){
-				
-				var endpoint = "Meister.Demo.RL.Analytics";
-				var json = '{"SALESORG":"' + $scope.organizationSelected + 
-					'","CHANNEL":"' + $scope.channelSelected + '","DIVISION":"' + $scope.divisionSelected + 
-					'","SALESGRP":"' + $scope.groupSelected + '","OFFICE":"' + $scope.officeSelected + 
-					'","SOLDTO":"' + $scope.purchasingOrganizationSelected + '"}';
-					console.log("endpoint",endpoint);
-					console.log("json",json);
-
-					$scope.log = "Executing Calulate Analytics<br/>" + $scope.log;
-					var start = new Date();
-					$scope.calculateAnalyticsProgress = SalesOrderService.execute(endpoint, json);
-					$scope.calculateAnalyticsProgress.then(
-			          function(result) { 
-			          	var end = new Date();
-			          	console.log("calculateAnalytics result",result);		        	  
-			          	$scope.log = "Completed Calculate Analytics<br/>" + $scope.log;
-			          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
-			          	$scope.analytics =  result.data.Json[0];
-			          	console.log("Analytics",$scope.analytics);
-			     	  },
-			          function(errorPayload) {
-			              console.log('SalesOrderService.execute failure', errorPayload);
-			          }
-			     	);
-			}
-		};
+		
 
 		$scope.getListNotesByOrder = function(){
 			console.log("Calculate getListNotesByOrder",$scope.orderSelected);
@@ -325,8 +301,6 @@
 			if($scope.salesHistory.length==0)
 				$scope.getSalesPartner();
 
-			if($scope.analytics == null)
-				$scope.calculateAnalytics();
 		};
 
 		$scope.onSalesHistorySelected = function(){
@@ -339,13 +313,10 @@
 			$scope.salesHistorySelected = [];
 			$scope.dataForGraphicReport = [];
 			$scope.labelsForGraphicReport = [];
-			if($scope.vendorSelected && $scope.purchasingOrganizationSelected && $scope.plantSelected){
+			if($scope.vendorSelected){
 				
 				var endpoint = "Meister.Demo.RL.Sales.History";
-				var json = '{"SALESORG":"' + $scope.organizationSelected + 
-					'","CHANNEL":"' + $scope.channelSelected + '","DIVISION":"' + $scope.divisionSelected + 
-					'","SALESGRP":"' + $scope.groupSelected + '","OFFICE":"' + $scope.officeSelected + 
-					'","SOLDTO":"' + $scope.purchasingOrganizationSelected + '"}';
+				var json = '{"VENDOR":"' + $scope.vendorSelected + '"}';
 					console.log("endpoint",endpoint);
 					console.log("json",json);
 
@@ -356,7 +327,7 @@
 			          function(result) { 
 			          	var end = new Date();
 			          	console.log("Meister.Demo.RL.Sales.History result",result);		        	  
-			          	$scope.log = "Completed Sales History<br/>" + $scope.log;
+			          	$scope.log = "Completed Sales by PO<br/>" + $scope.log;
 			          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
 			          	$scope.salesHistory = result.data.Json[0].HISTORY;
 			          	var report = SalesOrderService.buildSalesHistoryDataForGraphicReports($scope.salesHistory);
@@ -420,7 +391,7 @@
 			if(order.value == "NEW"){ //crete a new order
 				$scope.salesOrder = [];
 				var endpoint = "Meister.Demo.PO.New.OnHold";
-				var json = '{"VENDOR":"' + $scope.vendorSelected + '","PLANT":"' + $scope.plantSelected 
+				var json = '{"VENDOR":"' + $scope.vendorSelected + '","PURGRP":"' + $scope.purchasegroupSelected 
 					+ '","PURORG":"' + $scope.purchasingOrganizationSelected + '"}';
 				console.log("endpoint",endpoint);
 				console.log("json",json);
