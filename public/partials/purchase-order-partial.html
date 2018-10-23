@@ -392,10 +392,10 @@
 
 </div>
 
-  <div flex="20" flex-xs="100" ng-show="materialSelected.length>0">
+  <div flex="20" flex-xs="100">
     <div layout="column" style="padding-top: 67px" ng-show="tabSelected == 0">
     
-  <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected!='0' && orderSelected!='NEW'" style="margin-top:5px">
+  <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected.value!='0' && orderSelected.value!='NEW'" style="margin-top:5px">
       <div class="md-toolbar-tools" md-truncate flex >
          Notes
          &nbsp;
@@ -413,7 +413,7 @@
        
       </div>      
     </md-toolbar>
-     <md-content md-theme="altTheme" ng-show="!hiddenNotes && orderSelected && orderSelected!='0' && orderSelected!='NEW'" md-virtual-repeat-container style="height: 245px">
+     <md-content md-theme="altTheme" ng-show="!hiddenNotes && orderSelected && orderSelected.value!='0' && orderSelected.value!='NEW'"  md-virtual-repeat-container style="height: 245px">
       <section>
         <md-list-item class="md-3-line" md-virtual-repeat="n in notes | filter:notesFilter"
             style="border-bottom-style: solid;border-bottom-width: 1px;">
