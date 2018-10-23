@@ -52,7 +52,7 @@
 		var ROW_BY_PAGE = 50;
 
 		$scope.salesHistoryQuery = {
-			    order: 'DOC_TYPE'
+			    order: 'po_number'
 			  };
 			  
 
@@ -210,7 +210,7 @@
 			var endpoint = "Meister.Demo.PO.Add.LineItems";
 			$scope.disableAddLines = true;
 			var json = '{"Number":"'+  $scope.orderSelected.value + '","repeat":"' + $scope.multiplier + 
-				'","Lineitems":[{"LineNo":"00010","material":"' + $scope.materialSelected[0].MATERIAL + 
+				'","Lineitem":[{"LineNo":"00010","material":"' + $scope.materialSelected[0].MATERIAL + 
 				'","Plant":"' + $scope.materialSelected[0].PLANT + '","quantity":"1500","netPrice":"' + 
 				$scope.materialSelected[0].PRICE + '"}]}';
 				console.log("endpoint",endpoint);
@@ -315,26 +315,26 @@
 			$scope.labelsForGraphicReport = [];
 			if($scope.vendorSelected){
 				
-				var endpoint = "Meister.Demo.RL.Sales.History";
+				var endpoint = "Meister.Demo.PO.By.Vendor";
 				var json = '{"VENDOR":"' + $scope.vendorSelected + '"}';
 					console.log("endpoint",endpoint);
 					console.log("json",json);
 
-					$scope.log = "Executing Get Sales History Operation<br/>" + $scope.log;
+					$scope.log = "Executing Get PO by Vendor Operation<br/>" + $scope.log;
 					var start = new Date();
 					$scope.salesPartnerProgress = SalesOrderService.execute(endpoint, json);
 					$scope.salesPartnerProgress.then(
 			          function(result) { 
 			          	var end = new Date();
-			          	console.log("Meister.Demo.RL.Sales.History result",result);		        	  
-			          	$scope.log = "Completed Sales by PO<br/>" + $scope.log;
+			          	console.log("Meister.Demo.PO.By.Vendor result",result);		        	  
+			          	$scope.log = "Completed PO by Vendor<br/>" + $scope.log;
 			          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
-			          	$scope.salesHistory = result.data.Json[0].HISTORY;
+			          	$scope.salesHistory = result.data.Json[0].po_hdrs;
+			          	console.log("Histories",$scope.salesHistory);
 			          	var report = SalesOrderService.buildSalesHistoryDataForGraphicReports($scope.salesHistory);
 			          	console.log("report",report);
 			          	$scope.dataForGraphicReport = report.data;
 			          	$scope.labelsForGraphicReport = report.labels;
-			          	console.log("Histories",$scope.salesHistory);
 			          	console.log("dataForGraphicReport",$scope.dataForGraphicReport);
 			     	  },
 			          function(errorPayload) {
