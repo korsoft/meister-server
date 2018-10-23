@@ -210,8 +210,8 @@
 			var endpoint = "Meister.Demo.PO.Add.LineItems";
 			$scope.disableAddLines = true;
 			var json = '{"Number":"'+  $scope.orderSelected.value + '","repeat":"' + $scope.multiplier + 
-				'","Lineitem":[{"LineNo":"00010","material":"' + $scope.materialSelected[0].MATERIAL + 
-				'","Plant":"' + $scope.materialSelected[0].PLANT + '","quantity":"1500","netPrice":"' + 
+				'","Lineitem":[{"line_no":"00010","material":"' + $scope.materialSelected[0].MATERIAL + 
+				'","plant":"' + $scope.materialSelected[0].PLANT + '","qty":"1500","price":"' + 
 				$scope.materialSelected[0].PRICE + '"}]}';
 				console.log("endpoint",endpoint);
 				console.log("json",json);
