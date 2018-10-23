@@ -4,6 +4,10 @@
 		'SalesOrderService', 
 		function($scope,$rootScope,$timeout, $filter, $mdSidenav,$mdMenu, $mdMedia, $state, $mdDialog, SalesOrderService) {
 		
+		$scope.isMobileDevice = $mdMedia('xs');
+    	$scope.isTabletDevice = $mdMedia('sm');
+    	$scope.isDesktop = $mdMedia('gt-sm');
+
 		$scope.shipToArray = [
 			{"label":"3000 - Smith Inc. LLC", value: "3000"}
 		];
@@ -93,7 +97,6 @@
 		    }
 
 
-		$scope.isMobileDevice = $mdMedia('xs');
 		$scope.collapseParterInfo = true;
 		$scope.collapseSalesSelection = true;
 		$scope.dataForGraphicReport = [];

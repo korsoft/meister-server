@@ -225,3 +225,28 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolb
 .footer-link {
   text-decoration: none;
   color: #353535; }
+
+.search-container {
+  padding-top: 49px; }
+
+.atp-container {
+  padding-top: 67px; }
+
+@media (min-width: 750px) and (max-width: 970px) {
+  .search-container {
+    padding-top: 80px; }
+  .order-number-conatiner {
+    height: unset !important; }
+  .atp-container {
+    padding-top: 98px; }
+  .btn-nomin {
+    min-width: unset;
+    padding: 0;
+    margin: 0; }
+  .autocomplete {
+    height: 60px !important; }
+  .atp-table table.md-table:not(.md-row-select) td.md-cell:first-child,
+  .atp-table table.md-table:not(.md-row-select) th.md-column:first-child {
+    padding: 0; }
+  .atp-table table.md-table td.md-cell:last-child, .atp-table table.md-table th.md-column:last-child {
+    padding: 0; } }

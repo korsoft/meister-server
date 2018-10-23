@@ -70,7 +70,7 @@
     </md-toolbar>
 
     <md-content class="md-padding" layout-xs="column" layout="row" style="padding-top: 0px;padding-bottom: 0px">
-    <div flex-xs flex-gt-xs="50" layout="column" style="padding-right: 15px">
+    <div flex-xs flex-gt-xs="50" layout="column" style="{{isDesktop ? 'padding-right: 15px' : ''}}">
 
        <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card">
         <md-card-title style="padding-top: 10px">
@@ -133,12 +133,12 @@
       </md-card>
      </div>
 
-     <div flex-xs flex-gt-xs="50" layout="column" style="{{!isMobileDevice ? 'padding-left: 15px' : 'padding-right: 15px'}}" >
+     <div flex-xs flex-gt-xs="50" layout="column" style="{{isDesktop ? 'padding-left: 15px' : ''}}" >
 
          <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch class="main-menu-option-card" style="{{!isMobileDevice ? 'height: 529px': 'height:100%'}}">
           <md-card-title style="padding-top: 10px">
           <md-card-title-text style="text-align: center;">
-            <span class="md-headline">More to see. Call to schedule a demo </span>
+            <span class="md-headline" >More to see. Call to schedule a demo </span>
           </md-card-title-text>
           <md-card-title-media>
             <div class="md-media-xs card-media"></div>
@@ -149,9 +149,9 @@
                 <tbody md-body> 
                   <tr md-row>
                     <td md-cell class="td-space" width="80%" style="padding: 0;border:0">
-                      <md-card-title>
+                      <md-card-title style="{{!isDesktop ? 'padding: 20px 16px 0px' : ''}}">
                       <md-card-title-text >
-                      <span class="md-headline" style="color: #a09d9d;font-size: 18px;">FICO Reports with EXCEL</span>
+                      <span class="md-headline" style="color: #a09d9d;{{isDesktop ? 'font-size: 18px' : 'font-size:16px'}}">FICO Reports with EXCEL</span>
                       <span style="color:rgba(0,0,0,0.54)">Exporting Any SAP FICO report to EXCEL. All Metadata included</span>
                       </md-card-title-text>
                     </md-card-title>
@@ -164,9 +164,9 @@
                   </tr>
                    <tr md-row>
                     <td md-cell class="td-space" style="padding: 0;border:0">
-                      <md-card-title>
+                      <md-card-title style="{{!isDesktop ? 'padding: 20px 16px 0px' : ''}}">
                       <md-card-title-text >
-                      <span class="md-headline" style="color: #a09d9d;font-size: 18px;">Enterprise Orchestration</span>
+                      <span class="md-headline" style="color: #a09d9d;{{isDesktop ? 'font-size: 18px' : 'font-size:16px'}}">Enterprise Orchestration</span>
                       <span style="color:rgba(0,0,0,0.54)">Manage workflows and business processes with SAP and other systems</span>
                       </md-card-title-text>
                     </md-card-title>
@@ -179,9 +179,9 @@
                   </tr>
                   <tr md-row>
                     <td md-cell class="td-space" style="padding: 0;border:0">
-                        <md-card-title>
+                        <md-card-title style="{{!isDesktop ? 'padding: 20px 16px 0px' : ''}}">
                         <md-card-title-text >
-                        <span class="md-headline" style="color: #a09d9d;font-size: 18px;">Water Utility Field Services</span>
+                        <span class="md-headline" style="color: #a09d9d;{{isDesktop ? 'font-size: 18px' : 'font-size:16px'}}">Water Utility Field Services</span>
                         <span style="color:rgba(0,0,0,0.54)">Live SAP information to the filed with Meister Mobility.</span>
                         </md-card-title-text>
                       </md-card-title>
@@ -194,9 +194,9 @@
                   </tr>
                   <tr md-row>
                     <td md-cell class="td-space" style="padding: 0;border:0">
-                       <md-card-title>
+                       <md-card-title style="{{!isDesktop ? 'padding: 20px 16px 0px' : ''}}">
                         <md-card-title-text >
-                        <span class="md-headline" style="color: #a09d9d;font-size: 18px;">Invoice Authorization Tool</span>
+                        <span class="md-headline" style="color: #a09d9d;{{isDesktop ? 'font-size: 18px' : 'font-size:16px'}}">Invoice Authorization Tool</span>
                         <span style="color:rgba(0,0,0,0.54)">See how Meister saved for a client $1.2MM of late payment fees</span>
                         </md-card-title-text>
                       </md-card-title>
@@ -209,9 +209,9 @@
                   </tr>
                   <tr md-row>
                     <td md-cell class="td-space" style="padding: 0;border:0">
-                      <md-card-title>
+                      <md-card-title style="{{!isDesktop ? 'padding: 20px 16px 0px' : ''}}">
                         <md-card-title-text >
-                        <span class="md-headline" style="color: #a09d9d;font-size: 18px;">Client Copy</span>
+                        <span class="md-headline" style="color: #a09d9d;{{isDesktop ? 'font-size: 18px' : 'font-size:16px'}}">Client Copy</span>
                         <span style="color:rgba(0,0,0,0.54)">If your Client Copy process takes forever, you need to see this</span>
                         </md-card-title-text>
                       </md-card-title>

@@ -5,6 +5,8 @@
     	$scope.toggleRight = buildToggler('right');
 
     	$scope.isMobileDevice = $mdMedia('xs');
+    	$scope.isTabletDevice = $mdMedia('sm');
+    	$scope.isDesktop = $mdMedia('gt-sm');
     	
 	    function buildToggler(componentId) {
 	      return function() {
