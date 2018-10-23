@@ -331,7 +331,7 @@
 			          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
 			          	$scope.salesHistory = result.data.Json[0].po_hdrs;
 			          	console.log("Histories",$scope.salesHistory);
-			          	var report = SalesOrderService.buildSalesHistoryDataForGraphicReports($scope.salesHistory);
+			          	var report = SalesOrderService.buildPoByVendorDataForGraphicReports($scope.salesHistory);
 			          	console.log("report",report);
 			          	$scope.dataForGraphicReport = report.data;
 			          	$scope.labelsForGraphicReport = report.labels;

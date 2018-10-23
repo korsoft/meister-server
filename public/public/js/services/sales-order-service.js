@@ -45,6 +45,44 @@
         	return report;
         };
 
+        service.buildPoByVendorDataForGraphicReports = function(data){
+            var salesHistoryGroupBy18LastMonths = _.groupBy(data, 
+                     function(item){ 
+                        return item.order_date.substring(0,4)+"-"+item.order_date.substring(4,6); 
+                      }
+                     );
+            
+            console.log("salesHistoryGroupBy18LastMonths",salesHistoryGroupBy18LastMonths);
+            var months = [];
+            var date = moment();
+            for(var i=0;i<18;i++){
+                months.push(date.format("YYYY-MM"));
+                date = date.subtract(1, 'months');
+            }
+            months = months.reverse();
+            console.log("months",months);
+
+            var report = {
+                labels: [],
+                data: []
+            }
+
+            _.each(months, function(m){
+                report.labels.push(m);
+                var sum = 0;
+                if(salesHistoryGroupBy18LastMonths[m]){
+                    _.each(salesHistoryGroupBy18LastMonths[m], function(row){
+                        _.each(row.line_items, function(item){
+                            sum += Number(item.net_price);
+                        });
+                    });
+                } 
+                report.data.push(sum);
+                
+            });
+            return report;
+        };
+
         return service;
     }]);
 })(meister);
