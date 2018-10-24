@@ -78,7 +78,7 @@
     <div layout="row" flex="100" layout-xs="column">
 
 
-     <div flex="{{hiddenPartnerInfo ? '1' : '20'}}" flex-xs="100" style="padding-top: 49px">
+     <div flex="{{hiddenPartnerInfo ? '1' : '20'}}" flex-xs="100" class="search-container" >
       <div layout="column" ng-show="!isMobileDevice">
           <div style="text-align: right;float: right;width: 100%">
              <md-button  ng-show="!hiddenPartnerInfo" id="btn_hide_material" class="md-mini"  aria-label="Hide Materials" ng-click="hidePartnerInfo()" 
@@ -159,7 +159,7 @@
 
     <div flex="{{hiddenPartnerInfo ? '80' : '60'}}" flex-xs="100" id="tablesContainerMain">
 
-      <div layout="column" flex="100" style="{{isMobileDevice ? 'margin-top: 5px;margin-bottom: 20px' : 'margin-top: -6px;'}}">
+      <div layout="column" flex="100" style="{{!isDesktop ? 'margin-top: 5px;margin-bottom: 20px' : 'margin-top: -6px;'}}">
         <md-tabs md-dynamic-height md-selected="tabSelected">
           <md-tab label="Purchase Order" md-on-select="changeGeneric()">
           </md-tab>
@@ -231,50 +231,52 @@
         </fieldset>
        </div>
 
-       <div layout="column"  flex="100" ng-show="tabSelected == 0" style="{{!isMobileDevice ? 'height: 42px;' : ''}}">
+       <div layout="column" class="order-number-conatiner"  flex="100" ng-show="tabSelected == 0" style="{{!isMobileDevice ? 'height: 42px;' : ''}}">
              
         <fieldset class="table-set" layout="row" style="border: 0px;padding-bottom: 0px;">
-          <div flex="100" flex-xs="100" layout="row" layout-xs="column" class="table-container-2">
-            <div flex="20" flex-xs="50" layout-xs="row" style="{{!isMobileDevice ? 'margin-top: -20px' : 'height:60px'}}">
-              <md-autocomplete
-                  ng-disabled="!vendorSelected  || !purchasingOrganizationSelected || !plantSelected || !purchasegroupSelected"
-                  md-selected-item="orderSelected"
-                  md-selected-item-change="changeOrder(o)"
-                  md-search-text="searchTextOrderNumber"
-                  md-items="o in querySearch(searchTextOrderNumber)"
-                  md-item-text="o.label"
-                  md-min-length="0"
-                  placeholder="Select a PO Number"
-                  md-floating-label="PO Number">
-                <md-item-template>
-                  <span md-highlight-text="searchTextOrderNumber" md-highlight-flags="^i">{{o.label}}</span>
-                </md-item-template>
-                <md-not-found>
-                  No PO number matching "{{searchTextOrderNumber}}" were found.
-                </md-not-found>
-              </md-autocomplete>
-            </div>
-            <div  flex="30" flex-xs="50">
-              <label style="font-size: 12px;font-weight: bold;" ng-show="!orderSelected">No Sales Document Selected yet</label>
-              <label style="font-size: 12px;font-weight: bold;" ng-show="salesOrder.length>0 ">Number of Line items {{salesOrder.length}}</label>
-            </div>          
-          <div ng-show="materialSelected.length>0" layout-xs="row" flex="15" flex-xs="50">
-              <md-button class="md-raised md-primary md-button" ng-click="addLines()" 
-               ng-disabled="disableAddLines" style="line-height:24px;min-height: 25px; margin: 0px">
-                Add Items
-              </md-button>
-            </div>
-            <div ng-show="materialSelected.length>0"  flex="30" layout-xs="row" flex-xs="50">
-              <md-slider-container style="{{!isMobileDevice ? 'margin-top: -8px;' : ''}}">
-                  <md-slider ng-model="multiplier" min="0" max="100" aria-label="blue" id="multiplier-slider"
-                             class="md-primary">
-                  </md-slider>
-                  {{multiplier}}
-              </md-slider-container>
+          <div flex="100" flex-xs="100" flex-sm="100" layout="row" layout-xs="column" layout-sm="column" class="table-container-2">
+            <div flex="55" layout="row" layout-sm="row" layout-xs="column" flex-sm="100" flex-xs="100">
+              <div style="{{!isMobileDevice ? 'margin-top: -20px' : 'height:60px'}}">
+                <md-autocomplete class="autocomplete"
+                    ng-disabled="!vendorSelected  || !purchasingOrganizationSelected || !plantSelected || !purchasegroupSelected"
+                    md-selected-item="orderSelected"
+                    md-selected-item-change="changeOrder(o)"
+                    md-search-text="searchTextOrderNumber"
+                    md-items="o in querySearch(searchTextOrderNumber)"
+                    md-item-text="o.label"
+                    md-min-length="0"
+                    placeholder="Select a PO Number"
+                    md-floating-label="PO Number">
+                  <md-item-template>
+                    <span md-highlight-text="searchTextOrderNumber" md-highlight-flags="^i">{{o.label}}</span>
+                  </md-item-template>
+                  <md-not-found>
+                    No PO number matching "{{searchTextOrderNumber}}" were found.
+                  </md-not-found>
+                </md-autocomplete>
+              </div>
+              <div >
+                <label style="font-size: 12px;font-weight: bold;" ng-show="!orderSelected">No Sales Document Selected yet</label>
+                <label style="font-size: 12px;font-weight: bold;" ng-show="salesOrder.length>0 ">Number of Line items {{salesOrder.length}}</label>
+              </div> 
+            </div>  
+            <div flex="45" layout="row" layout-sm="row" layout-xs="column" flex-sm="100" flex-xs="100">        
+              <div ng-show="materialSelected.length>0" flex="40" flex-sm="40" flex-xs="100">
+                <md-button class="md-raised md-primary md-button" ng-click="addLines()" 
+                 ng-disabled="disableAddLines" style="line-height:24px;min-height: 25px; margin: 0px">
+                  Add Items
+                </md-button>
+              </div>
+              <div ng-show="materialSelected.length>0"  flex="60" flex-sm="60" flex-xs="100">
+                <md-slider-container style="{{!isMobileDevice ? 'margin-top: -8px;' : ''}}">
+                    <md-slider ng-model="multiplier" min="0" max="100" aria-label="blue" id="multiplier-slider"
+                               class="md-primary">
+                    </md-slider>
+                    {{multiplier}}
+                </md-slider-container>
+              </div>
             </div>
           </div>
-
-          
         </fieldset>
       </div> 
 
@@ -393,21 +395,18 @@
 </div>
 
   <div flex="20" flex-xs="100">
-    <div layout="column" style="padding-top: 67px" ng-show="tabSelected == 0">
+    <div layout="column" class="atp-container" ng-show="tabSelected == 0">
     
   <md-toolbar md-scroll-shrink ng-show="orderSelected && orderSelected.value!='0' && orderSelected.value!='NEW'" style="margin-top:5px">
-      <div class="md-toolbar-tools" md-truncate flex >
-         Notes
-         &nbsp;
-         <md-button id="btn_add" ng-click="showAddNote($event)" class="md-icon-button" aria-label="Add note" title="Ad Note">
+      <div class="md-toolbar-tools" md-truncate flex >Notes&nbsp;<md-button id="btn_add" ng-click="showAddNote($event)" class="md-icon-button" aria-label="Add note" title="Ad Note">
           <md-icon class="material-icons">add</md-icon>
            </md-button>
           <div flex></div>
-        <md-button  ng-show="!hiddenNotes" class="md-mini"  aria-label="Hide" ng-click="hiddenNotes=true"
+        <md-button  ng-show="!hiddenNotes" class="md-mini btn-nomin"  aria-label="Hide" ng-click="hiddenNotes=true"
               title="Hide" >
             <md-icon class="material-icons">expand_less</md-icon>
             </md-button>
-            <md-button  ng-show="hiddenNotes" class="md-mini"  aria-label="Show" ng-click="hiddenNotes=false" title="Show">
+            <md-button  ng-show="hiddenNotes" class="md-mini btn-nomin"  aria-label="Show" ng-click="hiddenNotes=false" title="Show">
                 <md-icon class="material-icons">expand_more</md-icon>
             </md-button>
        
@@ -417,7 +416,7 @@
       <section>
         <md-list-item class="md-3-line" md-virtual-repeat="n in notes | filter:notesFilter"
             style="border-bottom-style: solid;border-bottom-width: 1px;">
-            <div class="md-list-item-text">
+            <div class="md-list-item-text"  layout="row" layout-xs="row" layout-sm="column">
               <div style="width: 20%;float: left;" ng-show="n.LINE != 'HDR'">{{n.LINE}}</div>
               <div style="{{n.LINE == 'HDR' ? 'width: 100%' : 'width: 80%'}};float: right;">{{n.TEXT}}</div>
              </div>

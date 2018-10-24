@@ -73,6 +73,8 @@
 
 
 		$scope.isMobileDevice = $mdMedia('xs');
+    	$scope.isTabletDevice = $mdMedia('sm');
+    	$scope.isDesktop = $mdMedia('gt-sm');
 		$scope.collapseParterInfo = true;
 		$scope.collapseSalesSelection = true;
 		$scope.dataForGraphicReport = [];
@@ -160,11 +162,11 @@
 			var json = "";
 			
 			if($scope.note.type == "HDR"){
-				endpoint = "Meister.Demo.PP.Hrd.Notes";
-				json = '{"ORDERNO":"' + $scope.orderSelected.value + '","NOTES":[{"TEXT":"' 
+				endpoint = "Meister.Demo.Po.Header.Notes";
+				json = '{"orderno":"' + $scope.orderSelected.value + '","notes":[{"TEXT":"' 
 				+ $scope.note.text + '"}]}';
 			} else if($scope.note.type == "LINE"){
-				endpoint = "Meister.Demo.PP.Line.Notes";
+				endpoint = "Meister.Demo.Po.Line.Notes";
 				json = '{"ORDERNO":"' + $scope.orderSelected.value + '","LINE_ITEM":"' 
 				+ $scope.note.lineNumber + '","NOTES":[{"TEXT":"' + $scope.note.text + '"}]}';
 			}
@@ -271,7 +273,7 @@
 		$scope.getListNotesByOrder = function(){
 			console.log("Calculate getListNotesByOrder",$scope.orderSelected);
 			$scope.notes = [];
-			var endpoint = "Meister.Demo.PP.Read.Notes";
+			var endpoint = "Meister.Demo.PO.Notes.Read";
 			var json = '{"ORDERNO":"'+ $scope.orderSelected.value +'"}';
 			console.log("endpoint",endpoint);
 			console.log("json",json);

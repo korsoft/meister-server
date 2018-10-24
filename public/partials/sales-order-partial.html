@@ -394,10 +394,11 @@
       <div layout="column"  flex="100" ng-show="tabSelected == 0">
        
         <fieldset class="table-set" >
-          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 434px' : 'height: 241px'}};">
-            <md-table-container ng-show="readOrderProgress">
-              <table md-table md-row-select ng-model="salesOrderSelected" md-progress="readOrderProgress" md-body  md-virtual-repeat-container>
-                <thead md-head>
+          <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 434px' : 'height: 244px'}};">
+
+            <md-table-container ng-show="readOrderProgress" style="{{hiddenMaterial ? 'height: 434px' : 'height: 244px'}};">
+              <table md-virtual-repeat-container style="{{hiddenMaterial ? 'height: 434px' : 'height: 244px'}};" md-table md-row-select ng-model="salesOrderSelected" md-progress="readOrderProgress"   >
+                <thead md-head fix-head>
                   <tr md-row >
                     <th md-column class="td-space"><span>LineNo</span></th>
                     <th md-column class="td-space"><span>Material</span></th>
@@ -407,7 +408,7 @@
                   </tr>
                 </thead>
                 <tbody md-body> 
-                  <tr md-row md-auto-select md-select="s" md-on-select="onSelectSalesOrderRow" md-virtual-repeat="s in salesOrder" >
+                  <tr md-row md-auto-select md-select="s" md-on-select="onSelectSalesOrderRow" md-virtual-repeat="s in salesOrder">
                     <td md-cell class="td-space" width="10%">{{s.line_no}}</td>
                     <td md-cell class="td-space" width="30%">{{s.material}}</td>
                     <td md-cell class="td-space" width="20%">{{s.plant}}</td>
@@ -447,10 +448,10 @@
                 <tbody md-body> 
                   <tr md-row md-auto-select md-select="s" md-on-select="onSalesHistorySelected" md-virtual-repeat="s in salesHistory" >
                     <td md-cell class="td-space" width="10%">{{s.SALES_DOCUMENT}}</td>
-                    <td md-cell class="td-space" width="25%">{{s.DOCUMENT_DATE}}</td>
+                    <td md-cell class="td-space" width="20%">{{s.DOCUMENT_DATE}}</td>
                     <td md-cell class="td-space" width="20%">{{s.CATEGORY}}</td>
-                    <td md-cell class="td-space" width="25%">{{s.NET_VALUE}}</td>
-                    <td md-cell class="td-space" width="20%">{{s.CURRENCY}}</td>                                       
+                    <td md-cell class="td-space" width="15%">{{s.NET_VALUE}}</td>
+                    <td md-cell class="td-space" width="15%">{{s.CURRENCY}}</td>
                     <td md-cell class="td-space" width="20%">{{s.DELIVERY_DATE}}</td>
                   </tr>
                 </tbody>
