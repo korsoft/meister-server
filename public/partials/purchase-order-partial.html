@@ -2,11 +2,11 @@
 
   <div style="visibility: hidden">
           <div class="md-dialog-container" id="myDialog" >
-            <md-dialog layout-padding>
+            <md-dialog layout-padding style="width:80%;">
               <h2>Executing Log</h2>
               <fieldset class="table-set" >
                 <div  class="table-container" style="background-color: #e2dfdf;width: 100%;height: 350px">
-                  <span ng-bind-html="log" style="font-size: 12px"></span>
+                  <span class="log-data" ng-bind-html="log" ></span>
                 </div>
             </fieldset>
             </md-dialog>
@@ -14,11 +14,11 @@
   </div>
   <div style="visibility: hidden">
     <div class="md-dialog-container" id="addNoteDialog" >
-      <md-dialog layout-padding>
-        <div layout="column"  flex="100" style="padding-top: 20px">
+      <md-dialog layout-padding style="width:80%;">
+        <div layout="column"  flex="100" style="padding-top: 20px;">
  
          <b>{{note.title}}</b>
-          <fieldset class="table-set" >
+          <fieldset class="table-set" style="height: 350px;" >
             <md-input-container class="md-block" flex="50" flex-gt-sm style="margin-bottom: 0px">
               <label>Note content</label>
               <textarea ng-model="note.text" cols="40" rows="3" md-detect-hidden></textarea>
@@ -122,6 +122,16 @@
           </md-input-container>
           <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 20px" 
           >
+          <label>Purchase Group:</label>
+           <md-select ng-model="purchasegroupSelected" ng-required="true" ng-change="changeGeneric()">
+                <md-option ng-value=""></md-option>
+                  <md-option ng-repeat="s in purchasegroupArray" ng-value="s.value" >
+                    {{s.label}}
+                  </md-option>
+                </md-select>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 20px" 
+          >
           <label>Purchasing Organization:</label>
            <md-select ng-model="purchasingOrganizationSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
@@ -136,17 +146,6 @@
               <md-select ng-model="plantSelected" ng-required="true" ng-change="changeGeneric()">
                 <md-option ng-value=""></md-option>
                   <md-option ng-repeat="s in plantArray" ng-value="s.value" >
-                    {{s.label}}
-                  </md-option>
-                </md-select>
-          </md-input-container>
-         
-         <md-input-container class="md-block" flex-gt-sm style="margin-bottom: 0px;margin-top: 20px" 
-          >
-          <label>Purchase Group:</label>
-           <md-select ng-model="purchasegroupSelected" ng-required="true" ng-change="changeGeneric()">
-                <md-option ng-value=""></md-option>
-                  <md-option ng-repeat="s in purchasegroupArray" ng-value="s.value" >
                     {{s.label}}
                   </md-option>
                 </md-select>
@@ -284,8 +283,8 @@
        
         <fieldset class="table-set" >
           <div flex="100" class="table-container" style="{{hiddenMaterial ? 'height: 434px' : 'height: 241px'}};">
-            <md-table-container ng-show="readOrderProgress">
-              <table md-table md-row-select ng-model="salesOrderSelected" md-progress="readOrderProgress" md-body  md-virtual-repeat-container>
+            <md-table-container ng-show="readOrderProgress" style="{{hiddenMaterial ? 'height: 434px' : 'height: 241px'}};" ng-class="{'remove-scroll': (salesOrder.length < 6)}">
+              <table md-table md-row-select ng-model="salesOrderSelected" md-progress="readOrderProgress" md-body  md-virtual-repeat-container style="{{hiddenMaterial ? 'height: 434px' : 'height: 241px'}};">
                 <thead md-head>
                   <tr md-row >
                     <th md-column class="td-space"><span>LineNo</span></th>
@@ -296,7 +295,8 @@
                   </tr>
                 </thead>
                 <tbody md-body> 
-                  <tr md-row md-auto-select md-select="s" md-on-select="onSelectSalesOrderRow" md-virtual-repeat="s in salesOrder" >
+                  <tr md-row md-auto-select md-select="s" md-on-select="onSelectSalesOrderRow" md-on-deselect="onSelectSalesOrderRow" md-virtual-repeat="s in salesOrder" 
+                  md-item-size="100">
                     <td md-cell class="td-space" width="10%">{{s.line_no}}</td>
                     <td md-cell class="td-space" width="30%">{{s.material}}</td>
                     <td md-cell class="td-space" width="20%">{{s.plant}}</td>
@@ -330,7 +330,7 @@
                   </tr>
                 </thead>
                 <tbody md-body> 
-                  <tr md-row md-auto-select md-select="s" md-on-select="onSalesHistorySelected" md-virtual-repeat="s in salesHistory | orderBy: salesHistoryQuery.order"" >
+                  <tr md-row md-auto-select md-select="s" md-on-select="onSalesHistorySelected" md-virtual-repeat="s in salesHistory | orderBy: salesHistoryQuery.order" >
                     <td md-cell class="td-space" width="25%">{{s.po_number}}</td>
                     <td md-cell class="td-space" width="25%">{{formatSORT_DATE(s.order_date)}}</td>
                     <td md-cell class="td-space" width="25%">{{s.purgrp}}</td>
@@ -348,9 +348,9 @@
        
        <b>Items by Order</b>
         <fieldset class="table-set" >
-          <div flex="100" class="table-container" >
-            <md-table-container ng-show="salesPartnerProgress" >
-              <table md-virtual-repeat-container md-table md-progress="salesPartnerProgress" >
+          <div flex="100" class="table-container" style="height: 220px">
+            <md-table-container ng-show="salesPartnerProgress" style="height: 220px">
+              <table md-virtual-repeat-container md-table md-progress="salesPartnerProgress" style="height: 220px">
                 <thead md-head fix-head>
                   <tr md-row>
                     <th md-column class="td-space"><span>LineNo</span></th>
@@ -366,15 +366,15 @@
                 </thead>
                 <tbody md-body> 
                   <tr md-row md-virtual-repeat="s in salesHistorySelected[0].line_items" >
-                    <td md-cell class="td-space" >{{s.item_no}}</td>
-                    <td md-cell class="td-space" >{{s.material}}</td>
-                    <td md-cell class="td-space" >{{s.uom}}</td>
-                    <td md-cell class="td-space" >{{s.net_price | currency : "" : 2}}</td>
-                    <td md-cell class="td-space" >{{s.order_qty | currency : "" : 0}}</td>           
-                    <td md-cell class="td-space" >{{s.currency}}</td>                                       
-                    <td md-cell class="td-space" >{{s.mat_group}}</td>
-                    <td md-cell class="td-space" >{{s.plant}}</td>                                       
-                    <td md-cell class="td-space" >{{s.mat_description}}</td>                                       
+                    <td md-cell class="td-space" width="10%">{{s.item_no}}</td>
+                    <td md-cell class="td-space" width="20%">{{s.material}}</td>
+                    <td md-cell class="td-space" width="10%">{{s.uom}}</td>
+                    <td md-cell class="td-space" width="10%">{{s.net_price | currency : "" : 2}}</td>
+                    <td md-cell class="td-space" width="10%">{{s.order_qty | currency : "" : 0}}</td>           
+                    <td md-cell class="td-space" width="10%">{{s.currency}}</td>                                       
+                    <td md-cell class="td-space" width="10%">{{s.mat_group}}</td>
+                    <td md-cell class="td-space" width="10%">{{s.plant}}</td>                                       
+                    <td md-cell class="td-space" width="10%">{{s.mat_description}}</td>                                       
                   </tr>
                 </tbody>
               </table>
@@ -417,8 +417,7 @@
         <md-list-item class="md-3-line" md-virtual-repeat="n in notes | filter:notesFilter"
             style="border-bottom-style: solid;border-bottom-width: 1px;">
             <div class="md-list-item-text"  layout="row" layout-xs="row" layout-sm="column">
-              <div style="width: 20%;float: left;" ng-show="n.LINE != 'HDR'">{{n.LINE}}</div>
-              <div style="{{n.LINE == 'HDR' ? 'width: 100%' : 'width: 80%'}};float: right;">{{n.TEXT}}</div>
+              <div style="width: 100%;float: right;">{{n.TEXT}}</div>
              </div>
         </md-list-item>
     </section>

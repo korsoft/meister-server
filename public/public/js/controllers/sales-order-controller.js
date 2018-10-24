@@ -229,7 +229,7 @@
 			$scope.disableAddLines = true;
 			var json = '{"ORDERNO":"'+  $scope.orderSelected.value + '","REPEAT":"' + $scope.multiplier + 
 				'","MATERIAL":"' + $scope.materialSelected[0].MATERIAL + 
-				'","QTY":"1","UOM":"'+ $scope.materialSelected[0].UOM+'"}';
+				'","QTY":"'+Math.floor(Math.random() * 100)+'","UOM":"'+ $scope.materialSelected[0].UOM+'"}';
 				console.log("endpoint",endpoint);
 				console.log("json",json);
 
@@ -274,6 +274,7 @@
 
 		$scope.onSelectSalesOrderRow = function(){
 			console.log("onSelectSalesOrderRow",$scope.salesOrderSelected);
+			$scope.getListNotesByOrder();
 		};
 
 		$scope.hideMaterials = function(){
@@ -411,7 +412,6 @@
 
 			 $mdDialog.show({
 			      contentElement: '#addNoteDialog',
-			      parent: angular.element(document.querySelector('#tablesContainerMain')),
 			      targetEvent: ev,
 			      clickOutsideToClose: true
 			    });
@@ -467,7 +467,6 @@
 		$scope.showLogs = function(ev){
 			 $mdDialog.show({
 			      contentElement: '#myDialog',
-			      parent: angular.element(document.querySelector('#tablesContainerMain')),
 			      targetEvent: ev,
 			      clickOutsideToClose: true
 			    });

@@ -25,7 +25,7 @@
 			{"label":"New PO", value: "NEW"}
 		];
 
-		$scope.vendorSelected = "";
+        $scope.vendorSelected = "";
 		$scope.purchasingOrganizationSelected = "";
 		$scope.purchasegroupSelected = "";
 		$scope.plantSelected = "";
@@ -71,6 +71,7 @@
 
 		    }
 
+		 
 
 		$scope.isMobileDevice = $mdMedia('xs');
     	$scope.isTabletDevice = $mdMedia('sm');
@@ -213,7 +214,7 @@
 			$scope.disableAddLines = true;
 			var json = '{"Number":"'+  $scope.orderSelected.value + '","repeat":"' + $scope.multiplier + 
 				'","Lineitem":[{"line_no":"00010","material":"' + $scope.materialSelected[0].MATERIAL + 
-				'","plant":"' + $scope.materialSelected[0].PLANT + '","qty":"1500","price":"' + 
+				'","plant":"' + $scope.materialSelected[0].PLANT + '","qty":"'+Math.floor(Math.random() * 100)+'","price":"' + 
 				$scope.materialSelected[0].PRICE + '"}]}';
 				console.log("endpoint",endpoint);
 				console.log("json",json);
@@ -258,6 +259,7 @@
 
 		$scope.onSelectSalesOrderRow = function(){
 			console.log("onSelectSalesOrderRow",$scope.salesOrderSelected);
+			$scope.getListNotesByOrder();
 		};
 
 		$scope.hideMaterials = function(){
@@ -359,7 +361,6 @@
 
 			 $mdDialog.show({
 			      contentElement: '#addNoteDialog',
-			      parent: angular.element(document.querySelector('#tablesContainerMain')),
 			      targetEvent: ev,
 			      clickOutsideToClose: true
 			    });
@@ -378,7 +379,6 @@
 		$scope.showLogs = function(ev){
 			 $mdDialog.show({
 			      contentElement: '#myDialog',
-			      parent: angular.element(document.querySelector('#tablesContainerMain')),
 			      targetEvent: ev,
 			      clickOutsideToClose: true
 			    });
@@ -436,7 +436,6 @@
 		          	$scope.log = "Completed Read PO<br/>" + $scope.log;
 		          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
 		          	$scope.salesOrder = result.data.Json[0].lineitem;
-		          	
 		     	  },
 		          function(errorPayload) {
 		          	$scope.disableAddLines = false;
