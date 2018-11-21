@@ -1,0 +1,172 @@
+<div ng-controller="ReportingController" ng-cloak class="demo-so demo-background">
+
+
+<md-toolbar class="md-hue-2">
+
+	  <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="gotoHome()">
+         <md-icon ng-bind="'home'"></md-icon>
+        </md-button>
+
+        <h2 flex md-truncate>Meister Reporter</h2>
+
+    
+         <md-menu>
+       <md-button class="md-icon-button" aria-label="More" ng-click="openMenu($mdOpenMenu,$event)">
+          <md-icon md-menu-origin ng-bind="'more_vert'"></md-icon>
+        </md-button>
+      <md-menu-content width="4" ng-mouseleave="close()">
+        <md-menu-item>
+          <md-button>
+            <md-icon ng-bind="'info'"></md-icon> About
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button>
+            <md-icon ng-bind="'perm_identity'"></md-icon> User preferences
+          </md-button>
+        </md-menu-item>
+        <md-menu-item>
+          <md-button>
+           <md-icon ng-bind="'power_settings_new'"></md-icon> Logout
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+
+      </div>
+
+    </md-toolbar>
+
+  <md-content class="md-padding">
+    
+    <div layout-gt-sm="row" layout="column">
+      <div layout-gt-sm="row" style="width: 300px">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Enter a t-code or report hint:</label>
+            <input ng-model="t_code_report_hint" ng-required="true">
+            </md-input-container>
+      </div>
+      <div>
+        <md-button class="md-raised md-primary" ng-disabled="t_code_report_hint == ''" ng-click="reportsFinder()">Search SAP</md-button>
+      </div>
+    </div>
+
+  <div layout="column" ng-show="reportsFinderProgress">
+    <label ng-show="report.columns">These are the t-codes and/or reports found at SAP with the hint passed:</label>
+    <label ng-show="!report.columns && !loadingReports">There aren't t-codes and/or reports</label>
+    <md-table-container >
+      <table md-table md-row-select 
+            ng-model="reportSelected" md-progress="reportsFinderProgress">
+        <thead md-head >
+          <tr md-row ng-show="loadingReports || report.columns">
+            <th md-column class="td-space"><span>Type</span></th>
+            <th md-column class="td-space" ng-repeat="key in report.columns"><span>{{key}}</span></th>
+          </tr>
+        </thead>
+        <tbody md-body> 
+          <tr md-row md-select="r" md-on-select="onReportSelected" ng-repeat="r in report.rows"
+              >
+            <td md-cell class="td-space">{{r.ENUM_ID}}</td>
+            <td md-cell class="td-space" ng-repeat="key in report.columns">{{r.ENUMS[0][key]}}</td>                                  
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container> 
+  </div>
+
+  <div layout="column" ng-show="paramsProgress" style="padding-top: 20px">
+    <label ng-show="params.length">Parameter List</label>
+    <label ng-show="params.length==0 && !loadingParams">There aren't params for the report selected</label>
+    <md-table-container >
+      <table md-row-select multiple ng-model="paramsSelected" md-table md-progress="paramsProgress">
+        <thead md-head >
+          <tr md-row ng-show="loadingParams || params.length>0">
+            <th md-column class="td-space"><span>ParameterName</span></th>
+            <th md-column class="td-space"><span>Operation</span></th>
+            <th md-column class="td-space"><span>From</span></th>
+            <th md-column class="td-space"><span>To</span></th>
+            <th md-column class="td-space"><span></span></th>
+          </tr>
+        </thead>
+        <tbody md-body> 
+          <tr md-row md-select="p" md-on-select="onParamSelected" md-on-deselect="onParamUnSelected" ng-repeat="p in params">
+            <td md-cell class="td-space" width="35%">
+              <span ng-if="!p.$edit">{{p.PARAMETER.NAME}}</span>
+              <div ng-if="p.$edit">
+                  <md-input-container class="md-block" style="margin:0px">
+                    <input ng-model="p.$paramEdit.PARAMETER.NAME" ng-required="true">
+                  </md-input-container>
+              </div>
+            </td>
+            <td md-cell class="td-space" width="10%">
+              <span ng-if="!p.$edit">{{p.$operation}}</span>
+              <div ng-if="p.$edit">
+                <md-input-container class="md-block" style="margin:0px">
+                  <md-select ng-model="p.$paramEdit.$operation" ng-required="true"ng-change="changeOperation(p)">
+                    <md-option ng-repeat="o in operations" ng-value="o" >
+                      {{o}}
+                    </md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+            </td>
+            <td md-cell class="td-space" width="20%">
+              <span ng-if="!p.$edit">{{outputFrom(p)}}</span>
+              <div ng-if="p.$edit && (p.$paramEdit.$operation == 'BT' || p.$paramEdit.$operation == 'GT' || p.$paramEdit.$operation == 'LT' || p.$paramEdit.$operation == 'GE' || p.$paramEdit.$operation == 'LE')">
+                  <md-input-container class="md-block" style="margin:0px">
+                    <input ng-model="p.$paramEdit.$from" ng-required="true">
+                  </md-input-container>
+              </div>
+              <div ng-if="p.$edit && (p.$paramEdit.$operation == 'EQ' || p.$paramEdit.$operation == 'NE')">
+                  <md-chips name="values" ng-model="p.$paramEdit.$from" ng-required="true"
+                      placeholder="Add a value">
+              </div>
+            </td>
+            <td md-cell class="td-space" width="20%">
+              <span ng-if="!p.$edit">{{p.$to}}</span>
+              <div ng-if="p.$edit && p.$paramEdit.$operation == 'BT'">
+                  <md-input-container class="md-block" style="margin:0px">
+                    <input ng-model="p.$paramEdit.$to" ng-required="true">
+                  </md-input-container>
+              </div>
+            </td>
+            <td md-cell class="td-space" width="15%">
+              <div ng-if="p.$selected" style="text-align: center">
+                <md-button  ng-if="!p.$edit" class="md-mini"  aria-label="Hide Materials"  
+                  style="margin:0px;min-width:0px"
+                  title="Edit" ng-click="editParam(p)">
+                    <md-icon class="material-icons">edit</md-icon>
+                </md-button>
+                <md-button  ng-if="p.$edit" class="md-mini"  aria-label="Hide Materials"  
+                  style="margin:0px;min-width:0px" ng-click="updateParam(p)"
+                  title="Update" >
+                    <md-icon class="material-icons">done</md-icon>
+                </md-button>
+                <md-button  ng-if="p.$edit" class="md-mini"  aria-label="Hide Materials"  
+                  style="margin:0px;min-width:0px"
+                  title="Cancel" ng-click="cancelEditParam(p)">
+                    <md-icon class="material-icons">cancel</md-icon>
+                </md-button>
+              </div>
+            </td>                                  
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container> 
+  </div>
+
+  <div layout="column" style="padding-top: 20px" ng-show="params.length>0">
+    <md-button class="md-raised md-primary" ng-click="executeSchedule()">Execute</md-button>
+  </div>
+
+  </md-content>
+
+ <footer>
+      <md-toolbar class="md-scroll-shrink" style="min-height: 40px;background-color: rgb(250,250,250);color:black;margin-bottom: 50px;padding-top: 20px">
+        <div layout="row" layout-align="center center" flex layout-xs="column" >
+          <div style="text-align: center;font-size: 14px">Copyright © 2018 Gateway Architects. All rights reserved.</div>
+        </div>
+      </md-toolbar>
+    </footer>
+</div>

@@ -5,8 +5,8 @@
 		function($scope,$rootScope,$timeout, $filter, $mdSidenav,$mdMenu, $mdMedia, $state, $mdDialog, SalesOrderService) {
 		
 		$scope.isMobileDevice = $mdMedia('xs');
-    	$scope.isTabletDevice = $mdMedia('sm');
-    	$scope.isDesktop = $mdMedia('gt-sm');
+    	$scope.isTabletDevice = $mdMedia('md') || $mdMedia('sm');
+    	$scope.isDesktop = $mdMedia('gt-md');
 
 		$scope.shipToArray = [
 			{"label":"3000 - Smith Inc. LLC", value: "3000"}
@@ -415,6 +415,9 @@
 			      targetEvent: ev,
 			      clickOutsideToClose: true
 			    });
+			$timeout(function () {
+				document.getElementById('add_note').focus();
+			},1000);
 		};
 
 		$scope.showAtpDialog = function(ev){

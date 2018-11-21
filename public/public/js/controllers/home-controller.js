@@ -35,6 +35,10 @@
 	    	$state.go('reports');
 	    };
 
+	    $rootScope.gotoReporting = function(){
+	    	$state.go('reporting');
+	    };
+
 	     $rootScope.openMenu = function($mdOpenMenu,ev) {
 		      $mdOpenMenu(ev);
 		 };

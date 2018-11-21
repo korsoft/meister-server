@@ -241,7 +241,7 @@ md-toolbar.md-default-theme:not(.md-menu-toolbar), md-toolbar:not(.md-menu-toolb
 .remove-scroll .md-virtual-repeat-scroller {
   overflow-y: hidden !important; }
 
-@media (min-width: 750px) and (max-width: 970px) {
+@media (min-width: 600px) and (max-width: 1024px) {
   .search-container {
     padding-top: 80px; }
   .order-number-conatiner {

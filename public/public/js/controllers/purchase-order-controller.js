@@ -74,8 +74,8 @@
 		 
 
 		$scope.isMobileDevice = $mdMedia('xs');
-    	$scope.isTabletDevice = $mdMedia('sm');
-    	$scope.isDesktop = $mdMedia('gt-sm');
+    	$scope.isTabletDevice = $mdMedia('md') || $mdMedia('sm');
+    	$scope.isDesktop = $mdMedia('gt-md');
 		$scope.collapseParterInfo = true;
 		$scope.collapseSalesSelection = true;
 		$scope.dataForGraphicReport = [];
@@ -359,11 +359,15 @@
 				$scope.note.title = "Adding Header notes";
 			}
 
-			 $mdDialog.show({
+			$mdDialog.show({
 			      contentElement: '#addNoteDialog',
 			      targetEvent: ev,
 			      clickOutsideToClose: true
 			    });
+			$timeout(function () {
+				document.getElementById('add_note').focus();
+			},1000);
+			
 		};
 
 		$scope.showPartnerInfo = function(){
