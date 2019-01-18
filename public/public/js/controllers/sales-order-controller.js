@@ -41,7 +41,7 @@
 		];
 
 		$scope.orderArray = [
-			{"label":"20168", value: "20168"},
+			{"label":"20157", value: "20157"},
 			{"label":"New SO", value: "NEW"}
 		];
 
