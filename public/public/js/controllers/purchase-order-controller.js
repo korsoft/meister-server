@@ -253,7 +253,7 @@
 			if($scope.salesOrderSelected.length==0)
 				return n.LINE == "HDR";
 			else
-		      	return Number(n.LINE) == Number($scope.salesOrderSelected[0].line_no);
+		      	return Number(n.LINE.substring(0,5)) == Number($scope.salesOrderSelected[0].line_no);
 		    
 		};
 
