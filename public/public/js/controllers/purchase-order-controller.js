@@ -5,11 +5,11 @@
 		function($scope,$rootScope,$timeout, $filter, $mdSidenav,$mdMenu, $mdMedia, $state, $mdDialog, SalesOrderService) {
 		
 		$scope.vendorArray = [
-			{label:"1000 - C.E.B. Berlin", value: "1000"}
+			{label:"1000 - C.E.B. USA", value: "1000"}
 		];
 
 		$scope.purchasingOrganizationArray = [
-			{label:"1000 - BestRun Germany", value: "1000"}
+			{label:"3000 - BestRun USA", value: "1000"}
 		];
 
 		$scope.plantArray = [
@@ -17,11 +17,11 @@
 		];
 
 		$scope.purchasegroupArray = [
-			{label:"001 - Dickens, B", value: "001"}
+			{label:"3000 - BestRun, USA", value: "001"}
 		];
 
 		$scope.orderArray = [
-			{"label":"4500022451", value: "4500022451"},
+			{"label":"4500022402", value: "4500022402"},
 			{"label":"New PO", value: "NEW"}
 		];
 
