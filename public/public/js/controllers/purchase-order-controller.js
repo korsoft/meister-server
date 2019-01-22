@@ -61,6 +61,13 @@
 		$scope.querySearch = function(query) {
 		      var results = query ? $scope.orderArray.filter( createFilterFor(query) ) : $scope.orderArray,
 		          deferred;
+
+		       if(results.length == 0){
+		       	results.push({
+		       		label:query,
+		       		value:query
+		       	});
+		       }
 		      return results;
 		    }
 

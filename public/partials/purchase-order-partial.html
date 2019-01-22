@@ -244,14 +244,17 @@
                     md-items="o in querySearch(searchTextOrderNumber)"
                     md-item-text="o.label"
                     md-min-length="0"
+                    md-require-match="false" 
                     placeholder="Select a PO Number"
                     md-floating-label="PO Number">
                   <md-item-template>
                     <span md-highlight-text="searchTextOrderNumber" md-highlight-flags="^i">{{o.label}}</span>
                   </md-item-template>
+                  <!--
                   <md-not-found>
                     No PO number matching "{{searchTextOrderNumber}}" were found.
                   </md-not-found>
+                -->
                 </md-autocomplete>
               </div>
               <div >
@@ -360,7 +363,7 @@
                     <th md-column class="td-space"><span>Quantity</span></th>
                     <th md-column class="td-space"><span>Currency</span></th>
                     <th md-column class="td-space"><span>Mat Group</span></th>
-                     <th md-column class="td-space"><span>Plant</span></th>
+                    <th md-column class="td-space"><span>Plant</span></th>
                     <th md-column class="td-space"><span>Description</span></th>
                   </tr>
                 </thead>
