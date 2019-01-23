@@ -258,9 +258,9 @@
 
 		$scope.notesFilter = function(n){
 			if($scope.salesOrderSelected.length==0)
-				return n.LINE == "HDR";
+				return n.LINE.substring(0,3) == "HDR";
 			else
-		      	return Number(n.LINE.substring(0,5)) == Number($scope.salesOrderSelected[0].line_no);
+		      	return Number(n.LINE.substring(0,$scope.salesOrderSelected[0].line_no.length)) == Number($scope.salesOrderSelected[0].line_no);
 		    
 		};
 
