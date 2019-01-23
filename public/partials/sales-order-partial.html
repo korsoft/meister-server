@@ -350,14 +350,17 @@
                     md-items="o in querySearch(searchTextOrderNumber)"
                     md-item-text="o.label"
                     md-min-length="0"
+                    md-require-match="false" 
                     placeholder="Select an Order Number"
                     md-floating-label="Order Number">
                   <md-item-template>
                     <span md-highlight-text="searchTextOrderNumber" md-highlight-flags="^i">{{o.label}}</span>
                   </md-item-template>
+                  <!--
                   <md-not-found>
                     No order number matching "{{searchTextOrderNumber}}" were found.
                   </md-not-found>
+                -->
                 </md-autocomplete>
               </div>
               <div  >

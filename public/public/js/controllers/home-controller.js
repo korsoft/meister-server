@@ -7,6 +7,9 @@
     	$scope.isMobileDevice = $mdMedia('xs');
     	$scope.isTabletDevice = $mdMedia('sm');
     	$scope.isDesktop = $mdMedia('gt-sm');
+
+    	$rootScope.filters = [];
+    	$rootScope.stateParamFilters = [];
     	
 	    function buildToggler(componentId) {
 	      return function() {
