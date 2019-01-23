@@ -42,7 +42,11 @@
 	    	} 
 	    	if($stateParams.filters.length>0){
 	    		_.forEach($stateParams.filters,function(i){
-	    			$rootScope.stateParamFilters.push(i);
+	    			var item_found_by_filter = _.find($rootScope.stateParamFilters, function(s){
+		    			return s.CLAIM == i.CLAIM;
+		    		});
+		    		if(!item_found_by_filter)
+	    				$rootScope.stateParamFilters.push(i);
 	    		});
 	    	}
 
