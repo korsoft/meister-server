@@ -12,7 +12,7 @@
     	$scope.isDesktop = $mdMedia('gt-md');
 
 		$scope.shipToArray = [
-			//{"label":"3000 - Smith Inc. LLC", value: "3000"}
+			{"label":"3000 - Smith Inc. LLC", value: "3000"}
 		];
 
 		$scope.soldToArray = [
@@ -24,23 +24,23 @@
 		];
 
 		$scope.organizationArray = [
-			//{"label":"3000 - USA Philadelphia", value: "3000"}
+			{"label":"3000 - USA Philadelphia", value: "3000"}
 		];
 
 		$scope.channelArray = [
-			//{"label":"10 - Final customer sales", value: "10"}
+			{"label":"10 - Final customer sales", value: "10"}
 		];
 
 		$scope.divisionArray = [
-			//{"label":"00 - Cross-division ", value: "00"}
+			{"label":"00 - Cross-division ", value: "00"}
 		];
 
 		$scope.officeArray = [
-			//{"label":"3010 - Office Chicago", value: "3010"}
+			{"label":"3010 - Office Chicago", value: "3010"}
 		];
 
 		$scope.groupArray = [
-			//{"label":"311 - Group C1", value: "311"}
+			{"label":"311 - Group C1", value: "311"}
 		];
 
 		$scope.orderArray = [
@@ -349,8 +349,8 @@
 		};
 
 		$scope.init = function(){
-			$scope.loadSalesOrganization();
-			$scope.loadShipTo();
+			//$scope.loadSalesOrganization();
+			//$scope.loadShipTo();
 		}
 
 		$scope.changeShipTo = function(item){
