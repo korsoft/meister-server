@@ -1,15 +1,18 @@
 (function(app) {
 	app.controller('SalesOrderController', ['$scope','$rootScope','$timeout','$filter','$mdSidenav','$mdMenu','$mdMedia','$state',
 		'$mdDialog',
-		'SalesOrderService', 
-		function($scope,$rootScope,$timeout, $filter, $mdSidenav,$mdMenu, $mdMedia, $state, $mdDialog, SalesOrderService) {
+		'SalesOrderService',
+		'USERID','SO_BUSOBJECT', 'SALES_ORGANIZATION_FIELD','DISTRIBUTION_CHANNEL_FIELD','DIVISION_FIELD','SALES_GROUP_FIELD','SALES_OFFICE_FIELD',
+		'CUSTOMER_NUMBER_FIELD',
+		function($scope,$rootScope,$timeout, $filter, $mdSidenav,$mdMenu, $mdMedia, $state, $mdDialog, SalesOrderService, USERID, SO_BUSOBJECT, 
+			SALES_ORGANIZATION_FIELD,DISTRIBUTION_CHANNEL_FIELD,DIVISION_FIELD,SALES_GROUP_FIELD,SALES_OFFICE_FIELD,CUSTOMER_NUMBER_FIELD) {
 		
 		$scope.isMobileDevice = $mdMedia('xs');
     	$scope.isTabletDevice = $mdMedia('md') || $mdMedia('sm');
     	$scope.isDesktop = $mdMedia('gt-md');
 
 		$scope.shipToArray = [
-			{"label":"3000 - Smith Inc. LLC", value: "3000"}
+			//{"label":"3000 - Smith Inc. LLC", value: "3000"}
 		];
 
 		$scope.soldToArray = [
@@ -21,23 +24,23 @@
 		];
 
 		$scope.organizationArray = [
-			{"label":"3000 - USA Philadelphia", value: "3000"}
+			//{"label":"3000 - USA Philadelphia", value: "3000"}
 		];
 
 		$scope.channelArray = [
-			{"label":"10 - Final customer sales", value: "10"}
+			//{"label":"10 - Final customer sales", value: "10"}
 		];
 
 		$scope.divisionArray = [
-			{"label":"00 - Cross-division ", value: "00"}
+			//{"label":"00 - Cross-division ", value: "00"}
 		];
 
 		$scope.officeArray = [
-			{"label":"3010 - Office Chicago", value: "3010"}
+			//{"label":"3010 - Office Chicago", value: "3010"}
 		];
 
 		$scope.groupArray = [
-			{"label":"311 - Group C1", value: "311"}
+			//{"label":"311 - Group C1", value: "311"}
 		];
 
 		$scope.orderArray = [
@@ -82,6 +85,8 @@
 		var ROW_BY_PAGE = 50;
 
 		$scope.searchTextOrderNumber = "";
+
+
 
 		$scope.querySearch = function(query) {
 		      var results = query ? $scope.orderArray.filter( createFilterFor(query) ) : $scope.orderArray,
@@ -142,6 +147,210 @@
 
 		    return "Execution time " + hh+"."+mm+"."+ss+"."+ms+" hrs.min.sec.msec";
 
+		}
+
+		$scope.loadSalesOrganization = function(){
+			console.log("loadSalesOrganization...");
+			var endpoint = "Meister.SDK.Dropdown";
+			var json = '[{"busobject":"' + SO_BUSOBJECT + '","userid":"' + USERID + '","levels":[{"field":"' + SALES_ORGANIZATION_FIELD + '","option":"","parent":"","values":[{"value":""}]}]}]';
+			$scope.log = "Executing Get Sales Organization<br/>" + $scope.log;
+			var start = new Date();
+			$scope.organizationArray = [];
+	        $scope.organizationSelected = "";
+	        $scope.channelArray = [];
+	        $scope.channelSelected = "";
+	        $scope.divisionArray = [];
+	        $scope.divisionSelected = "";
+	        $scope.groupArray = [];
+	        $scope.groupSelected = "";
+	        $scope.officeArray = [];
+	        $scope.officeSelected = "";
+			$scope.loadSalesOrganizationProgress = SalesOrderService.execute(endpoint, json);
+			$scope.loadSalesOrganizationProgress.then(
+	          function(result) { 
+	          	var end = new Date();
+	          	console.log("SalesOrderService.execute result",result);		        	  
+	          	$scope.log = "Completed Get Sales Organization<br/>" + $scope.log;
+	          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
+	          	console.log(result.data.Json[0].dropdown);
+	          	_.forEach(result.data.Json[0].dropdown,function(row){
+	          		$scope.organizationArray.push({
+	          			"label":row.description + " - " +  row.name,
+	          			"value":row.description
+	          		});
+	          	});
+	     	  },
+	          function(errorPayload) {
+	              console.log('SalesOrderService.execute failure', errorPayload);
+	          }
+	     	);
+		};
+
+		$scope.loadDistributionChannel = function(salesOrder){
+			console.log("loadDistributionChannel...");
+			var endpoint = "Meister.SDK.Dropdown";
+			var json = '[{"busobject":"' + SO_BUSOBJECT + '","userid":"' + USERID + '","levels":[{"field":"' + DISTRIBUTION_CHANNEL_FIELD + '","option":"","parent":"' + SALES_ORGANIZATION_FIELD + '","values":[{"value":"' + salesOrder + '"}]}]}]';
+			$scope.log = "Executing Get Distribution Channel<br/>" + $scope.log;
+			var start = new Date();
+			$scope.channelArray = [];
+	        $scope.channelSelected = "";
+	        $scope.divisionArray = [];
+	        $scope.divisionSelected = "";
+	        $scope.groupArray = [];
+	        $scope.groupSelected = "";
+	        $scope.officeArray = [];
+	        $scope.officeSelected = "";
+			$scope.loadDistributionChannelProgress = SalesOrderService.execute(endpoint, json);
+			$scope.loadDistributionChannelProgress.then(
+	          function(result) { 
+	          	var end = new Date();
+	          	console.log("SalesOrderService.execute result",result);		        	  
+	          	$scope.log = "Completed Get Distribution Channel<br/>" + $scope.log;
+	          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
+	          	console.log(result.data.Json[0].dropdown);
+	          	_.forEach(result.data.Json[0].dropdown,function(row){
+	          		$scope.channelArray.push({
+	          			"label":row.description + " - " +  row.name,
+	          			"value":row.description
+	          		});
+	          	});
+	     	  },
+	          function(errorPayload) {
+	              console.log('SalesOrderService.execute failure', errorPayload);
+	          }
+	     	);
+	     	$scope.changeGeneric();
+		};
+
+		$scope.loadDivision = function(channel){
+			console.log("loadDivision...");
+			var endpoint = "Meister.SDK.Dropdown";
+			var json = '[{"busobject":"' + SO_BUSOBJECT + '","userid":"' + USERID + '","levels":[{"field":"' + DIVISION_FIELD + '","option":"","parent":"' + DISTRIBUTION_CHANNEL_FIELD + '","values":[{"value":"' + channel + '"}]}]}]';
+			$scope.log = "Executing Get Division<br/>" + $scope.log;
+			var start = new Date();
+			$scope.divisionArray = [];
+	        $scope.divisionSelected = "";
+	        $scope.groupArray = [];
+	        $scope.groupSelected = "";
+	        $scope.officeArray = [];
+	        $scope.officeSelected = "";
+			$scope.loadDivisionProgress = SalesOrderService.execute(endpoint, json);
+			$scope.loadDivisionProgress.then(
+	          function(result) { 
+	          	var end = new Date();
+	          	console.log("SalesOrderService.execute result",result);		        	  
+	          	$scope.log = "Completed Get Division<br/>" + $scope.log;
+	          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
+	          	console.log(result.data.Json[0].dropdown);
+	          	_.forEach(result.data.Json[0].dropdown,function(row){
+	          		$scope.divisionArray.push({
+	          			"label":row.description + " - " +  row.name,
+	          			"value":row.description
+	          		});
+	          	});
+	     	  },
+	          function(errorPayload) {
+	              console.log('SalesOrderService.execute failure', errorPayload);
+	          }
+	     	);
+	     	$scope.changeGeneric();
+		};
+
+		$scope.loadGroup = function(division){
+			console.log("loadGroup...");
+			var endpoint = "Meister.SDK.Dropdown";
+			var json = '[{"busobject":"' + SO_BUSOBJECT + '","userid":"' + USERID + '","levels":[{"field":"' + SALES_GROUP_FIELD + '","option":"","parent":"' + DIVISION_FIELD + '","values":[{"value":"' + division + '"}]}]}]';
+			$scope.log = "Executing Get Groups<br/>" + $scope.log;
+			var start = new Date();
+			$scope.groupArray = [];
+	        $scope.groupSelected = "";
+	        $scope.officeArray = [];
+	        $scope.officeSelected = "";
+			$scope.loadGroupProgress = SalesOrderService.execute(endpoint, json);
+			$scope.loadGroupProgress.then(
+	          function(result) { 
+	          	var end = new Date();
+	          	console.log("SalesOrderService.execute result",result);		        	  
+	          	$scope.log = "Completed Get Groups<br/>" + $scope.log;
+	          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
+	          	console.log(result.data.Json[0].dropdown);
+	          	_.forEach(result.data.Json[0].dropdown,function(row){
+	          		$scope.groupArray.push({
+	          			"label":row.description + " - " +  row.name,
+	          			"value":row.description
+	          		});
+	          	});
+	     	  },
+	          function(errorPayload) {
+	              console.log('SalesOrderService.execute failure', errorPayload);
+	          }
+	     	);
+	     	$scope.changeGeneric();
+		};
+
+		$scope.loadOffice = function(group){
+			console.log("loadOffice...");
+			var endpoint = "Meister.SDK.Dropdown";
+			var json = '[{"busobject":"' + SO_BUSOBJECT + '","userid":"' + USERID + '","levels":[{"field":"' + SALES_OFFICE_FIELD + '","option":"","parent":"' + SALES_GROUP_FIELD + '","values":[{"value":"' + group + '"}]}]}]';
+			$scope.log = "Executing Get Offices<br/>" + $scope.log;
+			var start = new Date();
+			$scope.officeArray = [];
+	        $scope.officeSelected = "";
+			$scope.loadOfficeProgress = SalesOrderService.execute(endpoint, json);
+			$scope.loadOfficeProgress.then(
+	          function(result) { 
+	          	var end = new Date();
+	          	console.log("SalesOrderService.execute result",result);		        	  
+	          	$scope.log = "Completed Get Offices<br/>" + $scope.log;
+	          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
+	          	console.log(result.data.Json[0].dropdown);
+	          	_.forEach(result.data.Json[0].dropdown,function(row){
+	          		$scope.officeArray.push({
+	          			"label":row.description + " - " +  row.name,
+	          			"value":row.description
+	          		});
+	          	});
+	     	  },
+	          function(errorPayload) {
+	              console.log('SalesOrderService.execute failure', errorPayload);
+	          }
+	     	);
+	     	$scope.changeGeneric();
+		};
+
+		$scope.loadShipTo = function(){
+			console.log("loadShipTo...");
+			var endpoint = "Meister.SDK.Dropdown";
+			var json = '[{"busobject":"' + SO_BUSOBJECT + '","userid":"' + USERID + '","levels":[{"field":"' + CUSTOMER_NUMBER_FIELD + '","option":"","parent":"","values":[{"value":""}]}]}]';
+			$scope.log = "Executing Get Ship To<br/>" + $scope.log;
+			var start = new Date();
+			$scope.shipToArray = [];
+	        $scope.shipToSelected = "";
+			$scope.loadShipToProgress = SalesOrderService.execute(endpoint, json);
+			$scope.loadShipToProgress.then(
+	          function(result) { 
+	          	var end = new Date();
+	          	console.log("SalesOrderService.execute result",result);		        	  
+	          	$scope.log = "Completed Get Ship To<br/>" + $scope.log;
+	          	$scope.log = getExecutionTimeBetween2Dates(start,end) + "<br/>" + $scope.log;
+	          	console.log(result.data.Json[0].dropdown);
+	          	_.forEach(result.data.Json[0].dropdown,function(row){
+	          		$scope.shipToArray.push({
+	          			"label":row.description + " - " +  row.name,
+	          			"value":row.description
+	          		});
+	          	});
+	     	  },
+	          function(errorPayload) {
+	              console.log('SalesOrderService.execute failure', errorPayload);
+	          }
+	     	);
+	     	$scope.changeGeneric();
+		};
+
+		$scope.init = function(){
+			$scope.loadSalesOrganization();
+			$scope.loadShipTo();
 		}
 
 		$scope.changeShipTo = function(item){

@@ -2,6 +2,17 @@ var meister = angular.module('meister', ['ngMaterial', 'ngAnimate','ngSanitize',
  'ngAria', 'ui.router','ngCookies','md.data.table','chart.js']);
 
 meister.constant('SERVER_BASE_URL', "http://localhost:8000/api");
+meister.constant('USERID',"DEMOUSER");
+meister.constant('SO_BUSOBJECT',"BUS2032");
+meister.constant('PO_BUSOBJECT',"BUS2012");
+meister.constant('SALES_ORGANIZATION_FIELD',"SALESORG");
+meister.constant('DISTRIBUTION_CHANNEL_FIELD',"DISTCHL");
+meister.constant('DIVISION_FIELD',"SALESDIV");
+meister.constant('SALES_GROUP_FIELD',"SALESGRP");
+meister.constant('SALES_OFFICE_FIELD',"SALESOFF");
+meister.constant('CUSTOMER_NUMBER_FIELD',"PARTNER");
+meister.constant('VENDOR_FIELD',"VENDOR");
+meister.constant('PURCHASE_GROUP_FIELD',"PORG");
 
 (function(app) {
     app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
